@@ -1,29 +1,60 @@
-# Run the course on localhost or OpenAI Sites
+# Run the course locally or on OpenAI Sites
 
-The same course reader supports two environments. Lessons, search, worked
-answers and progress export/import work in both. Editing TypeScript and running
-Appium tests still happen in your cloned project, using a terminal and a device
-or BrowserStack. The hosted reader does not run terminal commands.
+Use the local reader while editing exercises and running tests. Publish a static
+reader when you want to study in a browser without a development environment.
+Both display the same course, but they save personal progress differently.
 
-| Mode | Start/open it | When to use it |
+| Mode | Start/open it | Where progress is saved |
 |---|---|---|
-| Local reader | `npm run course`, then `http://127.0.0.1:4173` | Read your current files as you edit and practise |
-| Static preview | `npm run course:build`, then `npm run course:preview`, then `http://127.0.0.1:4174` | Check the portable build before publishing |
-| OpenAI Sites | Open the published link listed in the repository README | Study in a browser without installing Node or Android |
+| Local desktop project | `npm run course`, then `http://127.0.0.1:4173` | Local SQLite database; persists after stopping the server |
+| Static preview | `npm run course:build`, then `npm run course:preview`, then `http://127.0.0.1:4174` | Browser storage for the preview address |
+| OpenAI Site | Open the URL returned by successful publication | Browser storage for that Site address |
 
-## Localhost
+The hosted reader cannot run TypeScript exercises or Appium commands. Those run
+from your cloned project with the appropriate terminal, emulator or BrowserStack
+account. Hosting does not turn the course into a cloud test runner.
 
-On a new machine, first follow the [README setup guide](../../README.md#setup-on-a-new-machine):
-install Git and Node 24, clone the private repository and run `npm ci`.
-Then start the reader:
+## Localhost and durable progress
+
+Follow the [new-machine setup](../../README.md#setup-on-a-new-machine), then:
 
 ```bash
 npm run course
 ```
 
-Keep the terminal open and visit `http://127.0.0.1:4173`. Use a second terminal
-in the same project for exercises and tests. Ctrl+C stops the reader.
-No OpenAI account or API key is required for localhost.
+Keep the terminal open and visit `http://127.0.0.1:4173`. Use a second terminal in
+the same project for exercises. Ctrl+C stops the reader. No OpenAI account or
+API key is required.
+
+Completed lessons and lesson notes are saved in `.local-data/progress.sqlite`.
+The folder is ignored by Git and excluded from the static site. Reopening the
+same project loads the same database, including after an OpenAI account change.
+The reader reports whether saves are pending, successful or failed; export
+progress before closing if a save cannot complete.
+
+```bash
+npm run progress:status
+npm run progress:backup
+```
+
+The backup command prints a JSON filename. Copy that file to another machine,
+then use `npm run progress:import -- "/path/to/backup.json"`. Import merges
+completion marks and keeps existing database notes when imported text conflicts.
+An existing database is backed up before the import changes it.
+
+`COURSE_DATA_DIR` selects a different data directory. Use the same setting for
+the reader and backup commands. Switching the path does not move existing data;
+use backup/import. See [account and computer handover](account-handover.md) for
+examples and recovery instructions.
+
+Older versions kept all local progress in the browser. On first use with an
+empty database, the reader can migrate that browser's existing record once and
+mark it migrated. Neither an already-used database nor a later empty database
+is silently populated from that old browser copy. Export/import explicitly when
+combining progress. Interrupted edits have separate per-window draft slots and
+are offered for explicit recovery; a new window starts from the database.
+Exercise code and journal files are ordinary project files, not database
+records. See [local data and recovery](local-data.md).
 
 ## Build and preview the portable site
 
@@ -32,99 +63,157 @@ npm run course:build
 npm run course:preview
 ```
 
-Visit `http://127.0.0.1:4174`. The build creates an ignored `dist/` directory
-containing the reader assets and pre-rendered course content. It does not need
-the local `/api` endpoints. Use an HTTP server; opening `index.html` directly
-with a `file://` URL is not supported.
+Visit `http://127.0.0.1:4174`. The ignored `dist/` directory contains reader
+assets and pre-rendered course content. This version uses browser storage and
+does not need local `/api` endpoints. Use an HTTP server; opening `index.html`
+directly through `file://` is not supported.
 
-If another project uses port 4174, leave it running and choose a free port.
-On macOS/Linux, use `COURSE_PORT=48174 npm run course:preview`. In PowerShell,
-set `$env:COURSE_PORT = "48174"` before `npm run course:preview`. Open the
-address printed by this project's server; a different course at the expected
-address means you reached another running project.
+For a different preview port, use `COURSE_PORT=48174 npm run course:preview` on
+macOS/Linux, or set `$env:COURSE_PORT = "48174"` first in PowerShell. Use the
+address printed by this server.
 
-Rebuild after editing lessons, source examples or the reader. The builder
-selects Git-tracked files from the same library allowlist as the local reader,
-then renders their current saved contents. Stage new course files with Git
-before building; untracked pages are deliberately excluded.
+Rebuild after changing lessons, examples or reader code. The builder selects
+Git-tracked files from the reader's allowlist, then renders their saved contents.
+Stage new course pages before building; untracked pages are excluded.
 
-The exported content includes readable source examples, reference answers and
-tracked learning-journal/exercise edits. Review those before publishing.
-It excludes `.env`, installed dependencies, APKs, runtime logs, untracked
-personal files and browser progress. Build output is reproducible from the
-project; generated `dist/` files are not committed to the GitHub repository.
+The export includes readable source examples, reference answers and tracked
+learning-journal/exercise edits. Review those before publication. It excludes
+`.env`, dependencies, APKs, runtime logs, SQLite data, personal progress backups,
+Site profiles and untracked personal files. Generated `dist/` files do not
+belong in the main GitHub repository.
 
-## Publish or update on OpenAI Sites
+## Separate Site profiles for separate accounts
 
-The registered Site is private to its owner. Its identity is tracked in
-`.openai/hosting.json`; this file contains configuration, not an access token.
-GitHub access and Site access are separate. A push to GitHub does not deploy
-the Site.
+The tracked root `.openai/hosting.json` contains only the reusable static
+configuration. **It does not identify or authorize a Site.** A registered
+identity belongs in the ignored profile checkout:
 
-Prepare the static Site checkout:
-
-```bash
-npm run check
-npm run course:test
-npm run course:sites
+```text
+.sites/
+  mobile-automation-lab/       # original account's existing Site, if present
+    .openai/hosting.json
+    .git/
+    dist/
+  second-account/              # independent Site owned by another account
+    .openai/hosting.json
+    .git/
+    dist/
 ```
 
-`course:sites` builds the course and copies only the generated assets and hosting
-manifest to `.sites/mobile-automation-lab/`. That ignored directory is the
-separate Site source checkout. It preserves its Git history on later builds.
-This command prepares files; it does **not** sign in or publish.
+Initialize and inspect a new profile from the project root:
 
-In a chat with the Sites tools available and access to this Site, request:
+```bash
+npm run course:site-profile -- init second-account
+npm run course:site-profile -- status second-account
+```
 
-> Publish the current Mobile Automation Lab to its existing private OpenAI Site.
-> Read `.openai/hosting.json` and `docs/handbook/hosting.md`. Check the existing
-> Site's access, prepare the static source with `npm run course:sites`, then use
-> the Sites source and publishing workflow from `.sites/mobile-automation-lab/`.
-> Keep the Site private and keep the GitHub remote unchanged.
+`init` creates a static manifest with no `project_id`. It neither signs in nor
+registers a Site. Use lowercase letters, digits and single hyphens for names,
+starting with a letter. A profile name is a local label, not an account login.
 
-The publishing workflow obtains a temporary source credential, synchronizes the
-prepared checkout, packages its `dist/` assets, and deploys that exact saved
-version. Credentials belong in the tool session, never in this repository or a
-shell command. No OpenAI API key is needed by the course itself.
+Registration returns a real Site ID. The Sites workflow must immediately persist
+it with the official `set-project-id.mjs` helper in the selected profile. This
+project also provides an idempotent binding/recovery command:
 
-When republishing an existing Site, open/synchronize its source checkout with
-the Sites source helper **before** regenerating its files. If `.sites/` is
-missing on a new computer, the helper can restore it into an empty directory.
-Keep the separate GitHub project as the source of course changes. Reuse the
-recorded Site ID; do not register a duplicate to update the existing Site.
+```text
+npm run course:site-profile -- bind second-account <actual-returned-project-id>
+```
 
-The root hosting manifest travels with GitHub. The isolated Site checkout is
-generated locally; it contains the static snapshot, not the main repository's
-Git history or its private runtime files.
+Replace the placeholder with the exact ID returned by the native tool; never
+invent one. Binding records an ID but does not prove account access. The command
+refuses to replace a different existing identity. Create another profile when
+you intend to create a different Site.
 
-## Changing computer, browser or OpenAI account
+## Publish a new Site in the intended OpenAI account
 
-Progress and notes stay in browser storage for the origin you are visiting.
-Localhost and the hosted Site have separate progress, even in the same browser.
-There is no automatic account sync.
+The operator must be signed in to the account that should own the Site, with
+native Sites tools available. Use the copyable [new-account handover prompt](account-handover.md#create-a-new-private-openai-site-under-the-new-account)
+to ask Codex to perform the following workflow:
 
-1. Click **Export progress** in the reader you have been using.
-2. Keep the downloaded `mobile-automation-progress.json`.
-3. Open the other reader and click **Import progress**.
+1. Read the installed Sites skill. Initialize the named profile if needed and
+   inspect its manifest. If it already has an ID, follow the existing-Site
+   workflow below.
+2. Call native `create_site` once to register a new private Site. Immediately
+   run the official `set-project-id.mjs --project-id <returned-id>` helper from
+   the profile directory. Resolve an uncertain registration result before
+   retrying; do not create duplicates.
+3. Use that Site's source credential with the official `site-workflow.mjs`
+   helper to open/synchronize the profile checkout. Keep the credential in
+   session memory and pass it through the helper's stdin, never a command-line
+   argument or repository file. Use the returned checkout path.
+4. From the main GitHub project root, validate and regenerate the selected
+   source:
 
-Import merges completions and keeps an existing note when imported text
-conflicts. Learner code and journal files transfer through Git or a separate
-file backup, not through the progress export.
+   ```bash
+   npm run check
+   npm run course:test
+   npm run course:sites -- --profile second-account
+   ```
 
-Changing OpenAI accounts does not automatically transfer access to the original
-private Site. Continue with localhost and the private GitHub repository using
-the GitHub identity that has access. If you need a Site under the new account,
-ask for a separate Site registration; the existing manifest identifies the
-original Site and must not be treated as authorization for another account.
+   Preparation requires a recorded Site ID. It copies only generated `dist/`
+   content, preserving the profile manifest and Site source Git history.
+   The command does not publish.
+5. Use the official source helper to synchronize and package that prepared
+   checkout. Pass its verified Site ID, commit SHA and archive directly to the
+   native publishing tools. Preserve owner-private access. Report the actual
+   deployed URL only after successful publication.
 
-## What has been verified
+The helper paths come from the installed Sites skill; they are not files in
+this training repository. Sites availability and access must be verified in
+the actual target account. If unavailable, the local reader remains fully
+usable; there is no substitute API key or automatic account transfer.
 
-Automated checks compare the exported pages with the local renderer, exercise
-the static reader data requests over HTTP, and check excluded files and failed
-build behavior. These checks do not prove a mobile test passed or establish
-browser compatibility on every device. Run `npm run course:test` and
-`npm run course:build` after changes.
+## Update or recover an existing Site
+
+For the original account's existing profile, use:
+
+```bash
+npm run course:site-profile -- status mobile-automation-lab
+```
+
+While signed in to its owning account, use native `get_site` to verify its ID
+and audience, then obtain a source write credential. Open/synchronize its source
+with the official helper **before** regenerating the static files. Then run:
+
+```bash
+npm run course:sites -- --profile mobile-automation-lab
+```
+
+Package and publish that checkout using the existing identity and audience.
+Do not call `create_site` to update an already registered Site.
+
+On another computer, ignored profiles are absent. Find the existing Site
+through the native tools/account interface and use the official source helper
+to restore its source into an empty profile directory. Verify the restored
+manifest before preparing it. Do not copy the original Site ID into a different
+account's new profile and assume it grants access.
+
+GitHub and Sites use separate source repositories. Keep the main repository's
+GitHub remote unchanged. A Git push does not deploy the Site. Official
+[publishing and sharing guidance](https://learn.chatgpt.com/docs/sites/publishing-and-sharing)
+describes Site access; repository membership does not grant private Site access.
+
+## Move progress between environments
+
+There is **no automatic cloud sync**. The local database and each static
+reader's browser storage are separate:
+
+1. In the reader you have been using, click **Export progress**.
+2. Keep the downloaded JSON in your personal backup.
+3. In the destination reader, click **Import progress**.
+
+On localhost, imported records are saved to SQLite. On a hosted or static
+reader, they remain in that browser's storage. Import merges completions and
+keeps an existing note when imported text conflicts. Back up first if you need
+to reconcile different notes manually. Clearing browser storage removes the
+hosted reader's local progress unless you exported it.
+
+## Verification limits
+
+Automated checks cover SQLite persistence/recovery, progress transfers, profile
+identity isolation, static output and excluded files. A passing check does not
+authenticate another OpenAI account, publish a Site or establish a mobile/cloud
+test pass. Those actions need their own observed results.
 
 [New-machine setup](../../README.md#setup-on-a-new-machine) ·
-[Resume after switching accounts](../RESUME.md) ·
-[Course map](../README.md)
+[Account handover](account-handover.md) · [Resume](../RESUME.md) · [Course map](../README.md)

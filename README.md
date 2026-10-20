@@ -12,7 +12,7 @@ An Android-first training project using **Appium 3 · TypeScript · Chai · Webd
 npm run course
 ```
 
-Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, code copying, expandable hints, personal notes, progress tracking, and progress export/import. It binds to your own machine and does not upload your notes. Use the same browser/origin to retain progress, or import an exported JSON backup. Import adds completions and missing notes; it keeps your current note when a backup has different text for the same lesson.
+Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, code copying, expandable hints, personal notes, progress tracking, and progress export/import. It binds to your own machine and saves completed lessons and notes in a **local SQLite database**, `.local-data/progress.sqlite`. Stop the server and start it again to continue from the same record. It does not upload your notes. See [local data and backups](docs/handbook/local-data.md) for recovery and moving computers.
 
 Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is an ordinary Markdown file you own and can edit.
 
@@ -23,25 +23,65 @@ your private OpenAI Site for reading on another computer.
 
 | Mode | Command or link |
 |---|---|
-| Local reader, with current project files | `npm run course` → http://127.0.0.1:4173 |
-| Private OpenAI Site | [Open Mobile Automation Lab](https://mobile-automation-lab.igor-sadovyi87.chatgpt.site) — sign in with the Site owner's account |
+| Local reader, with project files and SQLite progress | `npm run course` → http://127.0.0.1:4173 |
+| Original account's private OpenAI Site | [Open Mobile Automation Lab](https://mobile-automation-lab.igor-sadovyi87.chatgpt.site) — sign in with its owner account |
 | Preview the static build | `npm run course:build`, then `npm run course:preview` → http://127.0.0.1:4174 |
-| Prepare the OpenAI Site for publication | `npm run course:sites`, then publish with the Sites tools |
+| Prepare a registered Site profile | `npm run course:sites -- --profile second-account`, then publish with the native Sites tools |
 
 See the [hosting guide](docs/handbook/hosting.md) for publishing, updates and
 account changes. Reading, search and progress work in both modes. Coding
 exercises and Appium tests run from your cloned project, not in the hosted page.
 Use **Export progress / Import progress** to move notes between localhost and
-the hosted Site; they have separate browser storage. A GitHub push does not
+the hosted Site. Localhost uses SQLite; hosted/static readers use browser
+storage. There is no automatic sync. A GitHub push does not
 automatically publish a Site update.
 
-The private Site belongs to the OpenAI account used to publish it. Access does
-not automatically transfer when you change accounts; the local reader and
-GitHub copy remain usable independently.
+The private Site belongs to the OpenAI account used to publish it. To publish
+under another account, sign in to that account, initialize a separate profile
+with `npm run course:site-profile -- init second-account`, then use the
+[new-account publishing prompt](docs/handbook/account-handover.md#create-a-new-private-openai-site-under-the-new-account).
+The profile command does not sign in or create a Site. Each registered Site
+keeps its own identity; the original Site is not overwritten.
 
-**Switching OpenAI accounts or computers?** Use [Resume this project](docs/RESUME.md)
-for the private GitHub location, recovery commands, progress backup and a prompt
-for your next chat. The course and tests run without an OpenAI account.
+**Open this project in Codex under another account:** sign in to Codex, then
+open the same local folder, or clone this private repository using the GitHub
+account that has access and open the clone. Follow the
+[account and computer handover](docs/handbook/account-handover.md) and paste its
+fresh-chat prompt. Source files are portable; previous chats, connected accounts
+and access to the original private Site do not automatically transfer.
+The local reader and tests run without an OpenAI account.
+
+## Keep your progress between sessions
+
+This is a local desktop **project**, opened in Codex or another editor and
+served in your browser. It does not require a packaged desktop application.
+Run `npm run course` and wait for the reader to report **Saved to local
+database** after editing a note or completion mark.
+
+```bash
+npm run progress:status
+npm run progress:backup
+```
+
+The backup command prints the path to a personal JSON backup. On another
+computer, clone/install the project, copy that JSON file across, then run:
+
+```bash
+npm run progress:import -- "/path/to/your-backup.json"
+npm run course
+```
+
+Use the actual path to your backup. On the same computer after changing OpenAI
+accounts, reopening the same project reuses its database without an import.
+The database, backups and `.env` are excluded from Git and Site builds.
+`COURSE_DATA_DIR` can select another local data directory; see the
+[local-data guide](docs/handbook/local-data.md). Exercise code remains in your
+files and moves through Git or a separate file backup.
+
+If another window changes progress first, the reader preserves your draft and
+asks you to reconcile it. Use **Export draft & load saved**, then deliberately
+import or copy the notes you want to keep. Interrupted drafts are offered for
+explicit recovery; opening a new tab does not replay another window's edits.
 
 | What is included | What you do with it |
 |---|---|
@@ -151,6 +191,9 @@ account. The last starts the course website. Open
 
 Keep that terminal open while using the reader. Open a second terminal in the
 project folder for exercises, or press **Ctrl+C** to stop the reader.
+Saved notes and completion marks remain in `.local-data/progress.sqlite` when
+you stop it. Use the exact printed `http://127.0.0.1:4173` address for a
+consistent browser origin.
 
 Start with [Lesson 00: Orientation](docs/lessons/00-orientation.md), then follow
 the [learning plan](docs/handbook/study-plans.md). You can also read the lessons
@@ -302,26 +345,30 @@ for the full walkthrough.
 
 Before leaving the old computer:
 
-1. Click **Export progress** in the course reader and save the downloaded
-   `mobile-automation-progress.json`. On the new computer, start the reader
-   and use **Import progress**.
+1. Check the reader's save status, then run `npm run progress:backup`. Copy
+   the printed JSON backup file to the new computer and run
+   `npm run progress:import -- "/path/to/backup.json"` in the installed
+   project. If using the hosted Site, or if browser edits have not saved,
+   use **Export progress** there and import that file separately.
 2. Save and commit/push your exercise and learning-journal edits, or copy those
    files separately. Only committed and pushed edits arrive through a new clone.
 3. Recreate `.env` locally when needed. Download the APK and install dependencies
    using the commands above.
 
-Browser progress is separate from Git. The repository excludes `.env`,
-downloaded APKs, `node_modules`, runtime logs and personal progress backups.
+The local database and hosted browser progress are separate from Git. The
+repository excludes `.env`, `.local-data`, downloaded APKs, `node_modules`,
+runtime logs, personal progress backups and account-specific Site profiles.
 Import merges completions and preserves an existing note if imported text
-conflicts with it.
+conflicts with it. CLI import backs up the previous database record first.
 
 On later days, open a terminal in this project and run `npm run course`.
 For mobile practice, also start the emulator, then run `npm run preflight`
 and the test you are working on. Installation and APK download are not daily
 steps.
 
-The [resume guide](docs/RESUME.md) contains a prompt for continuing your
-training in a new chat after changing OpenAI accounts.
+The [account handover](docs/handbook/account-handover.md) and
+[resume guide](docs/RESUME.md) contain prompts for reopening the folder in Codex
+and continuing your training after changing OpenAI accounts.
 
 ## Commands you will actually use
 
@@ -329,10 +376,15 @@ Run from the project root. Device commands require a booted emulator or connecte
 
 | Command | Purpose |
 |---|---|
-| `npm run course` | Open the local course reader |
+| `npm run course` | Open the local course reader with persistent SQLite progress |
+| `npm run progress:status` | Show database location and saved lesson/note counts |
+| `npm run progress:backup` | Export saved database progress to a personal JSON backup |
+| `npm run progress:import -- "/path/to/backup.json"` | Back up current database progress, then merge an exported record |
 | `npm run course:build` | Export a portable static course to `dist/` |
 | `npm run course:preview` | Serve the static build on localhost port 4174 |
-| `npm run course:sites` | Build and prepare the separate OpenAI Site source checkout; does not publish |
+| `npm run course:site-profile -- init second-account` | Initialize an account-specific local profile; does not register a Site |
+| `npm run course:site-profile -- status second-account` | Inspect the selected profile and its recorded Site ID |
+| `npm run course:sites -- --profile second-account` | Build and prepare a registered Site profile; does not publish |
 | `npm run check` | TypeScript, documentation links, reference lab tests, offline framework regression checks |
 | `npm run practice` | List the twelve offline labs |
 | `npm run practice -- 03` | Test your work on one lab; initial failure is expected |
@@ -343,7 +395,7 @@ Run from the project root. Device commands require a booted emulator or connecte
 | `npm run test:login` | Valid, invalid, and empty-login reference tests |
 | `npm run test:android` | All seven Android reference tests |
 | `npm run test:bs` | Run the same specs on BrowserStack, using your credentials |
-| `npm run course:test` | Check reader routes, file restrictions and progress-backup handling |
+| `npm run course:test` | Check reader routes, SQLite, draft recovery, progress transfers, static builds and Site profiles |
 | `npm run framework:test` | Check preflight and failure diagnostics without a device |
 
 WebdriverIO starts the local Appium server automatically. Stop a separately started Inspector/Appium session before running tests on port 4723. Failures produce screenshots and UI-source files in `logs/`; the server log is `logs/wdio-appium.log`.
@@ -362,8 +414,9 @@ docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
 exercises/             Twelve offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
-.openai/hosting.json    Registered private Site identity and static hosting configuration
-.sites/                Prepared Site checkout, ignored by Git
+.openai/hosting.json    Account-neutral static hosting template; no Site identity
+.sites/<profile>/      Separate registered Site checkout/identity, ignored by Git
+.local-data/           Local SQLite progress and JSON backups, ignored by Git
 dist/                  Generated static course, ignored by Git
 test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence

@@ -2,15 +2,18 @@ import { test, before, after } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawn } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { mkdtemp, rm } from 'node:fs/promises'
+import path from 'node:path'
+import { tmpdir } from 'node:os'
 import { headingSlug, findPractice } from '../course/practice.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = 24000 + Math.floor(Math.random() * 10000)
 const origin = `http://127.0.0.1:${port}`
-let server
-before(async () => {
+let server, dataDirectory
+async function start() {
     server = spawn(process.execPath, ['scripts/course-server.mjs'], {
-        cwd: root, env: { ...process.env, COURSE_PORT: String(port) }, stdio: ['ignore', 'pipe', 'pipe'],
+        cwd: root, env: { ...process.env, COURSE_PORT: String(port), COURSE_DATA_DIR: dataDirectory }, stdio: ['ignore', 'pipe', 'pipe'],
     })
     await new Promise((resolve, reject) => {
         let output = ''
@@ -23,8 +26,17 @@ before(async () => {
             if (output.includes(origin)) { clearTimeout(timeout); resolve() }
         })
     })
+}
+async function stop() {
+    if (server && server.exitCode === null && server.signalCode === null) {
+        await new Promise(resolve => { server.once('exit', resolve); server.kill('SIGTERM') })
+    }
+}
+before(async () => {
+    dataDirectory = await mkdtemp(path.join(tmpdir(), 'course-server-data-'))
+    await start()
 })
-after(() => { server?.kill('SIGTERM') })
+after(async () => { await stop(); await rm(dataDirectory, { recursive: true, force: true }) })
 test('serves the dashboard, every lesson, matching solutions, and the whole library', async () => {
     const response = await fetch(origin)
     assert.equal(response.status, 200)
@@ -42,11 +54,28 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     }
 })
 test('serves every reader module as JavaScript', async () => {
-    for (const asset of ['app.js', 'data.js', 'progress.js', 'practice.js']) {
+    for (const asset of ['app.js', 'data.js', 'progress.js', 'progress-storage.js', 'practice.js']) {
         const response = await fetch(`${origin}/${asset}`)
         assert.equal(response.status, 200, asset)
         assert.match(response.headers.get('content-type'), /text\/javascript/)
     }
+})
+test('progress survives a full server restart and loads without any browser cache', async () => {
+    const initial = await (await fetch(`${origin}/api/progress`)).json()
+    const progress = { completed: ['01'], notes: { '01': 'Saved across desktop sessions' } }
+    const saved = await fetch(`${origin}/api/progress`, {
+        method: 'PUT',
+        headers: { Origin: origin, 'Content-Type': 'application/json', 'X-Course-Token': initial.writeToken },
+        body: JSON.stringify({ databaseId: initial.databaseId, revision: initial.revision, progress }),
+    })
+    assert.equal(saved.status, 200)
+    await stop()
+    await start()
+    const restored = await (await fetch(`${origin}/api/progress`)).json()
+    assert.deepEqual(restored.progress, progress)
+    assert.equal(restored.databaseId, initial.databaseId)
+    assert.equal(restored.revision, initial.revision + 1)
+    assert.notEqual(restored.writeToken, initial.writeToken)
 })
 test('every indexed case has a real page heading and body text is searchable', async () => {
     const catalog = await (await fetch(`${origin}/api/catalog`)).json()

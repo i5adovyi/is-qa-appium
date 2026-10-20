@@ -1,14 +1,15 @@
 import { parseProgress, mergeProgress } from './progress.js'
 import { headingSlug, findPractice } from './practice.js'
 import { createCourseClient } from './data.js'
+import { createProgressStorage } from './progress-storage.js'
 
 const $ = selector => document.querySelector(selector)
+const mode = document.querySelector('meta[name="course-data-mode"]')?.content ?? 'local'
 const client = createCourseClient({
-    mode: document.querySelector('meta[name="course-data-mode"]')?.content ?? 'local',
+    mode,
     baseUrl: new URL('./', location.href),
 })
-const storageKey = 'mobile-automation-lab-v1'
-let catalog, currentLesson, activeStage = 'all', renderId = 0
+let catalog, currentLesson, progressStorage, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
 let showAllPractice = false
 function toast(message) {
@@ -17,8 +18,16 @@ function toast(message) {
     setTimeout(() => { $('#toast').hidden = true }, 3000)
 }
 function save() {
-    try { localStorage.setItem(storageKey, JSON.stringify(progress)); return true }
-    catch { toast('Browser storage is unavailable. Export your progress before leaving.'); return false }
+    progressStorage.update(progress)
+}
+function downloadProgress(value) {
+    const blob = new Blob([JSON.stringify({ schemaVersion: 1, course: catalog.title, exportedAt: new Date().toISOString(), ...value }, null, 2)], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const download = document.createElement('a')
+    download.href = url
+    download.download = 'mobile-automation-progress.json'
+    download.click()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
 }
 function node(tag, className, text) {
     const element = document.createElement(tag)
@@ -189,12 +198,81 @@ async function route() {
 async function init() {
     catalog = await client.getCatalog()
     const lessonIds = catalog.lessons.map(lesson => lesson.id)
-    try {
-        const saved = localStorage.getItem(storageKey)
-        if (saved) progress = parseProgress(JSON.parse(saved), lessonIds)
-    } catch {
-        toast('Saved progress could not be read. Import a backup to restore it.')
+    let recovering = false
+    progressStorage = createProgressStorage({
+        mode, baseUrl: new URL('./', location.href), lessonIds,
+        // Access can throw in restricted browsers; the adapter reports failures.
+        storage: {
+            getItem: key => localStorage.getItem(key),
+            setItem: (key, value) => localStorage.setItem(key, value),
+            removeItem: key => localStorage.removeItem(key),
+            key: index => localStorage.key(index),
+            get length() { return localStorage.length },
+        },
+        onStatus: ({ state, message }) => {
+            $('#save-status').textContent = message
+            $('#save-status').dataset.state = state
+            $('#retry-save').hidden = !['error', 'conflict'].includes(state)
+            $('#load-saved').hidden = mode === 'static' || !['error', 'conflict'].includes(state)
+            refreshRecoveries()
+        },
+    })
+    function refreshRecoveries() {
+        const entries = mode === 'local' ? progressStorage?.getRecoveries() ?? [] : []
+        $('#recovery-panel').hidden = !entries.length
+        const selected = $('#recovery-draft').value
+        $('#recovery-draft').replaceChildren()
+        for (const [index, entry] of entries.entries()) {
+            const option = node('option', '', entry.invalid
+                ? `Draft ${index + 1}: unreadable (original kept in browser storage)`
+                : `Draft ${index + 1}${entry.updatedAt ? ` · ${entry.updatedAt}` : ''}`)
+            option.value = entry.key
+            option.disabled = entry.invalid
+            $('#recovery-draft').append(option)
+        }
+        if (entries.some(entry => entry.key === selected && !entry.invalid)) $('#recovery-draft').value = selected
+        $('#recover-draft').disabled = recovering || !entries.some(entry => !entry.invalid)
     }
+    progress = await progressStorage.load()
+    $('#storage-description').textContent = mode === 'local'
+        ? 'Progress saved on this computer.'
+        : 'Progress saved in this browser.'
+    $('#notes-storage').textContent = mode === 'local' ? 'saved to your local database' : 'saved in this browser'
+    async function recoveryAction(action) {
+        if (recovering) return
+        recovering = true
+        // Recovery changes the whole record. Freeze editors until the adapter
+        // and the visible record agree; ordinary autosaves leave typing enabled.
+        const controls = ['#retry-save', '#load-saved', '#recover-draft',
+            '#lesson-notes', '#complete-button', '#import-progress', '#progress-file', '#export-progress'].map($)
+        controls.forEach(control => { control.disabled = true })
+        try { await action() } catch (error) { toast(error.message) }
+        finally {
+            recovering = false
+            controls.forEach(control => { control.disabled = false })
+            refreshRecoveries()
+        }
+    }
+    $('#retry-save').addEventListener('click', () => recoveryAction(() => progressStorage.retry()))
+    $('#load-saved').addEventListener('click', () => recoveryAction(async () => {
+        // Preserve the exact visible draft before the learner chooses DB state.
+        downloadProgress(progress)
+        progress = await progressStorage.useSaved()
+        await route()
+    }))
+    $('#recover-draft').addEventListener('click', () => recoveryAction(async () => {
+        downloadProgress(progress)
+        progress = await progressStorage.recover($('#recovery-draft').value)
+        await route()
+    }))
+    window.addEventListener('storage', refreshRecoveries)
+    refreshRecoveries()
+    window.addEventListener('beforeunload', event => {
+        if (progressStorage.hasPending()) { event.preventDefault(); event.returnValue = '' }
+    })
+    document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'hidden') void progressStorage.flush()
+    })
     $('.skip-link').addEventListener('click', event => {
         event.preventDefault()
         $('#main').focus()
@@ -225,7 +303,7 @@ async function init() {
     })
     refreshPractice()
     $('#complete-button').addEventListener('click', () => {
-        if (!currentLesson) return
+        if (!currentLesson || recovering) return
         const id = currentLesson.id
         progress.completed = progress.completed.includes(id) ? progress.completed.filter(value => value !== id) : [...progress.completed, id]
         save()
@@ -233,37 +311,49 @@ async function init() {
         refresh()
     })
     $('#lesson-notes').addEventListener('input', event => {
-        if (currentLesson) { progress.notes[currentLesson.id] = event.target.value; save() }
+        if (currentLesson && !recovering) { progress.notes[currentLesson.id] = event.target.value; save() }
     })
     $('#export-progress').addEventListener('click', () => {
-        const blob = new Blob([JSON.stringify({ schemaVersion: 1, course: catalog.title, exportedAt: new Date().toISOString(), ...progress }, null, 2)], { type: 'application/json' })
-        const url = URL.createObjectURL(blob)
-        const download = document.createElement('a')
-        download.href = url
-        download.download = 'mobile-automation-progress.json'
-        download.click()
-        setTimeout(() => URL.revokeObjectURL(url), 1000)
+        downloadProgress(progress)
         toast('Progress exported. Keep this file with your learning journal.')
     })
     $('#import-progress').addEventListener('click', () => $('#progress-file').click())
     $('#progress-file').addEventListener('change', async event => {
         const file = event.target.files[0]
-        if (!file) return
-        try {
-            const incoming = parseProgress(JSON.parse(await file.text()), lessonIds, true)
-            const merged = mergeProgress(progress, incoming, lessonIds)
-            progress = merged.progress
-            const saved = save()
-            await route()
-            toast(!saved ? 'Imported for this session. Storage is unavailable; export your progress before leaving.'
-                : merged.conflicts
-                ? `Progress merged. Kept ${merged.conflicts} existing note(s) that differed from the backup.`
-                : 'Progress imported. Existing notes and completed lessons were kept.')
-        } catch (error) {
-            toast(`Import failed: ${error.message}`)
-        } finally { event.target.value = '' }
+        if (!file || recovering) { event.target.value = ''; return }
+        await recoveryAction(async () => {
+            try {
+                const incoming = parseProgress(JSON.parse(await file.text()), lessonIds, true)
+                const merged = mergeProgress(progress, incoming, lessonIds)
+                progress = merged.progress
+                save()
+                const saved = await progressStorage.flush()
+                await route()
+                toast(!saved ? 'Imported into this draft. Check the save status and export it before leaving.'
+                    : merged.conflicts
+                    ? `Progress merged. Kept ${merged.conflicts} existing note(s) that differed from the backup.`
+                    : 'Progress imported. Existing notes and completed lessons were kept.')
+            } catch (error) {
+                toast(`Import failed: ${error.message}`)
+            } finally { event.target.value = '' }
+        })
     })
     window.addEventListener('hashchange', route)
     await route()
 }
-init().catch(error => { $('#error').hidden = false; $('#error').textContent = error.message })
+init().catch(error => {
+    $('#dashboard').hidden = true
+    $('#reader').hidden = true
+    $('#retry-save').hidden = true
+    $('#load-saved').hidden = true
+    $('#save-status').textContent = 'Progress could not be loaded. No empty progress was uploaded.'
+    $('#save-status').dataset.state = 'error'
+    $('#error').hidden = false
+    const reload = node('button', 'quiet-button', 'Reload reader')
+    reload.type = 'button'
+    reload.addEventListener('click', () => location.reload())
+    $('#error').replaceChildren(node('p', '', `Could not open the reader: ${error.message}`),
+        node('p', '', mode === 'local'
+            ? 'Start npm run course, use its http://127.0.0.1 address, then reload. Your database and browser recovery drafts are kept.'
+            : 'Your saved browser record was kept. If it is unreadable, use another browser and import a valid JSON backup.'), reload)
+})

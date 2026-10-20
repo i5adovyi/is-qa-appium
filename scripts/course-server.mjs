@@ -2,11 +2,20 @@ import http from 'node:http'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { allowedPage, courseAssets, loadCatalog, loadPage, readWithinRoot } from './course-content.mjs'
+import { defaultProgressDirectory, openProgressStore } from './progress-store.mjs'
+import { createProgressApi } from './progress-api.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = Number(process.env.COURSE_PORT ?? 4173)
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('COURSE_PORT must be an integer from 1 to 65535')
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json' }
+const catalog = await loadCatalog(root)
+const progressStore = openProgressStore({ directory: defaultProgressDirectory(root), lessonIds: catalog.lessons.map(lesson => lesson.id) })
+const progressApi = createProgressApi({ store: progressStore, origin: `http://127.0.0.1:${port}` })
+let storeClosed = false
+function closeStore() {
+    if (!storeClosed) { storeClosed = true; progressStore.close() }
+}
 function send(res, status, body, contentType = 'application/json') {
     res.writeHead(status, {
         'Content-Type': `${contentType}; charset=utf-8`,
@@ -18,6 +27,7 @@ function send(res, status, body, contentType = 'application/json') {
 }
 const server = http.createServer(async (req, res) => {
     try {
+        if (await progressApi(req, res)) return
         if (req.method !== 'GET') return send(res, 405, '{"error":"Read-only server"}')
         const url = new URL(req.url, `http://127.0.0.1:${port}`)
         if (url.pathname === '/api/catalog') {
@@ -42,7 +52,10 @@ server.on('error', error => {
         ? `Port ${port} is already in use. Open the existing course or set COURSE_PORT to a different port.`
         : error.message)
     process.exitCode = 1
+    closeStore()
 })
+server.on('close', closeStore)
+for (const signal of ['SIGINT', 'SIGTERM']) process.once(signal, () => { server.close(); server.closeIdleConnections() })
 server.listen(port, '127.0.0.1', () => {
-    console.log(`\nMobile Automation Lab → http://127.0.0.1:${port}\nRead-only local reader. Progress is saved in this browser only.\nCtrl+C stops the reader; Markdown lessons remain available in your editor.\n`)
+    console.log(`\nMobile Automation Lab → http://127.0.0.1:${port}\nRead-only course files. Progress and notes save to ${progressStore.filePath}.\nCtrl+C stops the reader; saved progress remains on this computer.\n`)
 })

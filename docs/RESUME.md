@@ -9,7 +9,8 @@ or API key**. You can study in an editor and run commands from a terminal.
 - Private GitHub repository: [i5adovyi/is-qa-appium](https://github.com/i5adovyi/is-qa-appium).
 - Existing Mac folder: `/Users/igor_sadovyi/Projects/is-qa-appium`.
 - Main entry points: [README](../README.md), [course map](README.md),
-  [coverage review](coverage-review.md), [validation record](validation.md).
+  [coverage review](coverage-review.md), [validation record](validation.md),
+  [account and computer handover](handbook/account-handover.md).
 
 GitHub access belongs to your GitHub identity. Keep using the GitHub account with
 access to this repository even if you change your OpenAI account. On the same Mac,
@@ -38,17 +39,38 @@ Codex availability and any connector sign-ins must be checked separately.
 
 ## Preserve your own progress
 
-Course notes and completed-lesson marks live in browser storage, not in Git.
-Before changing browser profile, account environment or computer:
+The local reader saves completed lessons and lesson notes in
+`.local-data/progress.sqlite`, outside Git. Restarting the server or signing into
+another OpenAI account on the same computer keeps this database. Reopen the same
+project folder. `COURSE_DATA_DIR` can select another data directory; use that same
+setting for the reader and backup commands.
 
-1. Click **Export progress** at the top of the course reader.
-2. Keep the downloaded `mobile-automation-progress.json` in your own backup.
-3. Start the reader in the new environment and click **Import progress**.
+Before moving computers:
+
+```bash
+npm run progress:status
+npm run progress:backup
+```
+
+Keep the printed JSON backup file outside Git. On the destination computer,
+restore it with `npm run progress:import -- "/path/to/backup.json"`, then start
+the reader. Import saves a backup of the previous record and merges progress.
+Use this supported export rather than copying a running database file.
 
 Import merges completed lessons and keeps an existing note when imported text
-conflicts. It does not upload notes. Learner code in `exercises/*/starter.ts` and
-edits to `docs/learning-journal.md` are ordinary files: save/commit those changes
-separately. GitHub does not receive unsaved editor buffers or browser storage.
+conflicts. It does not upload notes. The hosted/static reader still uses browser
+storage: use **Export progress** there, then **Import progress** in the destination
+reader. It does not automatically sync with the local database. Before closing a
+local page with a pending or failed save, export progress to preserve browser edits.
+Older browser progress migrates automatically only when the database has not yet
+been used and that browser record has not already migrated. Later empty
+databases require explicit import. Interrupted per-window drafts are offered
+for explicit recovery; opening a new window loads the database instead of
+replaying another window's edits. See [local-data recovery](handbook/local-data.md).
+
+Learner code in `exercises/*/starter.ts` and edits to `docs/learning-journal.md`
+are ordinary files: save/commit those changes separately. GitHub does not receive
+unsaved editor buffers, the local database or browser storage.
 
 The Git repository excludes `.env`, downloaded APKs, `node_modules` and runtime
 logs. On this Mac, keep your local `.env`. On another machine, create one from
@@ -62,7 +84,13 @@ neither Android nor BrowserStack.
 The reader also supports a static build and private OpenAI Sites hosting.
 See the [hosting guide](handbook/hosting.md). GitHub access does not grant access
 to the original account's private Site; localhost continues to work independently.
-Export/import progress when moving between the two reader addresses.
+Export/import progress when moving between the two reader addresses. Each Site
+has a separate ignored `.sites/<profile>` checkout. The tracked root manifest is
+account-neutral. Under a different OpenAI account, follow the
+[new-account Site prompt](handbook/account-handover.md#create-a-new-private-openai-site-under-the-new-account)
+to register and publish an independent private Site; do not overwrite the old
+Site identity. Registration and publication must run while signed in to the
+intended account.
 
 ## Current learning and implementation state
 
@@ -94,10 +122,11 @@ As reviewed on **20 October 2026**:
 
 Open this project folder first, then paste:
 
-> Read AGENTS.md, docs/RESUME.md, docs/README.md and docs/validation.md in this
+> Read AGENTS.md, docs/RESUME.md, docs/README.md, docs/validation.md and
+> docs/handbook/account-handover.md in this
 > repository. Help me continue learning mobile test automation from beginner
 > level using Appium, TypeScript, Chai and BrowserStack. Check my actual files
-> and progress rather than assuming earlier chat history is available. Give me
+> and local progress status rather than assuming earlier chat history is available. Give me
 > one practical task at a time, let me attempt it, then explain and review it.
 > Do not replace unfinished exercise starters with solutions. BrowserStack
 > account setup and the first real Android cloud login smoke run are still

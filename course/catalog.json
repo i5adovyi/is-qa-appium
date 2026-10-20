@@ -33,6 +33,8 @@
   "library": [
     { "title": "Course map", "path": "docs/README.md" },
     { "title": "Resume after changing accounts", "path": "docs/RESUME.md" },
+    { "title": "Codex & new-account handover", "path": "docs/handbook/account-handover.md" },
+    { "title": "Local database, backups & recovery", "path": "docs/handbook/local-data.md" },
     { "title": "Workplace scenario workbook · 36 cases", "path": "docs/handbook/workplace-scenarios.md" },
     { "title": "Incident shifts · six messy workdays", "path": "docs/handbook/incident-shifts.md" },
     { "title": "Interview practice · 48 questions", "path": "docs/handbook/interview-practice.md" },

@@ -19,7 +19,38 @@ Use `npm ci` to install the locked dependencies. The Android SDK, emulator image
 Java runtime, and externally installed Appium extensions also affect reproducibility.
 See the [setup manual](handbook/setup.md).
 
-## Localhost and static hosting checks
+## Account portability and local database checks
+
+The 20 October extension adds SQLite for localhost progress, per-window browser
+recovery drafts, JSON backup/import commands and separate Site account profiles.
+
+- `npm run check` passed: both TypeScript projects, documentation, **72**
+  reference lab cases and **27** framework checks.
+- `npm run course:test` passed **68 checks**. Coverage includes a real server
+  process restart, revision conflicts, blank/removed notes, backup round-trips,
+  corrupt/future database refusal, same-origin writes, interrupted saves,
+  separate browser drafts, migration replay prevention, malformed save
+  acknowledgments and Site profile isolation.
+- `npm run audit` reported **zero vulnerabilities**.
+- `npm run course:build` produced the static reader. Export tests exclude
+  tracked credential/progress fixtures and SQLite data, including backups.
+- In a disposable local database on a separate port, the browser saved a
+  synthetic lesson note and completion mark. Both appeared after restarting
+  the server and reopening the page. The save-status panel was checked while
+  the notes field was visible. This is a focused manual check, not a full
+  cross-browser audit.
+- The backup CLI produced a JSON export from that saved record. The
+  `second-account` profile was initialized without copying the original Site
+  identity or publishing anything.
+
+No second-account sign-in or Site publication was performed for this extension.
+Registration must occur with Sites tools while signed in to the intended
+account. Android and BrowserStack were not rerun: this change concerns the
+reader, data storage and handover. Local SQLite and hosted browser progress do
+not sync automatically. See [local data](handbook/local-data.md) and
+[account handover](handbook/account-handover.md).
+
+## Earlier localhost and static hosting checks
 
 The hosting extension adds a static course export and a separate OpenAI Sites
 source checkout. The live local reader still reads the current project files.
@@ -39,7 +70,8 @@ source checkout. The live local reader still reads the current project files.
   cross-browser or mobile viewport audit.
 
 These are reader/build checks. Android and BrowserStack were not rerun for
-this hosting change. Browser progress stays local to each reader origin.
+this earlier hosting change. That version used browser storage for every reader;
+the later database extension above changes localhost storage only.
 See the [hosting guide](handbook/hosting.md) for access and publishing steps.
 
 ## Executed checks

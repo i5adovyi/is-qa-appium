@@ -11,9 +11,13 @@ Read 02–03, then work through 06–07 before expanding coverage.
 
 Open the local reader with `npm run course`, then visit `http://127.0.0.1:4173`.
 The same lessons work in any Markdown editor. Reader completion and notes are saved
-only in that browser; use **Export progress** to keep a JSON backup and **Import progress**
-to restore it in another browser. Import combines completed lessons, fills missing notes,
-and preserves current notes when the backup text differs.
+in a local SQLite database, so they survive server restarts and reopening this
+project. Use `npm run progress:backup` to keep a JSON backup and
+`npm run progress:import -- "/path/to/backup.json"` to move it to another
+computer. Hosted/static readers use browser storage and **Export progress /
+Import progress** instead. Import combines completions, fills missing notes and
+preserves current notes when the backup text differs. See
+[local data and recovery](handbook/local-data.md).
 
 ## Four stages, sixteen lessons
 
@@ -57,6 +61,8 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 ## Your workbench
 
 - [Resume this project](RESUME.md): account changes, GitHub recovery, progress backups and a prompt for your next chat.
+- [Open in Codex under another account](handbook/account-handover.md): reopen or clone the project, restore progress and publish a separate private Site.
+- [Local data and backups](handbook/local-data.md): SQLite persistence, interrupted drafts, conflicting edits, imports and recovery.
 - [Twelve offline TypeScript labs](../exercises/README.md): foundations, workplace helpers and two repairs of inherited faulty code.
 - [36 workplace scenarios](handbook/workplace-scenarios.md): real-app situations, prerequisites, evidence and review guides.
 - [Six incident shifts](handbook/incident-shifts.md): incomplete evidence, changing requirements, red-to-green repairs and decisions under time pressure.

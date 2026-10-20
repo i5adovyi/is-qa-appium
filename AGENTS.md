@@ -17,6 +17,19 @@ Appium, TypeScript, Chai and BrowserStack from the foundations.
   successful mobile/cloud test.
 - Keep `.env`, keys, logs, APKs and personal progress backups out of commits.
   Read `.env.example` for variable names; do not print local secret values.
+- The local reader saves completions and lesson notes to
+  `.local-data/progress.sqlite`, or the directory selected by `COURSE_DATA_DIR`.
+  Preserve that database and browser drafts. Use `progress:status`,
+  `progress:backup` and `progress:import`; never reset a database to repair an
+  error. Keep databases, personal backups and `.sites/` profiles out of Git and
+  static exports. Read `docs/handbook/local-data.md` for conflict recovery.
+- Account changes do not transfer chats, service sign-ins or private Site
+  ownership. Read `docs/handbook/account-handover.md`. The tracked root hosting
+  manifest is account-neutral; Site identities belong in ignored
+  `.sites/<profile>/.openai/hosting.json` files. Use an explicit profile, preserve
+  an existing identity and register only through native Sites tools while
+  actually signed in to the intended account. Local profile commands do not
+  authenticate, register or publish a Site.
 - Preserve checksum verification and the documented unbundled driver package
   when editing dependencies. See `docs/handbook/dependency-maintenance.md`.
 - Keep new exercises reachable from the course map/reader. Include prerequisites,

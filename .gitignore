@@ -14,3 +14,8 @@ mobile-automation-progress*.json
 dist/
 .course-build-*/
 .sites/
+.local-data/
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
