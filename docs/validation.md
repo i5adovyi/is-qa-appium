@@ -19,6 +19,29 @@ Use `npm ci` to install the locked dependencies. The Android SDK, emulator image
 Java runtime, and externally installed Appium extensions also affect reproducibility.
 See the [setup manual](handbook/setup.md).
 
+## Localhost and static hosting checks
+
+The hosting extension adds a static course export and a separate OpenAI Sites
+source checkout. The live local reader still reads the current project files.
+
+- `npm run check` passed: types, documentation, 72 reference lab cases and
+  27 framework checks.
+- `npm run course:test` passed **24 checks**, including seven static-export
+  checks: all exported pages match the local renderer, the static data client
+  works over HTTP without Node API routes, browser modules are served,
+  untracked/private files are excluded, symlinks are rejected, and failed
+  builds preserve the previous output.
+- CI also runs `npm run course:build` to catch missing tracked pages and
+  packaging regressions.
+- The static reader was opened in the in-app browser on a separate localhost
+  port. The dashboard, S4 practice search, section navigation and incident
+  text layout were checked. This is a focused browser check, not a complete
+  cross-browser or mobile viewport audit.
+
+These are reader/build checks. Android and BrowserStack were not rerun for
+this hosting change. Browser progress stays local to each reader origin.
+See the [hosting guide](handbook/hosting.md) for access and publishing steps.
+
 ## Executed checks
 
 | Check | Result and scope |

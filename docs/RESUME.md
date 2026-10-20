@@ -59,6 +59,11 @@ For mobile execution on another machine, follow the [setup manual](handbook/setu
 for Android Studio, Java, SDK variables and an emulator. Offline study needs
 neither Android nor BrowserStack.
 
+The reader also supports a static build and private OpenAI Sites hosting.
+See the [hosting guide](handbook/hosting.md). GitHub access does not grant access
+to the original account's private Site; localhost continues to work independently.
+Export/import progress when moving between the two reader addresses.
+
 ## Current learning and implementation state
 
 As reviewed on **20 October 2026**:

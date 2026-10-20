@@ -1,29 +1,12 @@
 import http from 'node:http'
 import path from 'node:path'
-import { readFile, realpath, stat } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
-import { marked } from 'marked'
-import { indexCollection } from './course-index.mjs'
+import { allowedPage, courseAssets, loadCatalog, loadPage, readWithinRoot } from './course-content.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = Number(process.env.COURSE_PORT ?? 4173)
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('COURSE_PORT must be an integer from 1 to 65535')
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json' }
-const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-const allowedRootFiles = new Set(['README.md', 'AGENTS.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
-function allowedPage(name) {
-    if (allowedRootFiles.has(name)) return true
-    if (/^(docs|exercises)\//.test(name)) return /\.(md|ts)$/.test(name)
-    return /^(test|config|scripts|\.github\/workflows)\//.test(name) && /\.(ts|mjs|ya?ml)$/.test(name)
-}
-async function readWithinRoot(name) {
-    if (name.includes('\\') || name.split('/').includes('..') || path.isAbsolute(name)) throw new Error('Invalid path')
-    const resolved = await realpath(path.join(root, name))
-    if (!resolved.startsWith(root)) throw new Error('Invalid path')
-    if (resolved !== path.resolve(root, name)) throw new Error('Symlinked files are not served')
-    if (!(await stat(resolved)).isFile()) throw new Error('Not a file')
-    return readFile(resolved, 'utf8')
-}
 function send(res, status, body, contentType = 'application/json') {
     res.writeHead(status, {
         'Content-Type': `${contentType}; charset=utf-8`,
@@ -38,26 +21,18 @@ const server = http.createServer(async (req, res) => {
         if (req.method !== 'GET') return send(res, 405, '{"error":"Read-only server"}')
         const url = new URL(req.url, `http://127.0.0.1:${port}`)
         if (url.pathname === '/api/catalog') {
-            const catalog = JSON.parse(await readWithinRoot('course/catalog.json'))
-            const groups = await Promise.all(catalog.practiceCollections.map(async collection => {
-                if (!allowedPage(collection.path)) throw new Error('Invalid practice collection')
-                return indexCollection(collection, await readWithinRoot(collection.path))
-            }))
-            return send(res, 200, JSON.stringify({ ...catalog, practice: groups.flat() }))
+            return send(res, 200, JSON.stringify(await loadCatalog(root)))
         }
         if (url.pathname === '/api/page') {
             const name = url.searchParams.get('path') ?? ''
             if (!allowedPage(name)) return send(res, 403, '{"error":"This file is outside the course library."}')
-            const source = await readWithinRoot(name)
-            const html = name.endsWith('.md')
-                ? marked.parse(source, { gfm: true })
-                : `<h1>${escape(path.basename(name))}</h1><pre><code>${escape(source)}</code></pre>`
-            return send(res, 200, JSON.stringify({ path: name, html }))
+            return send(res, 200, JSON.stringify(await loadPage(root, name)))
         }
-        const assets = { '/': 'index.html', '/app.js': 'app.js', '/progress.js': 'progress.js', '/practice.js': 'practice.js', '/style.css': 'style.css' }
+        const assets = Object.fromEntries(courseAssets.map(name => [`/${name}`, name]))
+        assets['/'] = 'index.html'
         const asset = assets[url.pathname]
         if (!asset) return send(res, 404, '{"error":"Not found"}')
-        return send(res, 200, await readWithinRoot(`course/${asset}`), mime[path.extname(asset)])
+        return send(res, 200, await readWithinRoot(root, `course/${asset}`), mime[path.extname(asset)])
     } catch {
         send(res, 404, '{"error":"The requested course file could not be read. Check its path."}')
     }

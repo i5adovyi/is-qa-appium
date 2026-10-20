@@ -42,7 +42,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     }
 })
 test('serves every reader module as JavaScript', async () => {
-    for (const asset of ['app.js', 'progress.js', 'practice.js']) {
+    for (const asset of ['app.js', 'data.js', 'progress.js', 'practice.js']) {
         const response = await fetch(`${origin}/${asset}`)
         assert.equal(response.status, 200, asset)
         assert.match(response.headers.get('content-type'), /text\/javascript/)

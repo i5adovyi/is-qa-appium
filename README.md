@@ -16,6 +16,29 @@ Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, cod
 
 Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is an ordinary Markdown file you own and can edit.
 
+## Localhost and OpenAI Sites
+
+Use the same reader locally while practising, or publish its static build to
+your private OpenAI Site for reading on another computer.
+
+| Mode | Command or link |
+|---|---|
+| Local reader, with current project files | `npm run course` → http://127.0.0.1:4173 |
+| Private OpenAI Site | [Open Mobile Automation Lab](https://mobile-automation-lab.igor-sadovyi87.chatgpt.site) — sign in with the Site owner's account |
+| Preview the static build | `npm run course:build`, then `npm run course:preview` → http://127.0.0.1:4174 |
+| Prepare the OpenAI Site for publication | `npm run course:sites`, then publish with the Sites tools |
+
+See the [hosting guide](docs/handbook/hosting.md) for publishing, updates and
+account changes. Reading, search and progress work in both modes. Coding
+exercises and Appium tests run from your cloned project, not in the hosted page.
+Use **Export progress / Import progress** to move notes between localhost and
+the hosted Site; they have separate browser storage. A GitHub push does not
+automatically publish a Site update.
+
+The private Site belongs to the OpenAI account used to publish it. Access does
+not automatically transfer when you change accounts; the local reader and
+GitHub copy remain usable independently.
+
 **Switching OpenAI accounts or computers?** Use [Resume this project](docs/RESUME.md)
 for the private GitHub location, recovery commands, progress backup and a prompt
 for your next chat. The course and tests run without an OpenAI account.
@@ -307,6 +330,9 @@ Run from the project root. Device commands require a booted emulator or connecte
 | Command | Purpose |
 |---|---|
 | `npm run course` | Open the local course reader |
+| `npm run course:build` | Export a portable static course to `dist/` |
+| `npm run course:preview` | Serve the static build on localhost port 4174 |
+| `npm run course:sites` | Build and prepare the separate OpenAI Site source checkout; does not publish |
 | `npm run check` | TypeScript, documentation links, reference lab tests, offline framework regression checks |
 | `npm run practice` | List the twelve offline labs |
 | `npm run practice -- 03` | Test your work on one lab; initial failure is expected |
@@ -336,6 +362,9 @@ docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
 exercises/             Twelve offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
+.openai/hosting.json    Registered private Site identity and static hosting configuration
+.sites/                Prepared Site checkout, ignored by Git
+dist/                  Generated static course, ignored by Git
 test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence
 test/specs/            Runnable Android reference tests

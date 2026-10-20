@@ -64,6 +64,7 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 - [Ten practical interview drills](handbook/interview-drills.md): code, SQL, Git review, architecture, log investigation, API checks, test design and communication.
 - [Coverage review](coverage-review.md): gaps found, their exercises, evidence sources and remaining limits.
 - [Setup manual](handbook/setup.md): prepare a new machine and understand the existing one.
+- [Localhost & OpenAI Sites](handbook/hosting.md): run locally, publish the static reader and transfer progress.
 - [Troubleshooting](handbook/troubleshooting.md): symptoms, evidence, next action.
 - [Permissions and lifecycle](handbook/mobile-state.md): state layers, permission scenarios and background/resume experiments.
 - [Glossary](handbook/glossary.md): the terms used in this course.

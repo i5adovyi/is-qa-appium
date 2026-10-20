@@ -1,7 +1,12 @@
 import { parseProgress, mergeProgress } from './progress.js'
 import { headingSlug, findPractice } from './practice.js'
+import { createCourseClient } from './data.js'
 
 const $ = selector => document.querySelector(selector)
+const client = createCourseClient({
+    mode: document.querySelector('meta[name="course-data-mode"]')?.content ?? 'local',
+    baseUrl: new URL('./', location.href),
+})
 const storageKey = 'mobile-automation-lab-v1'
 let catalog, currentLesson, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
@@ -150,9 +155,7 @@ async function route() {
     $('#article').replaceChildren(node('p', '', 'Loading your lesson…'))
     $('#lesson-actions').hidden = true
     try {
-        const response = await fetch(`/api/page?path=${encodeURIComponent(page)}`)
-        const data = await response.json()
-        if (!response.ok) throw new Error(data.error)
+        const data = await client.getPage(page)
         if (requestId !== renderId) return
         $('#article').replaceChildren(safeContent(data.html, page))
         $('#reader-stage').textContent = currentLesson
@@ -184,9 +187,7 @@ async function route() {
     }
 }
 async function init() {
-    const response = await fetch('/api/catalog')
-    if (!response.ok) throw new Error('Course catalog is unavailable')
-    catalog = await response.json()
+    catalog = await client.getCatalog()
     const lessonIds = catalog.lessons.map(lesson => lesson.id)
     try {
         const saved = localStorage.getItem(storageKey)
