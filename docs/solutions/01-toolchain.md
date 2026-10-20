@@ -12,6 +12,7 @@ JAVA_HOME: <output of printenv JAVA_HOME>
 Java version: <output of java -version>
 AVD: <selected name from emulator -list-avds>
 ADB: <serial> device
+Preflight: <result of npm run preflight>
 Command: npm run test:smoke
 Outcome: <pass, or first actionable error>
 Evidence: <relevant log path or screenshot path>
@@ -48,16 +49,21 @@ An efficient session:
 ```bash
 node --version
 adb devices
+npm run preflight
 npm run typecheck
 npm run test:forms
 ```
 
 This assumes setup has already been completed and a device is booted. If one check fails, fix the evidence-based cause before running the remaining device steps.
 
+If Java is bundled only inside Android Studio, setting `JAVA_HOME` is not the same as making `java` discoverable in the terminal. The lesson's PATH includes `$JAVA_HOME/bin` so the version check and tools resolve that runtime.
+
 ## Checkpoint answers
 
 - Doctor checks environment prerequisites. It cannot guarantee that an app's selector, behavior, expected text, or test logic is correct.
 - A friendly device name does not uniquely identify an Android connection. ADB serial/UDID is the practical selection identity when more than one target is connected.
 - `@wdio/appium-service`, configured in the Android config, starts Appium for normal local runs.
+
+This repository exposes that selection as `ANDROID_UDID` in local `.env`. Read `adb devices` to choose the actual serial; do not copy a sample serial without checking it.
 
 [Back to lesson](../lessons/01-toolchain.md) · [Next lesson](../lessons/02-typescript.md)

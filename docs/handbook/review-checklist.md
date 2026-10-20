@@ -17,6 +17,8 @@ Review one scenario at a time. Answer with evidence, not a blanket “looks good
 - [ ] Asynchronous commands are awaited.
 - [ ] Selectors are inspected and kept in screen objects/helpers.
 - [ ] The keyboard and dialogs are handled where relevant.
+- [ ] Permission and lifecycle assumptions are named; automatic grants are not claimed as prompt coverage.
+- [ ] Setup does not erase the state an interruption or persistence scenario intends to observe.
 - [ ] Actions have clear names and do not hide unrelated assertions.
 
 ## Waiting and assertions
@@ -25,6 +27,7 @@ Review one scenario at a time. Answer with evidence, not a blanket “looks good
 - [ ] Polling callbacks do not repeatedly click or submit.
 - [ ] Chai is not confused with WebdriverIO's retrying matcher API.
 - [ ] A negative assertion cannot pass before the event under test occurred.
+- [ ] Attribute access and locator strategy were checked against the installed driver, not inferred from XML alone.
 - [ ] The assertion would catch removal or corruption of the intended action.
 - [ ] Error messages distinguish timeout/readiness from wrong values.
 
@@ -44,6 +47,7 @@ Review one scenario at a time. Answer with evidence, not a blanket “looks good
 - [ ] No accidental `.only`, ignored assertion, or broad retry hides coverage.
 - [ ] No dependency/tool upgrade is mixed in without a reason and validation.
 - [ ] Cloud, hybrid, and iOS claims match actual verification.
+- [ ] A grep match or a skipped hosted job is not mistaken for evidence that the intended tests executed.
 - [ ] A future learner can identify where to change a locator or expected message.
 
 **Review response format:** identify the scenario, explain the concrete failure risk, point to the smallest relevant code location, and recommend a repair. Prefer “this assertion can pass before submission because…” to “this is bad practice.”

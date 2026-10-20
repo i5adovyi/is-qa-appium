@@ -41,9 +41,14 @@ Assignment: draw the path from `it(...)` through the client, Appium server, UiAu
 | [Appium: managing contexts](https://appium.io/docs/en/latest/guides/context/) | Understand native/web context separation | A native-versus-web locator comparison |
 | [WebdriverIO getContexts](https://webdriver.io/docs/api/mobile/getContexts) | Inspect actual session contexts | A redacted capability report |
 | [WebdriverIO switchContext](https://webdriver.io/docs/api/mobile/switchContext) | Select a context intentionally | A cleanup strategy that returns to native |
+| [Android permission workflow](https://developer.android.com/training/permissions/requesting) | Distinguish granted, denied, and revoked states | A permission-state table for a real feature |
+| [Android activity lifecycle](https://developer.android.com/guide/components/activities/activity-lifecycle) | Separate navigation, backgrounding, and restart | A state-retention question with an explicit oracle |
+| [WebdriverIO background](https://webdriver.io/docs/api/mobile/background/) | Apply a deliberate interruption | A bounded background/return candidate with a postcondition |
+| [Android Logcat](https://developer.android.com/tools/logcat) | Investigate device/app process failures | A bounded, redacted excerpt linked to a reproduction |
 
 These are investigation references. Their existence does not mean the repository has verified every feature or platform. Keep unsupported experiments labeled and separated from the default suite.
 
+Use the project's [permissions and lifecycle manual](handbook/mobile-state.md) to connect these references to the current restart helper and automatic-grant settings. A missing demo feature is a scope boundary, not a reason to invent a passing example.
 ## Cloud and delivery
 
 | Reference | Read when | Apply it by |

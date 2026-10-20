@@ -22,6 +22,8 @@ Likewise:
 
 An asynchronous function returns a Promise, representing a result that may arrive later or fail. `await` obtains that result or propagates its failure. It does not mean “sleep for a while.”
 
+For a device interaction, write `await` on the command, then issue the next command. Omitting it can let the next line run before the previous action finishes. If an awaited command fails, the error leaves the current test unless you handle it; Mocha records that test as failed. Catching it and only printing a message can accidentally conceal the failure.
+
 ```ts
 const actual = await FormsScreen.inputResult.getText()
 expect(actual).to.equal('Hello Appium')
@@ -61,6 +63,8 @@ Expected output includes `true` and `ready`. There is no Appium session. `readDe
 
 Now temporarily change the expected string to `'finished'`. Run the file and examine the assertion failure. Restore the expectation after you can identify the actual value, expected value, and line.
 
+A normal successful program exits with status zero; an uncaught assertion exits unsuccessfully. In a macOS/Linux terminal, `echo $?` immediately after the command shows its exit status. Run it before another command changes that status. You do not need to memorize stack traces: start with the failure message and the first location in your own file.
+
 A resolved Promise is not automatically a correct result. Async execution and correctness are separate concerns.
 
 ## Wait for the smallest meaningful condition
@@ -80,6 +84,16 @@ expect(await FormsScreen.inputResult.getText()).to.equal(text)
 
 The callback returns a boolean. WebdriverIO repeats it until it is true or the timeout expires. The timeout is a maximum allowance, not a required delay. [WebdriverIO `waitUntil`](https://webdriver.io/docs/api/browser/waitUntil/).
 
+An arrow without braces returns its expression automatically. If you add braces, include `return`:
+
+```ts
+async () => {
+    return (await FormsScreen.inputResult.getText()) === text
+}
+```
+
+The examples using `FormsScreen` and `driver` are fragments for an existing mobile test with its imports and active session. Do not paste them into `learning-async.ts`: the standalone Node lab has no device or runner globals.
+
 The training project's `waitForText` helper packages this pattern. Use the existing helper in normal tests; the expanded form above teaches what it does.
 
 Choose the condition that matches your claim:
@@ -97,13 +111,13 @@ Choose the condition that matches your claim:
 
 ### 03-A · Repair a Promise assertion
 
-In the local lab, deliberately try:
+In the local lab, temporarily **replace its final assertion** with:
 
 ```ts
 expect(readDemoText()).to.equal('ready')
 ```
 
-Explain why this fails, then repair it in two ways: a separate `actual` variable and an inline `await`. Keep only the corrected versions.
+Explain why this fails, then repair it in two ways: use the lab's existing resolved `actual` variable and use an inline `await`. Try one form at a time. Do not redeclare `const actual` in the same scope.
 
 <details><summary>Hint</summary>
 
@@ -149,6 +163,8 @@ If the wait targets the wrong expectation, it should time out. If the wait targe
 </details>
 
 **Acceptance:** You can demonstrate a passing version and explain one controlled failure without leaving it broken.
+
+If you are following the device-free route, do 03-A and 03-B now and record 03-C as pending. Complete the emulator setup and this device exercise before beginning lesson 04.
 
 ## Checkpoint
 

@@ -23,6 +23,8 @@ If evidence supports delayed echo, wait for the echo with a named timeout. Do no
 
 Without a reproduction, this remains a hypothesis table. “Added a wait and one run passed” is weaker evidence than a controlled reproduction and repair.
 
+If the command failed with a lost-session or instrumentation error, first add an infrastructure hypothesis. No amount of waiting for an echo can repair a dead automation session. Verify ADB connectivity and distinguish the app's process from the automation server process before editing the spec.
+
 ## 10-C · Example investigation note
 
 ```text

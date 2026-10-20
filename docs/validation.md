@@ -1,6 +1,6 @@
 # Validation record
 
-**Prepared:** 20 October 2026. This records checks performed while building the course,
+**Prepared and reviewed:** 20 October 2026. This records checks performed while building the course,
 not a permanent guarantee about future installations, devices, or app builds.
 
 ## Tested environment
@@ -24,27 +24,35 @@ See the [setup manual](handbook/setup.md).
 | Check | Result and scope |
 |---|---|
 | `npm run test:login` | **Passed:** three device tests, including both-empty validation |
-| `npm run test:android` | **Passed:** all seven tests in three spec files; final run took 2m 54s |
+| `npm run test:android` | **Passed:** all seven tests in three spec files after the second review; run took 1m 18s |
 | `npm run typecheck` | Passed for framework configuration, helpers, screen objects and mobile specs |
 | `npm run typecheck:practice` | Passed for offline starters, references and tests |
-| `npm run practice:solutions` | **Passed:** 27 test cases across six labs |
+| `npm run preflight` | Passed against this Mac's installed SDK, Java compiler, dependencies, driver and booted emulator |
+| `npm run practice:solutions` | **Passed:** 31 test cases across six labs |
 | `npm run practice -- 01` before learner edits | Failed as designed: the unfinished starter throws; it is not pre-solved |
 | `npm run course:check` | **Passed:** sixteen lessons, 48 exercise/solution pairs, six lab structures and local Markdown links |
-| `npm run course:test` | **Passed:** four server test groups, including all lesson routes, source rendering, rejected paths and rejected writes |
-| Reader in the browser | Verified dashboard, lesson search/navigation, lesson rendering, expandable hints, skip link, and notes/completion persistence after reload |
+| Reader test suites | **Passed:** five server and six progress test groups, including every lesson, solution and library page, module routes, file restrictions and backup merging; runnable together with `npm run course:test` |
+| `npm run framework:test` | **Passed:** eight mocked regression checks for preflight and failure diagnostics |
+| Reader in the browser | Verified lesson rendering/navigation, section links, malformed-link recovery, progress import, conflict preservation, downloaded export contents and reload persistence |
 | Failure diagnostics with a mocked session | Verified distinct PNG/XML names for repeated titles and preservation of the original failure when capture fails |
 | Cloud credential guards with placeholders | Rejected before session creation; no credential values printed |
+| Hosted GitHub Actions | [Run 39427787762](https://github.com/i5adovyi/is-qa-appium/actions/runs/39427787762) passed for published commit `4f04bd9`; a later commit needs its own run |
 
-Saved command output: [Android reference run](evidence/android-reference-run.md)
-and [combined local checks](evidence/local-checks.md). These are dated build-time
-snapshots; your own run produces current evidence. The final Android command began
-at 12:45:51 UTC on 20 October 2026 and exited successfully. It covered text echo,
+Latest saved command output: [review Android run](evidence/review-android-run.md)
+and [review local checks](evidence/review-local-checks.md). The earlier
+[Android baseline](evidence/android-reference-run.md) and [local baseline](evidence/local-checks.md)
+remain as historical snapshots. The review Android command began
+at 13:49:44 UTC on 20 October 2026 and exited successfully. It covered text echo,
 switch toggling, clearing input, valid login, invalid login, empty login, and launch.
+The passing Login run logged two stale-element warnings while the UI changed; no
+test-level retries were enabled. Keep those observations distinct from failed tests.
 
 The reference lab test count is not a measurement of product coverage. Device tests,
 pure TypeScript tests, and HTTP server tests establish different things. The browser
 checks are manual observations, not a complete accessibility or cross-browser audit.
-Progress export is implemented; a downloaded export was not independently verified.
+The backup check used synthetic notes on a separate local origin. It confirmed the
+downloaded JSON contains the merged completions and preserved current note.
+See [review findings](review-notes.md) for the changes and targeted fault experiments.
 
 ## Android lesson learned during validation
 
@@ -92,8 +100,8 @@ to localhost for these local exercises.
 - BrowserStack device sessions: require the learner's working account, credentials
   and an available device. The configuration and placeholder guards were checked;
   cloud device availability and behavior were not.
-- GitHub-hosted Actions: workflow files are supplied, but no remote workflow run
-  is claimed. The checks can be run locally.
+- Hosted CI for every future change: the linked run proves only its own commit.
+  The latest commit's Actions status must be checked separately.
 - iOS: no compatible build, Xcode/XCUITest setup, or validated iOS suite is supplied.
 - Gesture and hybrid-context extensions: guided investigations, not guaranteed
   working scenarios in the default reference suite.

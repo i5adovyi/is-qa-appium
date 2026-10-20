@@ -9,6 +9,7 @@ import fs from 'node:fs'
 import { config as shared } from './wdio.shared.conf.js'
 
 const app = path.resolve('apps/wdio-demo.apk')
+const udid = process.env.ANDROID_UDID?.trim()
 if (!fs.existsSync(app)) {
     throw new Error('Demo APK is missing. Run npm run app:download before mobile tests.')
 }
@@ -26,7 +27,7 @@ export const config: WebdriverIO.Config = {
             'appium:automationName': 'UiAutomator2',
             // With a single emulator running, the name is informational.
             'appium:deviceName': 'Android Emulator',
-            ...(process.env.ANDROID_UDID ? { 'appium:udid': process.env.ANDROID_UDID } : {}),
+            ...(udid ? { 'appium:udid': udid } : {}),
             'appium:app': app,
             'appium:noReset': false,
             'appium:autoGrantPermissions': true,

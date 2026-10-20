@@ -46,7 +46,7 @@ const server = http.createServer(async (req, res) => {
                 : `<h1>${escape(path.basename(name))}</h1><pre><code>${escape(source)}</code></pre>`
             return send(res, 200, JSON.stringify({ path: name, html }))
         }
-        const assets = { '/': 'index.html', '/app.js': 'app.js', '/style.css': 'style.css' }
+        const assets = { '/': 'index.html', '/app.js': 'app.js', '/progress.js': 'progress.js', '/style.css': 'style.css' }
         const asset = assets[url.pathname]
         if (!asset) return send(res, 404, '{"error":"Not found"}')
         return send(res, 200, await readWithinRoot(`course/${asset}`), mime[path.extname(asset)])
@@ -56,7 +56,7 @@ const server = http.createServer(async (req, res) => {
 })
 server.on('error', error => {
     console.error(error.code === 'EADDRINUSE'
-        ? `Port ${port} is already in use. Open the existing course or set COURSE_PORT=4174.`
+        ? `Port ${port} is already in use. Open the existing course or set COURSE_PORT to a different port.`
         : error.message)
     process.exitCode = 1
 })

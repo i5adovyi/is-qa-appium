@@ -30,6 +30,8 @@ Candidate automation: A specified navigation/retention behavior, once its oracle
 
 Do not fill “observations” with predicted results. If no specification establishes retention, report it as a question. Automation should encode a justified rule, not freeze an accidental behavior.
 
+For the interruption variant, record the entered draft before backgrounding, the duration/action used to return, the resumed screen, and the exact remaining text. Do not invoke the restart helper between those observations: that would change the investigation from resumption to process restart. Permission-flow candidates require an actual permission-using feature and a verified starting grant state; the current automatic-grant config is insufficient.
+
 ## 14-C · Smaller, better-focused suite
 
 One possible replacement:

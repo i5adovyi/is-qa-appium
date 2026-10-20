@@ -26,7 +26,10 @@ for (const lesson of catalog.lessons) {
     for (const name of [lesson.path, lesson.path.replace('/lessons/', '/solutions/')]) {
         if (!await exists(name)) { errors.push(`Missing ${name}`); continue }
         const text = await readFile(path.join(root, name), 'utf8')
-        for (const letter of ['A', 'B', 'C']) check(text.includes(`${lesson.id}-${letter}`), `${name}: missing exercise ${lesson.id}-${letter}`)
+        for (const letter of ['A', 'B', 'C']) {
+            check(new RegExp(`^#{2,4}\\s+${lesson.id}-${letter}\\b`, 'm').test(text),
+                `${name}: missing exercise heading ${lesson.id}-${letter}`)
+        }
     }
 }
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)

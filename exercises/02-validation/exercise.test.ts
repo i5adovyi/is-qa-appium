@@ -8,7 +8,7 @@ test('empty fields report both problems', () => {
     })
 })
 test('seven characters fail and eight pass', () => {
-    expect(validateInput('learner@example.com', '1234567').passwordError).not.to.equal(null)
+    expect(validateInput('learner@example.com', '1234567').passwordError).to.equal('Please enter at least 8 characters')
     expect(validateInput('learner@example.com', '12345678').passwordError).to.equal(null)
 })
 test('longer passwords remain valid', () => {
@@ -22,4 +22,7 @@ test('rejects missing domain, whitespace and multiple at signs', () => {
 test('reports errors independently', () => {
     expect(validateInput('bad', '12345678').passwordError).to.equal(null)
     expect(validateInput('learner@example.com', 'short').emailError).to.equal(null)
+})
+test('counts password whitespace without trimming it', () => {
+    expect(validateInput('learner@example.com', '   12   ')).to.deep.equal({ emailError: null, passwordError: null })
 })

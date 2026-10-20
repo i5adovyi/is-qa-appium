@@ -30,6 +30,8 @@ async setSwitch(enabled: boolean) {
 
 Do not append a second method if the supplied screen already contains one; compare and improve it. The check before tapping makes this idempotent: repeated calls request the same state. This implementation deliberately documents Android's state representation. Reusing it on iOS requires inspecting that platform's attributes.
 
+Before relying on this model, inspect the switch and confirm that the installed driver's `getAttribute('checked')` supports it. The Login hint investigation showed why an attribute appearing in XML does not guarantee that every direct attribute command succeeds. A missing/unsupported attribute is a capability or locator finding, not evidence that the switch is off. If the post-tap wait times out, retain its final observed attribute value in your investigation note.
+
 ## 09-B · Two transitions, two observations
 
 ```ts
@@ -68,5 +70,7 @@ it('expects an off switch', async () => {
 The repair is to establish the condition with `await FormsScreen.setSwitch(false)` in the relevant setup, then verify the behavior the case actually intends to test. Restore the baseline restart policy after the experiment. Run both case orders and remove the temporary scenarios.
 
 A loop with `click()` inside a wait changes state on every poll; an observational predicate reads only. Existence, display, enabled state, and correct text are different conditions. Retries can hide the initial failure without repairing the state contract.
+
+The session's reset capability does not reset each test. Your temporary experiment intentionally changes the per-test policy; restore it afterward. For lifecycle tests, keep interruption and resumption inside one scenario so a setup hook does not erase the state you intended to observe. See the [state field manual](../handbook/mobile-state.md).
 
 [Next lesson](../lessons/10-debugging.md)

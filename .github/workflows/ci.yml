@@ -22,5 +22,6 @@ jobs:
       - run: npm run typecheck:practice
       - run: npm run course:check
       - run: npm run practice:solutions
+      - run: npm run framework:test
       - run: npm run course:test
       # These are static/offline checks, not evidence of an Android test run.

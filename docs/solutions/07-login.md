@@ -2,7 +2,7 @@
 
 These are new tests to add inside the existing Login `describe`. They use the imports and `beforeEach` already in that file. Run them against the pinned demo APK; the model answers describe its stated form contract, not a real service's password policy.
 
-The supplied both-empty reference test additionally checks `LoginScreen.emptyEmail.isExisting()` and `LoginScreen.emptyPassword.isExisting()`. Those getters use narrow Android XPath expressions combining the field's accessibility identifier with `showing-hint="true"` in the XML hierarchy. This avoids treating placeholder text as entered text. A direct `getAttribute('showing-hint')` read failed with the installed driver, so do not substitute that command without verifying driver support.
+The supplied both-empty reference test additionally checks `LoginScreen.emptyEmail.isExisting()` and `LoginScreen.emptyPassword.isExisting()`. It first waits for and checks that these empty-state matches are absent after entering text; after clearing, it waits for and checks that they are present. Those getters use narrow Android XPath expressions combining the field's accessibility identifier with `showing-hint="true"` in the XML hierarchy. This avoids treating placeholder text as entered text. A direct `getAttribute('showing-hint')` read failed with the installed driver, so do not substitute that command without verifying driver support.
 
 ## 07-A · Empty email only
 
@@ -10,6 +10,8 @@ The supplied both-empty reference test additionally checks `LoginScreen.emptyEma
 it('should reject an empty email with a valid password', async () => {
     await LoginScreen.clearFields()
     await LoginScreen.password.setValue('Practice123!')
+    await LoginScreen.emptyEmail.waitForExist()
+    expect(await LoginScreen.emptyEmail.isExisting()).to.be.true
     expect(await LoginScreen.emailError.isExisting()).to.be.false
     expect(await LoginScreen.passwordError.isExisting()).to.be.false
 
@@ -35,6 +37,8 @@ This negative check observes absence at that point. For an application with asyn
 it('should reject an empty password with a valid email', async () => {
     await LoginScreen.clearFields()
     await LoginScreen.email.setValue('learner@example.com')
+    await LoginScreen.emptyPassword.waitForExist()
+    expect(await LoginScreen.emptyPassword.isExisting()).to.be.true
     expect(await LoginScreen.emailError.isExisting()).to.be.false
     expect(await LoginScreen.passwordError.isExisting()).to.be.false
 

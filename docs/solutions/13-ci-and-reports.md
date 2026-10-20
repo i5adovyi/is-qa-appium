@@ -6,10 +6,12 @@
 
 Your table must match the checked-in YAML. A sound interpretation distinguishes:
 
-- Default CI: install locked dependencies and run configured source/course checks. It needs Node and package access. It cannot prove a mobile element exists.
+- Default CI: install locked dependencies and run configured source/course checks, reference solutions, mocked `framework:test`, and reader/progress `course:test`. It needs Node and package access. It cannot prove a mobile element exists.
 - Manually dispatched BrowserStack workflow: install dependencies, obtain the demo APK, read repository secrets, and execute the configured remote suite. It needs account access and provider availability. It cannot prove untested devices or iOS work.
 
 If a workflow includes additional offline solution checks, list them separately from mobile tests. The hosted evidence is a run URL with commit, job logs, conclusion, and artifacts. A local check or a YAML file is not hosted execution evidence.
+
+For the supplied workflow, `inputs.confirm == 'RUN'` gates the cloud job. Its artifact step uses `failure()`, uploads `logs/`, retains files for seven days, and ignores a missing artifact directory. A skipped job and a failed job with no collected screenshots are different outcomes; inspect job logs and test counts before claiming execution.
 
 `npm ci` uses the committed lockfile and fails on dependency-manifest disagreement. It is appropriate for reproducible CI installation, although package availability and platform requirements remain external dependencies.
 

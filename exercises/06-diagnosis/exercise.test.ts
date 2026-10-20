@@ -14,6 +14,9 @@ test('connection and lookup evidence get different categories', () => {
 test('assertion mismatch is distinct from transport failures', () => {
     expect(classifyFailure("AssertionError: expected 'OFF' to equal 'ON'")).to.equal('assertion')
 })
+test('locator evidence takes priority over a wrapping assertion, regardless of case', () => {
+    expect(classifyFailure('AssertionError: NO SUCH ELEMENT: Login')).to.equal('locator-or-state')
+})
 test('unknown messages remain unknown', () => {
     expect(classifyFailure('something surprising')).to.equal('unknown')
     expect(classifyFailure('')).to.equal('unknown')

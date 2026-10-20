@@ -59,4 +59,6 @@ This does not check persistence after an app restart, server storage, all Unicod
 - Change a locator in the corresponding screen object or UI helper, then verify the behavior that depends on it.
 - The demo validates a local form and displays a sample response. It does not exercise your future employer's authentication service.
 
+The first terminal exercise is intentionally read-only: `npm run` lists scripts, whereas `npm run typecheck` executes one script. A command-not-found or missing-dependency error belongs in lesson 01's setup work; it is not evidence that the demo app is broken.
+
 [Back to lesson](../lessons/00-orientation.md) · [Next lesson](../lessons/01-toolchain.md)

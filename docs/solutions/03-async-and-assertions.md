@@ -2,7 +2,7 @@
 
 ## 03-A · Assert the resolved value
 
-Separate variable:
+Separate variable, shown as a standalone fragment:
 
 ```ts
 const actual = await readDemoText()
@@ -14,6 +14,8 @@ Inline:
 ```ts
 expect(await readDemoText()).to.equal('ready')
 ```
+
+The lab already declares `const actual = await pending`. When editing that lab, reuse its existing variable in the first repair; do not add another `const actual` to the same scope. Try the two forms separately.
 
 Without `await`, `expect` receives a Promise object. That object is not the string `'ready'`. Chai's ordinary `expect(...).to.equal(...)` does not wait for it to resolve.
 
@@ -38,6 +40,8 @@ expect(actual).to.equal('Ready')
 ```
 
 The defective version captured one string before polling. Repeating `actual === 'Ready'` compares the same immutable string every time. It cannot observe the app changing.
+
+This fragment assumes the surrounding mobile scenario actually entered or triggered `Ready`. A wait cannot create that result. It also needs the Forms import and an active WebdriverIO session; it is not standalone code for the Node-only lab.
 
 A fixed pause spends the full delay even when the result is ready immediately. It can still be too short on a slow device, and it does not explain which state failed to arrive. A condition wait ties synchronization to the requirement.
 

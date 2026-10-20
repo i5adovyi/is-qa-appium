@@ -17,6 +17,7 @@ Run the smallest diagnostic that can distinguish the next cause. Keep the first 
 |---|---|---|
 | Node major is wrong | `node --version`, shell PATH | Select Node 24; reopen terminal |
 | `JAVA_HOME` or SDK missing | `npm run preflight`, doctor | Correct actual paths; do not guess a JDK path |
+| `javac` missing or SDK build-tools incomplete | Preflight's named check, SDK Manager | Point at a complete JDK or install the missing Android build-tools |
 | No device | `adb devices` | Start AVD and wait for boot |
 | Device unauthorized | Device's USB authorization prompt | Authorize your intended test machine/device |
 | Device offline | Device Manager and adb status | Investigate device boot/connection before running tests |
@@ -38,9 +39,15 @@ Do not repeatedly wipe emulator data as a first response. It changes state and c
 | Switch test passes alone only | Was off-state established, or inherited from another case? |
 | Success dialog blocks next case | Did the scenario close it? Did restart setup run? |
 | Chai assertion fails immediately | Chai checks once; use a bounded condition wait where asynchronous state is expected |
+| Cleared Login field reports `Email`/`Password` | Android may expose hint text; use the inspected empty-field getters, not equality with `''` |
+| Attribute exists in XML but its direct read fails | Driver attribute APIs can differ from XML source; the Login hint getters use a justified narrow XPath |
+| Permission dialog never appears | Check existing grants and `autoGrantPermissions`; disabling the capability alone does not revoke permission |
+| State disappears during a retention test | Check whether your own restart/reset ran between the states being compared |
 | All tests skipped | Check grep/spec filters and spelling; “zero failures” with no executed tests proves little |
 
-The shared failure hooks try to save a screenshot and page XML for failed tests and setup hooks. Files are under `logs/` with a `FAILED_` prefix and unique run information. The server writes `logs/wdio-appium.log`. Capture errors warn without replacing the primary failure.
+The shared failure hooks try to save a screenshot and page XML for failed tests and setup hooks; dynamically skipped tests do not generate false failure artifacts. Files are under `logs/` with a `FAILED_` prefix and unique run information. The server writes `logs/wdio-appium.log`. Capture errors warn without replacing the primary failure.
+
+If instrumentation stops or the session becomes invalid, inspect ADB connectivity and the earliest Appium/device error before changing a locator. A failed screenshot request after session death is secondary evidence. For app-crash triage, the [debugging lesson](../lessons/10-debugging.md) shows a bounded Logcat read; identify whether the failed process belongs to the app, UiAutomator2, or the emulator.
 
 Use [the report template](templates.md) to keep hypotheses separate from observations.
 
@@ -53,6 +60,8 @@ Use [the report template](templates.md) to keep hypotheses separate from observa
 - **Native run works, WebView fails:** context discovery and ChromeDriver compatibility are separate from native automation.
 
 `npm run preflight -- --cloud` checks relevant local inputs without creating a remote session. A successful preflight is not a cloud test pass.
+
+Limit the spec files as well as the Mocha grep for a small paid experiment. A filter selecting one test can still leave other spec files scheduled, depending on runner behavior. Confirm the dashboard's actual session count.
 
 ## Dependency audit findings
 

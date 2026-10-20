@@ -18,13 +18,16 @@ test('permits success on the final allowed observation', async () => {
 })
 test('stops at the limit and includes the last actual value', async () => {
     let calls = 0
-    const error = await failureOf(() => waitForValue(async () => { calls++; return 'loading' }, 'ready', 2))
+    const error = await failureOf(() => waitForValue(async () => {
+        calls++
+        return calls === 1 ? 'starting' : 'loading'
+    }, 'ready', 2))
     expect(calls).to.equal(2)
     expect(error).to.be.instanceOf(Error)
     expect((error as Error).message).to.include('ready').and.include('loading')
 })
 test('rejects invalid limits before calling read', async () => {
-    for (const attempts of [0, -1, 1.5]) {
+    for (const attempts of [0, -1, 1.5, NaN, Infinity]) {
         let calls = 0
         const error = await failureOf(() => waitForValue(async () => { calls++; return '' }, '', attempts))
         expect(calls).to.equal(0)
@@ -33,5 +36,7 @@ test('rejects invalid limits before calling read', async () => {
 })
 test('does not swallow a broken transport', async () => {
     const original = new Error('device disconnected')
-    expect(await failureOf(() => waitForValue(async () => { throw original }, '', 2))).to.equal(original)
+    let calls = 0
+    expect(await failureOf(() => waitForValue(async () => { calls++; throw original }, '', 2))).to.equal(original)
+    expect(calls).to.equal(1, 'A failed transport must not be retried')
 })

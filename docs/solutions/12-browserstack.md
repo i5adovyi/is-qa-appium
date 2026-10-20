@@ -18,6 +18,8 @@ Read the current config rather than memorizing provider examples:
 
 The remote device cannot open a path on your laptop. The service uploads the app, then configures the remote run to use the uploaded artifact. A cloud configuration without local Appium service is intentional.
 
+The starter's diagnostics are specific: `bstack:options.debug` is `true`, `networkLogs` is `false`, and service options disable Test Observability and Percy. Those choices do not prove which artifacts a particular account ultimately provides; inspect the resulting session. Neither local nor cloud `autoGrantPermissions: true` tests the permission prompt flow.
+
 ## 12-B · Risk-based device matrix
 
 An example **design**, not a verified provider inventory:
@@ -31,6 +33,8 @@ An example **design**, not a verified provider inventory:
 Use actual product analytics to improve those choices. Verify available exact device/OS combinations in the provider before execution.
 
 Four files × three devices can create twelve spec/device sessions under the normal separate-file execution model. With one concurrent worker these run serially. Session setup and teardown can dominate a small suite's runtime. Record actual worker/session behavior because grouping or runner settings can change the count.
+
+Use file selection as well as test-title filtering for a small first run. A grep that executes one test is not by itself proof that only one remote session was created.
 
 ## 12-C · Keyboard failure
 

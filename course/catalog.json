@@ -29,6 +29,7 @@
     { "title": "Offline TypeScript labs", "path": "exercises/README.md" },
     { "title": "Setup manual", "path": "docs/handbook/setup.md" },
     { "title": "Troubleshooting playbook", "path": "docs/handbook/troubleshooting.md" },
+    { "title": "Permissions & app lifecycle", "path": "docs/handbook/mobile-state.md" },
     { "title": "Glossary", "path": "docs/handbook/glossary.md" },
     { "title": "Review checklist", "path": "docs/handbook/review-checklist.md" },
     { "title": "Study plans", "path": "docs/handbook/study-plans.md" },

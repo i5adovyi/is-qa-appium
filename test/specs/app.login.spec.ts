@@ -36,9 +36,16 @@ describe('Login form', () => {
         // First prove that clearFields removes actual text, not an already empty value.
         await LoginScreen.email.setValue('learner@example.com')
         await LoginScreen.password.setValue('Practice123!')
+        await LoginScreen.emptyEmail.waitForExist({ reverse: true })
+        await LoginScreen.emptyPassword.waitForExist({ reverse: true })
+        expect(await LoginScreen.emptyEmail.isExisting()).to.be.false
+        expect(await LoginScreen.emptyPassword.isExisting()).to.be.false
+
         await LoginScreen.clearFields()
 
         // Empty Android fields expose hint text; these selectors check the XML hint flag.
+        await LoginScreen.emptyEmail.waitForExist()
+        await LoginScreen.emptyPassword.waitForExist()
         expect(await LoginScreen.emptyEmail.isExisting()).to.be.true
         expect(await LoginScreen.emptyPassword.isExisting()).to.be.true
         expect(await LoginScreen.emailError.isExisting()).to.be.false

@@ -1,7 +1,7 @@
 # 10 · Debugging from evidence
 
 **Stage:** Diagnose and explain\
-**Time:** 90–120 minutes\
+**Estimated time:** 90–120 minutes\
 **Prerequisites:** Lesson 09; a passing local baseline.\
 **Outcome:** Classify failures, run a controlled experiment, and write a report another person can reproduce.
 
@@ -30,6 +30,18 @@ In your working copy, temporarily change a Forms expectation from the entered te
 Compare that with “Appium is flaky.” The detailed report ties a claim to an observation and avoids blaming infrastructure when it worked.
 
 The failure hook in `config/wdio.shared.conf.ts` writes evidence under `logs/`. Inspect the actual files produced by your run; diagnostic availability depends on a usable session. A dead session may prevent a screenshot even when text logs exist.
+
+### A device disappearing is not an element failure
+
+If you see `invalid session id`, UiAutomator2 instrumentation stopping, or the emulator process exiting, stop interpreting the last screenshot as proof of a product defect. Confirm the device remains connected with `adb devices`, retain the first Appium/instrumentation error, and reproduce only after the session is healthy. A screenshot command failing afterward is a consequence, not necessarily the cause.
+
+For a reproducible app crash on a dedicated test emulator, collect a bounded recent device log without clearing existing evidence:
+
+```bash
+adb -s emulator-5554 logcat -d -t 300
+```
+
+Replace the serial with your actual `adb devices` value. This reads device-wide output, which can include unrelated apps and entered data; keep only the relevant redacted excerpt when sharing. An `AndroidRuntime` fatal error for the demo process is different evidence from a UiAutomator2 process or emulator failure. If the device is gone, record that the log could not be retrieved. [Android Logcat command-line reference](https://developer.android.com/tools/logcat).
 
 ## Guided lab
 

@@ -62,19 +62,25 @@ The table follows the supplied reference file. Adding your own tests will move l
 | 36 | Preparation comment | Explains why the test first puts real text into the fields |
 | 37 | Set email to `learner@example.com` | Establishes nonempty email input |
 | 38 | Set password to `Practice123!` | Establishes nonempty password input |
-| 39 | `await LoginScreen.clearFields()` | Clears both controls explicitly |
-| 41 | Android placeholder comment | Explains why an empty input can still expose placeholder text |
-| 42 | Check `LoginScreen.emptyEmail.isExisting()` | Requires the email control with `showing-hint="true"` in the native hierarchy |
-| 43 | Check `LoginScreen.emptyPassword.isExisting()` | Requires the password control with `showing-hint="true"` in the native hierarchy |
-| 44 | Email error must not exist | Rejects stale email validation before submission |
-| 45 | Password error must not exist | Rejects stale password validation before submission |
-| 47 | `await LoginScreen.submit()` | Submits the now-empty fields |
-| 49 | Wait for email error | Synchronizes with validation after the submit |
-| 50 | Wait for password error | Synchronizes with the second validation message |
-| 51 | Assert exact email message | Checks `Please enter a valid email address` |
-| 52 | Assert exact password message | Checks `Please enter at least 8 characters` |
-| 53 | `})` | Closes the empty-fields test |
-| 54 | `})` | Closes the Login suite |
+| 39 | `emptyEmail.waitForExist({ reverse: true })` | Waits until the email no longer matches the empty-hint condition |
+| 40 | `emptyPassword.waitForExist({ reverse: true })` | Waits until the password no longer matches the empty-hint condition |
+| 41 | Empty email match must not exist | Checks the populated precondition before clearing |
+| 42 | Empty password match must not exist | Checks the other field's populated precondition |
+| 44 | `await LoginScreen.clearFields()` | Clears both controls explicitly |
+| 46 | Android placeholder comment | Explains why an empty input can still expose placeholder text |
+| 47 | `emptyEmail.waitForExist()` | Waits for the inspected email empty-state match |
+| 48 | `emptyPassword.waitForExist()` | Waits for the inspected password empty-state match |
+| 49 | Check `LoginScreen.emptyEmail.isExisting()` | Requires the email control with `showing-hint="true"` in the native hierarchy |
+| 50 | Check `LoginScreen.emptyPassword.isExisting()` | Requires the password control with `showing-hint="true"` in the native hierarchy |
+| 51 | Email error must not exist | Rejects stale email validation before submission |
+| 52 | Password error must not exist | Rejects stale password validation before submission |
+| 54 | `await LoginScreen.submit()` | Submits the now-empty fields |
+| 56 | Wait for email error | Synchronizes with validation after the submit |
+| 57 | Wait for password error | Synchronizes with the second validation message |
+| 58 | Assert exact email message | Checks `Please enter a valid email address` |
+| 59 | Assert exact password message | Checks `Please enter at least 8 characters` |
+| 60 | `})` | Closes the empty-fields test |
+| 61 | `})` | Closes the Login suite |
 
 Blank lines only separate ideas. The restart resets this demo's in-memory state; `beforeEach` does not erase app data merely because of its name.
 
@@ -123,6 +129,8 @@ get emptyEmail() {
 
 The password getter uses the same expression with `input-password`. Each XPath combines the control's existing accessibility identity with the required hint state. It does not depend on positions in a chain of layout containers.
 
+Before clearing, the test waits for these empty-state matches to disappear and asserts that they are absent. After clearing, it waits for them to exist and asserts that they are present. `reverse: true` reverses the wait's condition; it does not delete the field or change its value. Because these selectors include a **state condition**, “no match” here means the field does not match that empty-state query, not necessarily that the input control is absent. The preceding successful input commands identify the controls being exercised.
+
 The installed driver exposed `showing-hint="true"` in its XML source but rejected a direct `getAttribute('showing-hint')` command. The getters use that observed XML state instead. This is an evidence-based, narrow exception to our usual accessibility-ID lookup: accessibility ID alone identifies the field but cannot express the hint-state condition.
 
 UiAutomator2 documents the hint flag for Android API 26 and later. These getters are Android-specific and depend on the controls having placeholders and the flag being present in the hierarchy. Verify those conditions when changing the app or driver. `isExisting()` returns a boolean, which explains `.to.be.true` in the spec. [UiAutomator2 element attributes](https://github.com/appium/appium-uiautomator2-driver).
@@ -140,7 +148,7 @@ npm run test:login -- --mochaOpts.grep "empty fields"
 
 Read it as five phases:
 
-1. **Establish:** put nonempty text in both fields.
+1. **Establish:** put nonempty text in both fields and verify that neither matches its empty state.
 2. **Clear:** explicitly clear both fields.
 3. **Prove the starting state:** fields empty, no old validation errors.
 4. **Act:** submit.
@@ -158,6 +166,8 @@ For the exercises, add new `it` blocks inside the Login suite. They inherit the 
 
 Add `should reject an empty email with a valid password`. Establish an empty email, enter `Practice123!` as the password, submit, and require the exact email validation message. Require that the password validation message is absent.
 
+Before submission, check the email's inspected empty-state getter so the intended input is observable. Keep both old validation errors absent as in the reference test.
+
 Run:
 
 ```bash
@@ -174,6 +184,12 @@ Use `clearFields()` to establish emptiness and then fill only the password. Wait
 ### 07-B · Valid email, empty password
 
 Add `should reject an empty password with a valid email`. Enter `learner@example.com` in an otherwise empty form. Submit, verify the exact password message, and require that the email message is absent.
+
+Before submission, check the password's inspected empty-state getter. Run the case alone with:
+
+```bash
+npm run test:login -- --mochaOpts.grep "empty password with a valid email"
+```
 
 Compare it with 07-A: explain why two isolated cases reveal more than one case where both fields are invalid.
 
@@ -193,6 +209,12 @@ The demo's displayed requirement says at least eight characters. Add two separat
 
 Explain what these two cases tell you and why they are not a password-security test.
 
+Give the cases the titles used in the solution—`should reject a seven-character password` and `should accept an eight-character password in the demo`—or adjust this filter to your own titles:
+
+```bash
+npm run test:login -- --mochaOpts.grep "seven-character|eight-character"
+```
+
 <details><summary>Hint</summary>
 
 The values differ only at the boundary. Reuse the existing successful-alert pattern for the accepted case. Keep all data synthetic.
@@ -208,5 +230,7 @@ The values differ only at the boundary. Reuse the existing successful-alert patt
 - What additional evidence would real authentication testing require?
 
 **Stage exit:** You can explain the full spec, write isolated negative cases, and show a passing `npm run test:login` with your additions.
+
+The two empty-field exercises produce one case each; the boundary exercise produces two. Keeping the three reference cases gives seven Login tests. The result count is a scope check, not a quality score. Confirm each intended name appears, then record any failures and their evidence.
 
 [Model answers](../solutions/07-login.md) · [Next: 08 · Test data](08-test-data.md)

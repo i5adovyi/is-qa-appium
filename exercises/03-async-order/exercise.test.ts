@@ -29,17 +29,19 @@ test('propagates the original error and never submits after a failure', async ()
 })
 test('does not fill when opening fails', async () => {
     let filled = false
+    let submitted = false
     const original = new Error('screen missing')
     let caught: unknown
     try {
         await runLogin({
             open: async () => { throw original },
             fill: async () => { filled = true },
-            submit: async () => {},
+            submit: async () => { submitted = true },
         })
     } catch (error) { caught = error }
     expect(caught).to.equal(original)
     expect(filled).to.equal(false)
+    expect(submitted).to.equal(false)
 })
 test('does not resolve while submission is still pending', async () => {
     let release!: () => void

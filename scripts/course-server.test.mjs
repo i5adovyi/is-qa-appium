@@ -24,17 +24,27 @@ before(async () => {
     })
 })
 after(() => { server?.kill('SIGTERM') })
-test('serves the dashboard and all sixteen lessons in the catalog', async () => {
+test('serves the dashboard, every lesson, matching solutions, and the whole library', async () => {
     const response = await fetch(origin)
     assert.equal(response.status, 200)
     assert.match(await response.text(), /Mobile Automation Lab/)
     assert.match(response.headers.get('content-security-policy'), /frame-ancestors 'none'/)
     const catalog = await (await fetch(`${origin}/api/catalog`)).json()
     assert.equal(catalog.lessons.length, 16)
-    for (const lesson of catalog.lessons) {
-        const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(lesson.path)}`)
-        assert.equal(page.status, 200, lesson.path)
-        assert.match((await page.json()).html, /<h1>/, lesson.path)
+    const pages = [...catalog.lessons.map(lesson => lesson.path),
+        ...catalog.lessons.map(lesson => lesson.path.replace('/lessons/', '/solutions/')),
+        ...catalog.library.map(item => item.path)]
+    for (const path of pages) {
+        const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(path)}`)
+        assert.equal(page.status, 200, path)
+        assert.match((await page.json()).html, /<h1>/, path)
+    }
+})
+test('serves both reader modules as JavaScript', async () => {
+    for (const asset of ['app.js', 'progress.js']) {
+        const response = await fetch(`${origin}/${asset}`)
+        assert.equal(response.status, 200, asset)
+        assert.match(response.headers.get('content-type'), /text\/javascript/)
     }
 })
 test('reads approved source as escaped code', async () => {

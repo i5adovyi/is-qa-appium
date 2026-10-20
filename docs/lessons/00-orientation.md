@@ -10,6 +10,16 @@
 - Distinguish a test scenario, a selector, an assertion, and a capability.
 - Explain what a passing demo test proves—and what it does not prove.
 
+## Before your first command
+
+The **repository** is this project's folder and files. Its **root** is the folder containing `package.json`, `config/`, and `test/`. Open that folder in your editor, then open an integrated terminal there. A command such as `npm run typecheck` runs in the terminal's current folder, not automatically in whichever source file you are reading.
+
+Paths in lessons are relative to that root: `test/specs/app.forms.spec.ts` means open `test`, then `specs`, then the named file. Code blocks marked `ts` are TypeScript to read or put in a file as directed; blocks marked `bash` are shell commands. Copy commands without the terminal prompt. Press Enter after each command and wait for its result before starting the next.
+
+The command examples use macOS/Linux shell syntax. Windows setup and PowerShell equivalents are in [the setup manual](../handbook/setup.md). You can read this lesson before installing anything. Lessons 02 and 03 also offer device-free practice once Node and dependencies are ready.
+
+Open [the learning journal](../learning-journal.md) to record your own attempts. The supplied reference tests are examples to study; [the verification record](../validation.md) identifies what was executed. The exercises ask you to reconstruct or extend those examples. An intentionally unfinished offline starter is expected to fail until you implement it.
+
 ## The job you are learning
 
 Imagine a release candidate of a shopping app. A tester can install it, enter a delivery address, submit the form, and check the confirmation. An automated test performs specified actions and checks selected observations. It cannot decide whether the whole shopping experience is good unless someone translates those concerns into useful checks.
@@ -83,7 +93,7 @@ npm run
 npm run typecheck
 ```
 
-The last command checks TypeScript. It does not launch an emulator and does not prove the UI behaves correctly. If dependencies are missing, stop here and complete [lesson 01](01-toolchain.md).
+`pwd` prints the current directory. `npm run` lists this project's named scripts from `package.json`; it does not run all of them. The final command checks TypeScript. It does not launch an emulator and does not prove the UI behaves correctly. If Node or dependencies are missing, continue with [lesson 01](01-toolchain.md) instead of repeatedly retrying the failed command.
 
 Open these files in order:
 
@@ -93,6 +103,8 @@ Open these files in order:
 4. [wdio.shared.conf.ts](../../config/wdio.shared.conf.ts): how specs, timeouts, and reporting are configured.
 
 Create a personal learning journal anywhere convenient. For each lesson record the command, expected outcome, observed outcome, and one thing you can now explain. Never include access keys or personal credentials.
+
+Reading the examples is the first pass. To show learning, make a prediction, run the smallest relevant check, and explain any difference. Keep “I read it,” “I ran it,” and “I can write it unaided” as separate milestones.
 
 ## Exercises
 

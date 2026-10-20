@@ -1,20 +1,17 @@
-'use strict'
+import { parseProgress, mergeProgress } from './progress.js'
+
 const $ = selector => document.querySelector(selector)
 const storageKey = 'mobile-automation-lab-v1'
 let catalog, currentLesson, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
-try {
-    const saved = JSON.parse(localStorage.getItem(storageKey))
-    if (saved && Array.isArray(saved.completed) && saved.notes && typeof saved.notes === 'object') progress = saved
-} catch {}
 function toast(message) {
     $('#toast').textContent = message
     $('#toast').hidden = false
     setTimeout(() => { $('#toast').hidden = true }, 3000)
 }
 function save() {
-    try { localStorage.setItem(storageKey, JSON.stringify(progress)) }
-    catch { toast('Browser storage is unavailable. Export your progress before leaving.') }
+    try { localStorage.setItem(storageKey, JSON.stringify(progress)); return true }
+    catch { toast('Browser storage is unavailable. Export your progress before leaving.'); return false }
 }
 function node(tag, className, text) {
     const element = document.createElement(tag)
@@ -41,7 +38,7 @@ function refresh() {
         for (const lesson of catalog.lessons.filter(item => item.stage === stage.id)) {
             const item = link('', lesson.path, 'nav-lesson')
             item.append(node('span', 'nav-number', progress.completed.includes(lesson.id) ? '✓' : lesson.id), node('span', '', lesson.title))
-            if (lesson.path === decodeURIComponent(location.hash.slice(1))) {
+            if (lesson.path === currentLesson?.path) {
                 item.classList.add('active')
                 item.setAttribute('aria-current', 'page')
             }
@@ -50,7 +47,7 @@ function refresh() {
     }
     const query = $('#search').value.toLowerCase().trim()
     const visible = catalog.lessons.filter(lesson => (activeStage === 'all' || lesson.stage === activeStage)
-        && `${lesson.title} ${lesson.subtitle}`.toLowerCase().includes(query))
+        && `${lesson.id} ${lesson.title} ${lesson.subtitle}`.toLowerCase().includes(query))
     const grid = $('#lesson-grid')
     grid.replaceChildren()
     for (const lesson of visible) {
@@ -82,10 +79,7 @@ function safeContent(html, page) {
     template.content.querySelectorAll('a[href]').forEach(anchor => {
         const href = anchor.getAttribute('href')
         if (href.startsWith('#')) {
-            anchor.addEventListener('click', event => {
-                event.preventDefault()
-                document.getElementById(decodeURIComponent(href.slice(1)))?.scrollIntoView()
-            })
+            anchor.href = `#${page}${href}`
             return
         }
         const resolved = new URL(href, `${location.origin}/${page}`)
@@ -93,7 +87,7 @@ function safeContent(html, page) {
             anchor.removeAttribute('href')
         } else if (resolved.origin === location.origin) {
             const target = decodeURIComponent(resolved.pathname.slice(1))
-            anchor.href = `#${target}`
+            anchor.href = `#${target}${resolved.hash}`
         } else {
             anchor.href = resolved.href
             anchor.target = '_blank'
@@ -114,8 +108,19 @@ function safeContent(html, page) {
 }
 async function route() {
     const requestId = ++renderId
-    const page = decodeURIComponent(location.hash.slice(1)) || 'home'
+    let page, section
     $('#error').hidden = true
+    try {
+        const [rawPage, rawSection = ''] = location.hash.slice(1).split('#')
+        page = decodeURIComponent(rawPage) || 'home'
+        section = decodeURIComponent(rawSection)
+    } catch {
+        $('#dashboard').hidden = true
+        $('#reader').hidden = true
+        $('#error').hidden = false
+        $('#error').textContent = 'This course link is malformed. Use the Learning dashboard link to continue.'
+        return
+    }
     $('#dashboard').hidden = page !== 'home'
     $('#reader').hidden = page === 'home'
     currentLesson = catalog.lessons.find(lesson => lesson.path === page)
@@ -143,7 +148,13 @@ async function route() {
             $('#next-lesson').textContent = index === 15 ? 'Back to the path →' : 'Next lesson →'
             $('#solution-link').href = `#${page.replace('/lessons/', '/solutions/')}`
         }
-        window.scrollTo({ top: 0 })
+        const heading = (section && document.getElementById(section)) || $('#article h1')
+        if (heading) {
+            heading.tabIndex = -1
+            heading.focus({ preventScroll: true })
+        }
+        if (section && heading) heading.scrollIntoView()
+        else window.scrollTo({ top: 0 })
     } catch (error) {
         if (requestId !== renderId) return
         $('#article').replaceChildren()
@@ -155,13 +166,18 @@ async function init() {
     const response = await fetch('/api/catalog')
     if (!response.ok) throw new Error('Course catalog is unavailable')
     catalog = await response.json()
+    const lessonIds = catalog.lessons.map(lesson => lesson.id)
+    try {
+        const saved = localStorage.getItem(storageKey)
+        if (saved) progress = parseProgress(JSON.parse(saved), lessonIds)
+    } catch {
+        toast('Saved progress could not be read. Import a backup to restore it.')
+    }
     $('.skip-link').addEventListener('click', event => {
         event.preventDefault()
         $('#main').focus()
         $('#main').scrollIntoView()
     })
-    const knownIds = new Set(catalog.lessons.map(lesson => lesson.id))
-    progress.completed = [...new Set(progress.completed)].filter(id => knownIds.has(id))
     const stages = [{ id: 'all', title: 'All stages' }, ...catalog.stages]
     for (const stage of stages) {
         const button = node('button', stage.id === 'all' ? 'tab selected' : 'tab', stage.title)
@@ -189,7 +205,7 @@ async function init() {
         if (currentLesson) { progress.notes[currentLesson.id] = event.target.value; save() }
     })
     $('#export-progress').addEventListener('click', () => {
-        const blob = new Blob([JSON.stringify({ course: catalog.title, exportedAt: new Date().toISOString(), ...progress }, null, 2)], { type: 'application/json' })
+        const blob = new Blob([JSON.stringify({ schemaVersion: 1, course: catalog.title, exportedAt: new Date().toISOString(), ...progress }, null, 2)], { type: 'application/json' })
         const url = URL.createObjectURL(blob)
         const download = document.createElement('a')
         download.href = url
@@ -197,6 +213,24 @@ async function init() {
         download.click()
         setTimeout(() => URL.revokeObjectURL(url), 1000)
         toast('Progress exported. Keep this file with your learning journal.')
+    })
+    $('#import-progress').addEventListener('click', () => $('#progress-file').click())
+    $('#progress-file').addEventListener('change', async event => {
+        const file = event.target.files[0]
+        if (!file) return
+        try {
+            const incoming = parseProgress(JSON.parse(await file.text()), lessonIds, true)
+            const merged = mergeProgress(progress, incoming, lessonIds)
+            progress = merged.progress
+            const saved = save()
+            await route()
+            toast(!saved ? 'Imported for this session. Storage is unavailable; export your progress before leaving.'
+                : merged.conflicts
+                ? `Progress merged. Kept ${merged.conflicts} existing note(s) that differed from the backup.`
+                : 'Progress imported. Existing notes and completed lessons were kept.')
+        } catch (error) {
+            toast(`Import failed: ${error.message}`)
+        } finally { event.target.value = '' }
     })
     window.addEventListener('hashchange', route)
     await route()

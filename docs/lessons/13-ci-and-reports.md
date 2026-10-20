@@ -1,7 +1,7 @@
 # 13 · CI and evidence a teammate can trust
 
 **Stage:** Deliver credible results\
-**Time:** 90–120 minutes\
+**Estimated time:** 90–120 minutes\
 **Prerequisites:** Lessons 10 and 12; basic Git concepts.\
 **Outcome:** Read a workflow, distinguish static checks from device execution, and retain useful failure evidence.
 
@@ -16,7 +16,7 @@ This repository separates its default CI checks from a manually dispatched Brows
 
 The manual cloud workflow avoids consuming account sessions merely because someone pushes a commit. Running it requires a hosted repository, configured secrets, and authorized App Automate access. The existence of a YAML file does not mean GitHub has executed it.
 
-The default workflow runs `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, and `course:test`. These check TypeScript, course structure, offline reference solutions, and the local reader server. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the Android suite remotely. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
+The default workflow runs `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, `framework:test`, and `course:test`. These check TypeScript, course structure, offline reference solutions, mocked framework regressions, and the local reader/server and progress-backup behavior. The mocked framework checks do not launch Appium or prove a device interaction. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the Android suite remotely. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
 
 ## Worked example: evidence belongs to a run
 
@@ -34,7 +34,7 @@ Limitations: BrowserStack not run; hybrid not evaluated
 
 Failure files under `logs/` include a sanitized test title plus uniqueness information, and may include `.png` screenshots and `.xml` page source. Test names should describe behavior without including secrets. Diagnostic capture is best effort: if the session dies, preserving the original failure is more valuable than throwing a replacement screenshot error.
 
-On GitHub Actions, an artifact step using `if: always()` can preserve logs after a failed command. Limit the upload path to intended diagnostic outputs and choose retention deliberately. See [GitHub workflow artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data).
+The current cloud workflow uses `if: failure()` to upload `logs/` only after failure, with `if-no-files-found: ignore`. Therefore a failed session setup may legitimately produce no artifact: the run's job log remains important. An alternative `if: always()` would also run after successful jobs; it is a policy choice, not the current configuration. Limit paths to intended diagnostic outputs and choose retention deliberately. See [GitHub workflow artifacts](https://docs.github.com/en/actions/tutorials/store-and-share-data).
 
 ## Guided lab
 
@@ -47,9 +47,13 @@ On GitHub Actions, an artifact step using `if: always()` can preserve logs after
    npm run test:smoke
    ```
 
+   `npm run check` includes the source/course/reference-solution checks plus `framework:test`. `course:test` is a separate reader test suite. `test:smoke` is the device run. These commands answer different questions even when all report success.
+
 3. Compare the commands in the default workflow with the commands you ran. Write which evidence requires an emulator.
 4. If you own a GitHub repository for this project, configure its BrowserStack secrets through GitHub settings, not committed YAML. Read [GitHub's secrets guidance](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets).
 5. Dispatch cloud execution only when you intend to use the account. Otherwise complete a workflow review and mark hosted execution “not run.”
+
+For any hosted claim, retain the run URL and commit, verify the expected job actually ran, and check executed test counts. A skipped cloud job (for example, dispatch confirmation not equal to `RUN`) is not a passing mobile run. Environment secrets are unavailable in some untrusted contribution contexts; do not change workflow security boundaries merely to make a fork run cloud tests.
 
 ## Exercises
 

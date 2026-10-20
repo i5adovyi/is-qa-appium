@@ -26,6 +26,8 @@ The extra field waits make the assertion's timing explicit. Waiting for the scre
 
 The shared `beforeEach` already calls `restartDemoApp()`. Do not put one test inside another or open Login before the Forms test in order to “prepare” the suite. Each test should establish its own required starting state.
 
+The supplied smoke spec also now imports and calls `restartDemoApp()` in its own `beforeEach`. A new test does not inherit setup from another spec file; the practice file explicitly declares its own hook.
+
 **Common pitfalls:** Forgetting the import; naming the test so the suggested grep selects nothing; reading an element's presence as proof that submitting the form works.
 
 ## 04-B · A controlled failure
@@ -69,6 +71,8 @@ One defensible rationale:
 > The launch smoke checks that navigation is present. The Forms navigation smoke adds evidence that the app can open a second screen and render an input. It still does not prove typing, clearing, or every navigation route. I will retain it only if that route is important to deciding whether a larger suite can run.
 
 Removing it as redundant is also defensible if you explain the cost and overlap. Good suite design is selective.
+
+Check the reporter's executed names. A misspelled `grep` pattern that selects no cases is not a successful test of the feature. The explicit `--spec` command restricts this exercise to the practice file; the project-wide `test:smoke` command can select tagged tests in other specs too.
 
 **Common pitfalls:** Assuming a tag changes device capabilities; claiming a green smoke suite proves a release is bug-free; placing every test in smoke until the fast signal is lost.
 

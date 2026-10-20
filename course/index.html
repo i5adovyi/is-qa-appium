@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Mobile Automation Lab</title>
   <link rel="stylesheet" href="/style.css">
-  <script src="/app.js" defer></script>
+  <script src="/app.js" type="module"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -19,7 +19,11 @@
   <div class="workspace">
     <header class="topbar">
       <span class="edition">ANDROID FIRST <span>/</span> TYPESCRIPT · APPIUM · CHAI</span>
-      <button id="export-progress" class="quiet-button">Export progress</button>
+      <div class="progress-actions">
+        <button id="import-progress" class="quiet-button">Import progress</button>
+        <button id="export-progress" class="quiet-button">Export progress</button>
+        <input id="progress-file" type="file" accept=".json,application/json" aria-label="Choose a progress backup" hidden>
+      </div>
     </header>
     <main id="main" tabindex="-1">
       <div id="dashboard">

@@ -1,7 +1,7 @@
 # 08 · Test data that tells a story
 
 **Stage:** Build a maintainable suite\
-**Time:** 75–100 minutes\
+**Estimated time:** 75–100 minutes\
 **Prerequisites:** You can explain the Login spec, write a Chai assertion, and run `npm run test:login`.\
 **Outcome:** Choose meaningful inputs, give each case its own result, and keep test data separate from account secrets.
 
@@ -54,27 +54,44 @@ export const invalidLoginCases: InvalidLoginCase[] = [
 ]
 ```
 
-Put the loop inside a `describe`, alongside a `beforeEach` that opens and resets Login:
+Put the loop inside the existing Login `describe`, which already restarts the demo, opens Login, and selects the internal Login tab. These are new learner cases, not code already shipped in the baseline:
 
 ```ts
 for (const sample of invalidLoginCases) {
     it(`rejects ${sample.name}`, async () => {
-        await LoginScreen.login(sample.email, sample.password)
+        await LoginScreen.clearFields()
+        if (sample.email !== '') await LoginScreen.email.setValue(sample.email)
+        if (sample.password !== '') await LoginScreen.password.setValue(sample.password)
+        expect(await LoginScreen.emailError.isExisting()).to.be.false
+        expect(await LoginScreen.passwordError.isExisting()).to.be.false
+
+        await LoginScreen.submit()
+
         if (sample.emailError) {
             await LoginScreen.emailError.waitForDisplayed()
+            expect(await LoginScreen.emailError.getText())
+                .to.equal('Please enter a valid email address')
         }
         if (sample.passwordError) {
             await LoginScreen.passwordError.waitForDisplayed()
+            expect(await LoginScreen.passwordError.getText())
+                .to.equal('Please enter at least 8 characters')
         }
-        expect(await LoginScreen.emailError.isDisplayed())
-            .to.equal(sample.emailError)
-        expect(await LoginScreen.passwordError.isDisplayed())
-            .to.equal(sample.passwordError)
+        if (!sample.emailError) {
+            expect(await LoginScreen.emailError.isExisting()).to.be.false
+        }
+        if (!sample.passwordError) {
+            expect(await LoginScreen.passwordError.isExisting()).to.be.false
+        }
     })
 }
 ```
 
 The synchronous `for` registers tests before execution. Each `it` awaits its own device operations. Do not use `forEach(async …)` to drive a device; overlapping input operations make the result unpredictable. Clear the starting state before each test, particularly when asserting that an old error is absent.
+
+The table contains only invalid cases, so every row must expect at least one error. The positive wait provides evidence that submission produced validation before the absence checks. This is sufficient for this demo's local validation; a real form with asynchronous checks may need a distinct “validation complete” signal. An absence check made too early can pass before an unwanted message appears.
+
+An empty string means an explicit clear action here. A string of spaces is different test data and must reach the app unchanged. Do not silently trim every negative test input through a fixture factory.
 
 ## Guided lab
 

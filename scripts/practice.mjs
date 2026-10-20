@@ -27,6 +27,9 @@ if (!chosen.length || args.filter(arg => arg !== '--solutions').length > 1) {
     process.exit(2)
 }
 const testFiles = chosen.map(([id, name]) => path.join(root, 'exercises', `${id}-${name}`, 'exercise.test.ts'))
+console.log(solutions
+    ? '\nChecking supplied reference solutions. This does not grade your starter.ts files.\n'
+    : `\nChecking your starter.ts files for lab(s): ${chosen.map(([id]) => id).join(', ')}. Initial failures are expected until you implement them.\n`)
 const result = spawnSync(process.execPath, ['--test', ...testFiles], {
     cwd: root,
     stdio: 'inherit',

@@ -18,6 +18,8 @@ it('should replace the previous input', async () => {
 
 The second check rejects a stale `First value`, concatenated `First valueSecond value`, a truncated value, and extra whitespace. The first check proves the field actually contained meaningful previous input.
 
+More precisely, the asserted observation is the separate echo label. It shows that the app reported the first input before replacement. This scenario does not independently inspect every editable-field attribute.
+
 Using variables for the two strings is also valid and usually useful when the data is longer.
 
 **Common pitfalls:** Using `addValue` when replacement is the requirement; checking only the final value; asserting that the result merely “contains” `Second value`, which would allow unwanted concatenation.
@@ -82,5 +84,7 @@ This scenario observes the label changes tied to taps. It does not independently
 - The empty string has no characters; one space is input data.
 - Process restart does not necessarily erase persistent storage or invalidate a server session.
 - Concatenation suggests the operation appended or failed to replace existing text; inspect command intent and application behavior before changing the expectation.
+
+Use `--mochaOpts.grep` with one distinctive scenario title for an isolated run, then run `npm run test:forms`. Keep the original three cases: with all three exercises added, six Forms case names should be reported unless you intentionally changed the scope.
 
 [Back to lesson](../lessons/06-forms.md) · [Next lesson](../lessons/07-login.md)

@@ -58,6 +58,8 @@ try {
 
 The primary assertion remains the thrown failure; a second cleanup failure is reported separately. If cleanup fails after an otherwise successful body, the test fails because its state contract was not restored. In a real framework you may aggregate errors, but do not silently suppress them.
 
+**Common pitfalls:** assuming `contexts[1]` always selects the intended page; copying a native accessibility selector into web context; calling a cleanup failure a pass because the body passed; forgetting that code in `experiments/` needs different relative imports and explicit typecheck inclusion.
+
 After a successful switch back, verify a known native control in a separate successful-path check. An already failed assertion prevents ordinary later lines from running, so a deliberately failing test needs its cleanup observation inside the cleanup path or in recorded diagnostics.
 
 [Next lesson](../lessons/12-browserstack.md)

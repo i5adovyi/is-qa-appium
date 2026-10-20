@@ -39,6 +39,8 @@ it('should identify exactly one Forms input', async () => {
 
 This is a diagnostic exercise. Keeping dozens of count tests can create maintenance work without improving coverage of user behavior. Use uniqueness checks when ambiguity is a real risk.
 
+The snippet inherits the imports and restart hook from your navigation-practice file. If you keep this check after the exercise, move a reused selector into the screen object rather than maintaining several copies. The immediate count is meaningful here because the scenario has already waited for its intended input.
+
 **Common pitfalls:** Checking before navigation finishes; using `$` and assuming there can only be one match; solving ambiguity by choosing `[0]` without explaining why that index is stable.
 
 ## 05-C · A constructive review

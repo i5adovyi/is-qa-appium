@@ -1,7 +1,7 @@
 # 12 · Run the same scenario on a cloud device
 
 **Stage:** Deliver credible results\
-**Time:** 75–120 minutes; account setup time varies\
+**Estimated time:** 75–120 minutes; account setup time varies\
 **Prerequisites:** Passing local smoke suite; Lesson 10; BrowserStack App Automate access for execution.\
 **Outcome:** Explain configuration differences, protect credentials, and interpret one real cloud session.
 
@@ -53,11 +53,14 @@ Edit it locally and keep credentials out of terminal history. The username and a
 
 1. Run `npm run typecheck` and `npm run test:smoke` locally.
 2. Read `.env.example`, the BrowserStack config, and the `browserstack` service options.
-3. If you have authorized account access, enter credentials locally and run:
+3. If you have authorized account access, enter credentials locally. Check the inputs, then select only the Login spec's smoke case for the first remote run:
 
    ```bash
-   npm run test:bs -- --mochaOpts.grep @smoke
+   npm run preflight -- --cloud
+   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
    ```
+
+   `--spec` limits the files scheduled; `--mochaOpts.grep` limits tests within those files. Grep alone may still let the runner create workers/sessions for files with no matching tests. A preflight checks local inputs, not whether the account or requested device will be accepted by the provider.
 
 4. Locate the build and session in the App Automate dashboard. Record device, OS, test names, duration, and pass/fail outcome.
 5. Compare one action in the session log with one line in the Login test. Inspect video if available in your account.

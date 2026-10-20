@@ -2,7 +2,7 @@
 
 **Stage:** Foundation · **Estimated time:** 60–90 minutes on an existing setup; first downloads may add an hour · **Device needed:** Android emulator
 
-**Prerequisites:** [Lesson 00](00-orientation.md). This walkthrough uses macOS with zsh, Node 24, Android Studio, and the repository checked out locally.
+**Prerequisites:** [Lesson 00](00-orientation.md), with the repository open locally. This walkthrough uses macOS with zsh. If Node, Android Studio, the SDK, or a virtual device is not installed yet, follow [the setup manual](../handbook/setup.md) first; it includes macOS, Linux, and Windows instructions.
 
 **By the end you will be able to:**
 
@@ -48,7 +48,7 @@ On the prepared Mac, these environment values belong in `~/.zshrc`:
 ```bash
 export ANDROID_HOME="$HOME/Library/Android/sdk"
 export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
-export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$JAVA_HOME/bin"
 ```
 
 Verify the directories on your machine before adding them. Android Studio can be installed elsewhere, and an SDK can have a custom location. Preserve existing shell configuration instead of overwriting the file.
@@ -68,9 +68,11 @@ Expected evidence: nonempty paths, a working Java command, an ADB version, and a
 From the repository root:
 
 ```bash
-npm install
+npm ci
 npm run appium:doctor
 ```
+
+`npm ci` installs the dependency versions selected by the committed lockfile and requires it to agree with `package.json`. Use it for a fresh checkout. It replaces the dependency directory, so it is a setup step, not something to run before every test. Use `npm install` deliberately when changing dependencies, and review the resulting lockfile changes.
 
 If doctor reports the driver is missing, install it once:
 
@@ -102,9 +104,12 @@ For the introductory lessons, keep exactly one emulator/device connected. ADB sh
 ### 4. Run a cheap check, then the smoke suite
 
 ```bash
+npm run preflight
 npm run typecheck
 npm run test:smoke
 ```
+
+`preflight` checks this project's environment, APK, and selected Android target without starting a test. A failed preflight is a prerequisite issue; a passing one does not prove that any app behavior passed.
 
 The local WebdriverIO service starts Appium. Do not start a second Appium server on the same port for this run.
 
@@ -119,13 +124,15 @@ Record the Node version, device identity, command, and outcome. If it fails, pre
 | `appium:app` | APK path for the session | Source code of the app |
 | `appium:deviceName` | Device label in this local setup | Reliable selection among multiple connected devices |
 
-For multiple Android targets, explicit device selection needs additional configuration; do not learn parallel execution before you can explain one session.
+For multiple Android targets, the repository already accepts `ANDROID_UDID` in your local `.env`; use the exact serial from `adb devices`. Start with a single target rather than parallel execution. Do not overwrite an existing `.env` containing your configuration or credentials.
+
+If Android setup is blocked but Node 24 and dependencies work, continue with the device-free parts of lessons 02 and 03. Record the device blocker and return to the smoke run before lesson 04. “Not run” is an honest status, not a failed learning attempt.
 
 ## Exercises
 
 ### 01-A · Build a preflight record
 
-Run the prerequisite checks above and record seven facts: Node version, Node executable, SDK path, Java path, Java version, AVD name, and ADB state. Add a redacted smoke-run result.
+Run the prerequisite checks above and record seven facts: Node version, Node executable, SDK path, Java path, Java version, AVD name, and ADB state. Add the preflight result and a redacted smoke-run result.
 
 <details><summary>Hint</summary>
 

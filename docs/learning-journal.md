@@ -3,6 +3,13 @@
 Copy this template into your own notes for each lesson. Do not store real credentials,
 personal data, access tokens or confidential app screenshots here.
 
+In the course reader, notes are saved only in the current browser and origin.
+Use **Export progress** at the end of a session. **Import progress** restores that
+JSON backup by combining completed lessons and filling missing notes. If both copies
+have different nonempty notes for a lesson, the current browser's note is preserved;
+compare the backup manually before editing it. Progress records do not include your
+source-code changes: save those separately in Git.
+
 ## Session record
 
 - **Date / lesson / exercise ID:**

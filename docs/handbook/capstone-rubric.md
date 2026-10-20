@@ -4,8 +4,8 @@ Use this as a self-assessment or peer review, not a certification or hiring guar
 
 | Dimension | Points | Full-credit evidence | Partial-credit warning |
 |---|---:|---|---|
-| Test strategy | 15 | Scoped risks, six scenario candidates, justified four-scenario selection, clear exclusions | Scenario list without rationale |
-| Behavioral assertions | 20 | Four meaningful additions, at least two new behaviors, credible oracles, exact observable checks | Action-only tests or repeated ordinary data |
+| Test strategy | 15 | Scoped risks, six scenario candidates, justified four-scenario selection, clear exclusions, permission/interruption risk status | Scenario list without rationale |
+| Behavioral assertions | 20 | Four meaningful additions beyond the learner's current suite, at least two new behaviors, credible oracles, exact observable checks | Action-only tests or repeated ordinary data |
 | Independence and waits | 20 | Initial state owned, narrow/full runs agree, bounded observation waits, no hidden order dependency | Sleeps, blind toggles, retry-based repairs |
 | Code clarity | 15 | Focused screen actions, inspected selectors, typed fixtures where useful, readable names | Huge generic helpers or selectors scattered everywhere |
 | Diagnostics | 15 | Injected defect caught, evidence tied to run, useful report, restored green state | Screenshot without context or missing original error |

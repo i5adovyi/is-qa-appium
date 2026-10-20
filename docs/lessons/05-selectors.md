@@ -22,6 +22,8 @@ It claims that an element with accessibility ID `text-input` identifies the inpu
 
 The `~` is WebdriverIO's accessibility-ID selector prefix. It is not part of the actual ID. Platform support for a strategy does not guarantee that two app builds expose the same identifier. [WebdriverIO selector reference](https://webdriver.io/docs/selectors/).
 
+`$` and `$$` are globals supplied by this project's WebdriverIO runner. `$` creates a lookup for one element; `$$` obtains matching elements as a collection. An element object is a handle used to send commands—it is not the element's text. Call and await `getText()` when the observation you need is text.
+
 Here are selectors **already present in this Android project**:
 
 | Selector | Meaning | Main limitation |
@@ -61,6 +63,8 @@ Use the official [Appium Inspector](https://github.com/appium/appium-inspector) 
 6. Record each element's accessibility identifier and one relevant property. For the input, distinguish its current text from its identifier.
 7. End the Inspector session and stop its standalone Appium server with Ctrl+C before returning to npm tests.
 
+On Android, Inspector may show the accessibility label as `content-desc`; that is the value used after `~`. A `resource-id` is a different attribute. Record the actual attributes you see, and use Inspector's selector search to test your locator against the current screen. Do the inventory exercise while the inspection session is open, or reconnect to gather the remaining evidence.
+
 Inspector and the test runner should not compete to control the same device or bind the same server port.
 
 If Inspector is unavailable, complete the code-reading exercises now and mark the inspection evidence as pending. Reading a selector in code is not evidence that it matches the currently installed app.
@@ -80,6 +84,17 @@ get input() { return $('~text-input') }
 ```
 
 If the app changes that ID, you update one getter and rerun affected tests. Do not conceal assertion expectations inside a generic click helper; readers still need to see what the scenario claims.
+
+## Choose the observation as carefully as the selector
+
+| Question | Method | Important distinction |
+|---|---|---|
+| Is there a matching element in the hierarchy? | `isExisting()` | It may exist without being visible |
+| Is it displayed? | `isDisplayed()` | A snapshot observation is not a wait for a future state |
+| Wait until it is displayed | `waitForDisplayed()` | Throws if the condition does not arrive in time |
+| What text does this element expose? | `getText()` | Editable controls may expose placeholder text when empty |
+
+An element can be correctly identified and still be in the wrong state. Lesson 07 shows an inspected Android hint-state selector that distinguishes empty input from literal placeholder text. That targeted XPath is different from a brittle chain of numbered layout children.
 
 ## Exercises
 
@@ -120,6 +135,8 @@ npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practi
 </details>
 
 **Acceptance:** Count equals one in the intended state; your explanation distinguishes missing, unique, and ambiguous matches.
+
+This temporary diagnostic puts a selector directly in the spec so you can see what is being measured. Keep reusable production selectors in the screen object; remove the diagnostic or move the shared identifier there after the exercise.
 
 ### 05-C · Write a selector review
 

@@ -16,10 +16,12 @@ Theme: **Forms interaction quality with login recovery**.
 | Switch on, then explicitly off | Setter/postcondition regression | Add |
 | Dropdown selects a newly inspected option | Selection not reflected | Add after inspecting selectors and behavior |
 | Invalid login corrected to valid input | Stale validation prevents recovery | Add |
+| Forms draft across background/return | Interruption loses the user's work | Candidate only after stating the expected retention rule |
+| Permission-denial recovery | Feature fails without access | Designed only until an app with that feature is available |
 | Hybrid remote content | Context/network complexity | Separate optional exploration |
 | Real account authentication | Backend not present in demo | Explicitly out of scope |
 
-The dropdown and recovery cases add behaviors absent from the basic examples. If your baseline already includes one of these, select another genuine gap. Do not count renamed cases as additions.
+The dropdown and recovery cases add behaviors absent from the basic examples. If your current suite already includes one of these from an earlier lesson, select another genuine gap. Do not count renamed cases as additions. Permission/interruption planning can be valuable without claiming execution; retain explicit status for each risk.
 
 ## 15-B · Implementation example
 

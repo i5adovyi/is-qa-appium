@@ -37,6 +37,10 @@
 | Retry | Another attempt after failure | It does not repair a cause or erase the first failure |
 | Idempotent action | Repeating it has the same intended result as once | “Set switch off” differs from “toggle switch” |
 | Isolation | Each test owns the state it requires | A process restart may preserve stored/server data |
+| Runtime permission | Android grant required for certain protected features | Auto-granting it does not test deny/recovery behavior |
+| Lifecycle transition | Change such as foreground → background → foreground | Backgrounding differs from terminating or reinstalling an app |
+| Persistent state | Data intended to outlive a particular process or screen | A clean-looking screen does not prove storage was erased |
+| Instrumentation | Android automation code running to observe/control the app | Its crash is distinct from the app under test crashing |
 | Fixture | Reusable, controlled test data or setup | Fixtures should not contain real access keys |
 | Boundary value | Input at or near a rule's edge | Ordinary values often miss off-by-one mistakes |
 | Equivalence class | Inputs expected to behave similarly for a rule | Many values from one class may add little coverage |

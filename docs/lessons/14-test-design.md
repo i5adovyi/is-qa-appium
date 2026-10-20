@@ -1,7 +1,7 @@
 # 14 · Design tests that deserve to exist
 
 **Stage:** Deliver credible results\
-**Time:** 100–150 minutes\
+**Estimated time:** 100–150 minutes\
 **Prerequisites:** Lessons through 13; at least three tests you can explain unaided.\
 **Outcome:** Select coverage by risk, identify a test oracle, and turn exploration into focused automation.
 
@@ -18,10 +18,14 @@ An **oracle** is the basis for deciding whether a result is correct. The app's c
 | Empty submission gives no guidance | Submit empty fields; verify both messages | Mobile UI | Presence and placement belong to the user flow |
 | Password boundary implemented incorrectly | 7/8/9 characters | Unit/component if app code is available; selected UI checks here | Many combinations are cheaper below UI |
 | Keyboard prevents submission | Enter text, hide keyboard, submit | Mobile UI | Device interaction matters |
+| Permission denial makes a real feature unusable | Deny the feature's permission and check its specified fallback | Dedicated mobile scenario in an app with that feature | The baseline's automatic grants hide this branch |
+| A background interruption loses a draft | Populate, background/return, verify the agreed retention rule | Mobile lifecycle scenario | Per-test restart is setup, not interruption coverage |
 | Backend authenticates the wrong account | Contract/API tests plus selected end-to-end check | Not covered by this demo | Demo success is simulated |
 | Screen-reader experience is unusable | Accessibility assessment with assistive tech | Manual plus specialized checks | Accessibility IDs alone do not prove usability |
 
 The training repository has the test client and a packaged demo app, so many lower-level app tests cannot be added here. Recognize that architectural boundary instead of pretending UI automation replaces them.
+
+For your future work app, keep a short mobile risk inventory: permission denial/revocation, background/return, offline/reconnect, supported orientation/screen sizes, accessibility, and install/upgrade state. Classify each as relevant, not applicable, or needing product clarification. Do not automatically add one UI test for every category: first establish a real feature, an oracle, and a controllable environment. The [state field manual](../handbook/mobile-state.md) gives concrete permission and interruption design examples.
 
 ## Guided lab
 
@@ -58,6 +62,8 @@ Here it means the demo's input validation, not that the email address owns an ac
 Spend 20 minutes investigating form behavior when the keyboard opens, the screen changes, and the user returns. Record observations and questions before deciding which behavior to automate.
 
 **Acceptance:** a focused mission, a timebox, actual observations, at least one follow-up question, and one proposed automated check with a rationale.
+
+If the navigation behavior is already understood, use foreground → background → foreground as the state transition instead. Keep the same timebox and evidence requirements; do not infer persistence requirements from a single observed run.
 
 <details><summary>Hint 1 · A charter is a mission</summary>
 “Explore Forms state retention to discover surprising data loss or stale UI” is more focused than “test everything.”

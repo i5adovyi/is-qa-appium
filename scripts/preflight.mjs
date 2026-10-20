@@ -26,16 +26,27 @@ function check(ok, label, fix) {
 function run(command, args = []) {
     return spawnSync(command, args, { cwd: root, encoding: 'utf8', timeout: 20_000 })
 }
+function isDirectory(name) {
+    try { return Boolean(name && fs.statSync(name).isDirectory()) } catch { return false }
+}
+const executable = (name) => `${name}${process.platform === 'win32' ? '.exe' : ''}`
+
+console.log(`\nMobile automation preflight — ${cloud ? 'BrowserStack' : 'local Android'}\n`)
 try {
     process.loadEnvFile(path.join(root, '.env'))
 } catch (error) {
-    check(error.code === 'ENOENT', '.env readable (optional locally)', 'Check .env permissions and formatting; do not paste credentials into chat.')
+    if (error.code !== 'ENOENT') {
+        check(false, '.env readable', 'Check .env permissions and formatting; do not paste credentials into chat.')
+    }
 }
 
-console.log(`\nMobile automation preflight — ${cloud ? 'BrowserStack' : 'local Android'}\n`)
 check(Number(process.versions.node.split('.')[0]) === 24, `Node ${process.versions.node}`, 'Install/use Node 24. With nvm: nvm install && nvm use.')
 const appium = path.join(root, 'node_modules/appium/index.js')
-check(fs.existsSync(appium), 'Project dependencies installed', 'Run npm ci (or npm install after changing package.json).')
+const manifest = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'))
+const dependencies = Object.keys({ ...manifest.dependencies, ...manifest.devDependencies })
+const missing = dependencies.filter(name => !fs.existsSync(path.join(root, 'node_modules', name, 'package.json')))
+check(!missing.length && fs.existsSync(appium), 'Declared project dependencies installed',
+    `Run npm ci (or npm install after changing package.json).${missing.length ? ` Missing: ${missing.join(', ')}.` : ''}`)
 const apk = path.join(root, 'apps/wdio-demo.apk')
 let validApk = false
 try {
@@ -59,22 +70,38 @@ if (cloud) {
 } else {
     const sdk = process.env.ANDROID_HOME
     const javaHome = process.env.JAVA_HOME
-    check(Boolean(sdk && fs.existsSync(sdk)), 'ANDROID_HOME points to an existing SDK', 'Export ANDROID_HOME in your shell, then source ~/.zshrc. See README setup.')
-    check(Boolean(javaHome && fs.existsSync(javaHome)), 'JAVA_HOME points to an existing JDK', 'Use Android Studio’s bundled JDK; see README setup, then source ~/.zshrc.')
-    const java = run(javaHome ? path.join(javaHome, 'bin/java') : 'java', ['-version'])
+    check(isDirectory(sdk), 'ANDROID_HOME points to an SDK directory', 'Export ANDROID_HOME in your shell and reopen it. See README setup.')
+    check(isDirectory(javaHome), 'JAVA_HOME points to a JDK directory', 'Use Android Studio’s bundled JDK; see README setup and reopen your shell.')
+    const java = run(javaHome ? path.join(javaHome, 'bin', executable('java')) : executable('java'), ['-version'])
     check(java.status === 0, 'Java can execute', 'Check JAVA_HOME/bin/java and your Android Studio installation.')
+    const javac = run(javaHome ? path.join(javaHome, 'bin', executable('javac')) : executable('javac'), ['-version'])
+    check(javac.status === 0, 'Java compiler is available (JDK, not only JRE)', 'Point JAVA_HOME at the bundled Android Studio JDK, which includes bin/javac.')
 
-    const adbPath = sdk ? path.join(sdk, 'platform-tools/adb') : 'adb'
+    let buildTools = false
+    if (isDirectory(sdk)) {
+        try {
+            buildTools = fs.readdirSync(path.join(sdk, 'build-tools')).some(version => {
+                const directory = path.join(sdk, 'build-tools', version)
+                return fs.existsSync(path.join(directory, executable('aapt')))
+                    || fs.existsSync(path.join(directory, executable('aapt2')))
+            })
+        } catch {}
+    }
+    check(buildTools, 'Android SDK Build-Tools includes aapt/aapt2', 'Install Android SDK Build-Tools in Android Studio → SDK Manager → SDK Tools.')
+
+    const adbPath = sdk ? path.join(sdk, 'platform-tools', executable('adb')) : executable('adb')
     const adb = run(adbPath, ['devices'])
     check(adb.status === 0, 'adb is available', 'Install Android SDK Platform-Tools. If sandbox restrictions block adb, run preflight from your normal terminal.')
     if (adb.status === 0) {
         const entries = adb.stdout.split(/\r?\n/).map((line) => line.trim().split(/\s+/))
             .filter((entry) => entry.length >= 2 && entry[0] !== 'List' && !entry[0].startsWith('*'))
         const ready = entries.filter(([, state]) => state === 'device')
-        const udid = process.env.ANDROID_UDID
+        const udid = process.env.ANDROID_UDID?.trim()
         const selected = udid ? ready.find(([id]) => id === udid) : ready.length === 1 && ready[0]
         check(Boolean(selected), 'Exactly one target device selected and online',
-            ready.length > 1
+            udid
+                ? 'ANDROID_UDID does not match an online device. Compare its value with adb devices; correct it in .env, or reconnect/authorize that device.'
+                : ready.length > 1
                 ? 'Set ANDROID_UDID in .env to a serial from adb devices.'
                 : 'Start your Android emulator in Android Studio Device Manager; wait for Android to boot. For a phone, authorize USB debugging.')
         if (entries.some(([, state]) => state === 'offline' || state === 'unauthorized')) {

@@ -1,7 +1,7 @@
 # 15 · Capstone: own the test strategy
 
 **Stage:** Independent delivery\
-**Time:** 8–16 hours over several sessions\
+**Estimated time:** 8–16 hours over several sessions\
 **Prerequisites:** Lessons 01–14; a green local baseline; ability to diagnose one injected defect.\
 **Outcome:** Deliver a small, credible automation project with evidence and an honest account of its limits.
 
@@ -12,6 +12,8 @@ You have inherited the demo app's Android acceptance suite. A teammate will main
 Choose a theme: **Login confidence**, **Forms interaction quality**, or **a balanced starter regression suite**. Keep the working baseline and add at least four meaningful scenarios. At least two must exercise behavior not already demonstrated by the supplied tests. Investigated signup, dropdown selection, or a carefully verified gesture can qualify. Rewording a test or changing ordinary text does not establish a new behavior.
 
 Cloud and hybrid work are optional extensions. A strong Android-only submission can earn the core assessment by being explicit about its scope.
+
+Choose additions against your **current** suite, including exercises you have already completed. A switch round trip added in lesson 06 cannot be counted again as new implementation. A corrected-invalid-login recovery, a newly inspected dropdown, or a lifecycle contract with a stated oracle can extend your evidence. Include at least one permission or interruption risk in the plan, classified as implemented, designed only, or explicitly out of scope; no invented demo feature is required.
 
 ## Worked example: turn a vague request into evidence
 
@@ -37,7 +39,7 @@ This is the level of specificity your README and test names should reach.
 3. Draft the risk table before coding. Select four additions and explain their unique value.
 4. Implement one scenario at a time. Keep selectors in screen objects and expected behavior visible in specs.
 5. Run each new case alone, then with its file, then with the full Android suite.
-6. Inject one deliberate assertion or selector defect. Preserve the failure evidence, restore the defect, and prove the final state is green.
+6. Inject one deliberate assertion or selector defect. Preserve the failure evidence, undo the injected change, and prove the final state is green.
 7. Score yourself using the [capstone rubric](../handbook/capstone-rubric.md). Address the lowest-scoring area before polishing screenshots.
 
 ## Exercises / submission milestones
@@ -59,7 +61,7 @@ Select recovery, boundary behavior, state changes, and interactions because of r
 
 Implement the four scenarios, keep the original suite passing, and show an intentionally introduced defect being caught. Add or improve one reusable screen action with a clear postcondition.
 
-**Acceptance:** passing narrow and full runs; no fixed synchronization sleeps; no test depends on another's successful completion; diagnostic evidence names the failed behavior; defect restored.
+**Acceptance:** passing narrow and full runs; no fixed synchronization sleeps; no test depends on another's successful completion; diagnostic evidence names the failed behavior; injected defect removed.
 
 <details><summary>Hint 1 · Independence is visible in setup</summary>
 Every scenario should establish the screen and values it needs. A prior success alert must not be its hidden precondition.

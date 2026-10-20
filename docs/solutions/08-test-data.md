@@ -16,9 +16,11 @@ Add this row to `invalidLoginCases`:
 }
 ```
 
-The lesson's loop waits for expected positive messages, then checks both booleans. Its setup must clear previous validation state. In the supplied suite, restarting the demo process before a case establishes its in-memory starting state; read the actual `beforeEach` to understand the guarantee. If your app persists errors or data, process restart may be insufficient.
+The lesson's loop clears the fields, fills the nonempty values without normalizing them, verifies old errors are absent, and submits. It waits for and checks each required message exactly, then checks that any unwanted message is absent. Its setup must clear previous validation state. In the supplied suite, restarting the demo process before a case establishes its in-memory starting state; read the actual `beforeEach` to understand the guarantee. If your app persists errors or data, process restart may be insufficient.
 
 An assertion that the password error appears is incomplete when the scenario also promises that the email is accepted. Checking the email error is absent detects an accidentally broad validator.
+
+**Common pitfalls:** adding a both-valid row to the invalid-only table; duplicating case names; placing a device command in the registration loop instead of inside `it`; trimming whitespace inputs before the app sees them. If both validity flags are false, put that sample in a separate success table with alert handling.
 
 ## 08-B · Boundary investigation
 

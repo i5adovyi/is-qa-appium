@@ -64,8 +64,9 @@ export const config: WebdriverIO.Config = {
      * Hooks: save a screenshot and UI XML on failure (including setup failure).
      * These files may contain typed data. Review before sharing; logs/ is gitignored.
      */
-    afterTest: async function (test, _context, { passed }) {
-        if (!passed) await captureFailure(test.title)
+    afterTest: async function (test, _context, { passed, skipped }) {
+        // A dynamic this.skip() reports passed:false, but is not a test failure.
+        if (!passed && !skipped) await captureFailure(test.title)
     },
     afterHook: async function (test, _context, { error }) {
         if (error) await captureFailure(`hook_${test.title}`)

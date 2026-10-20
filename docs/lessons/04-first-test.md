@@ -17,8 +17,13 @@ Open [app.smoke.spec.ts](../../test/specs/app.smoke.spec.ts):
 ```ts
 import { expect } from 'chai'
 import TabBar from '../screens/TabBar.js'
+import { restartDemoApp } from '../helpers/restartApp.js'
 
 describe('App launch @smoke', () => {
+    beforeEach(async () => {
+        await restartDemoApp()
+    })
+
     it('should open the app and show the tab bar', async () => {
         await TabBar.waitForTabBarShown()
 
@@ -33,6 +38,8 @@ describe('App launch @smoke', () => {
 | `import` | Use code exported by another module |
 | `describe` | Group related scenarios under this report label |
 | `it` | Run this one scenario |
+| `beforeEach` | Run the named setup function before each scenario |
+| `restartDemoApp()` | Restart this demo's process, then wait for navigation |
 | `async () => { ... }` | A function whose device operations can be awaited |
 | `waitForTabBarShown()` | Wait for this project's navigation-ready signal |
 | `isDisplayed()` | Ask whether the element is visible now |
@@ -67,6 +74,7 @@ describe('My navigation practice', () => {
     it('should open Forms from the tab bar', async () => {
         await TabBar.openForms()
         await FormsScreen.waitForIsShown()
+        await FormsScreen.input.waitForDisplayed()
 
         expect(await FormsScreen.input.isDisplayed()).to.be.true
     })
@@ -81,6 +89,8 @@ npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practi
 ```
 
 Expected result: the named navigation test passes, and you can see Forms open. The assertion checks a control on the destination screen, not merely that the tap command returned.
+
+The braces after `describe` contain the suite. The `beforeEach` and `it` calls are siblings inside it; do not put an `it` inside another test or inside the setup hook. A screen-root wait establishes the destination, and the input wait makes this particular assertion's readiness explicit.
 
 Annotate the test in your journal:
 
@@ -110,9 +120,15 @@ npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practi
 
 Use “open Login” in its title to match this command.
 
+`--spec` selects a file; `--mochaOpts.grep` selects titles within that file using a pattern. Check that the report lists the intended test and a nonzero executed count. A command that runs no matching tests does not verify your new scenario.
+
 ### 04-B · Prove your check has teeth
 
 Temporarily change the Forms input expectation to `.to.be.false`, leaving the action untouched. Run only that test, inspect the failure message and available screenshot, then restore `.to.be.true`.
+
+```bash
+npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practice.spec.ts --mochaOpts.grep "open Forms"
+```
 
 Write three facts: what you changed, why it should fail, and which evidence showed that failure.
 

@@ -2,7 +2,7 @@
 
 **Stage:** Foundation · **Estimated time:** 75–110 minutes · **Device needed:** No
 
-**Prerequisites:** [Lesson 01](01-toolchain.md); dependencies installed; Node 24 available.
+**Prerequisites:** The Node and dependency steps of [lesson 01](01-toolchain.md). You can do this lesson while an Android setup problem is still being investigated.
 
 **By the end you will be able to:**
 
@@ -68,6 +68,18 @@ Read it left to right:
 
 You call it with `describeCase(cases[0])`. Passing an argument supplies data; calling the function executes its body.
 
+Arrays start at index zero, so `cases[0]` is the first record. A dot accesses a member, as in `testCase.name` or `input.length`. `===` asks whether two values are strictly equal and returns a boolean; `=` assigns a value. These are different operations.
+
+The tests also use arrow functions:
+
+```ts
+const label = (input: string): string => {
+    return `Input: ${input}`
+}
+```
+
+`(input: string) => { ... }` defines a function. Calling `label('hello')` executes it. Passing a function to Mocha lets Mocha run its body later. An empty parameter list, `() => { ... }`, means the function takes no arguments. The next lesson introduces `async` functions and `await`.
+
 Do not put real passwords into diagnostic strings. Even in practice, design output that names a scenario without exposing its password.
 
 ## Imports and screen objects
@@ -88,6 +100,8 @@ get email() { return $('~input-email') }
 ```
 
 This is a **getter**: accessing `LoginScreen.email` calls it. You do not write `LoginScreen.email()`. Compare that with an action method, called with parentheses: `LoginScreen.login(email, password)`.
+
+You will also see a `class`, `this`, `extends`, and `new` in that file. A class groups related members. `this.email` refers to the current screen object's email getter. `extends BaseScreen` reuses the base screen's readiness method; the constructor passes this screen's identifying selector to it with `super(...)`. `export default new LoginScreen()` creates and exports one object for specs to use. You do not need to design a class hierarchy yet—trace these concrete members first.
 
 ## Guided lab: write a tiny program before touching the device
 
@@ -116,6 +130,8 @@ for (const testCase of cases) {
 }
 ```
 
+`export {}` makes this standalone practice file a module, so its names do not accidentally share a global scope with another practice file. The `for...of` loop visits the array records one at a time. `console.log` prints a value; it does **not** fail when an expected result is wrong. Assertions in the next lesson will add that behavior.
+
 Run:
 
 ```bash
@@ -131,6 +147,8 @@ empty text: 0 characters
 ```
 
 Node 24 can execute this file's erasable TypeScript syntax, but execution does **not** typecheck it. That is why the first command remains important. Device specs still run through WebdriverIO; do not execute them with `node`. [Node 24 TypeScript support](https://nodejs.org/docs/latest-v24.x/api/typescript.html).
+
+This particular practice file uses supported type annotations and has no local imports. Native Node execution does not use the project's WebdriverIO module loader or turn every `.js` import into a `.ts` file. Keep the direct-Node lab separate from the mobile runner commands.
 
 ## Exercises
 

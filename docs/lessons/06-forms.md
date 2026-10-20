@@ -64,6 +64,18 @@ it('should echo typed text in the result field', async () => {
 
 The second scenario checks the switch's label, taps the switch, then waits for and checks the changed label. “Click to turn the switch ON” describes the **next action**, so it indicates the current state is off. “Click to turn the switch OFF” indicates it is on.
 
+The complete sequence is:
+
+```ts
+await waitForText(FormsScreen.switchText, 'Click to turn the switch ON')
+expect(await FormsScreen.switchText.getText()).to.equal('Click to turn the switch ON')
+await FormsScreen.switch.click()
+await waitForText(FormsScreen.switchText, 'Click to turn the switch OFF')
+expect(await FormsScreen.switchText.getText()).to.equal('Click to turn the switch OFF')
+```
+
+The first two lines establish the expected initial observation. The third is the only action that changes the switch. The final two wait for and check its reported result. Notice that `switchText` supplies an element; `getText()` supplies the string Chai compares.
+
 The third scenario adds this transition after proving the entered text appeared:
 
 ```ts
@@ -96,6 +108,8 @@ Change its data to `My own test`, keeping the expected value linked to the varia
 
 For the following exercises, add new `it` blocks inside the existing Forms `describe`. They inherit its setup and imports. Add one at a time and use a distinctive title to select it.
 
+Place each new test **above the file's final `})`**, alongside the existing tests. Save before running. If the compiler reports an unexpected token near a closing brace, compare the nesting of `describe`, `beforeEach`, and `it` before changing any device configuration.
+
 ## Exercises
 
 ### 06-A · Replace, do not concatenate
@@ -120,6 +134,10 @@ Use the same wait-then-assert pattern for both transitions. `setValue` replaces 
 Add a test titled `should accept new input after clearing twice`. Enter and verify `Before clearing`. Clear and verify empty. Clear again and verify empty. Finally enter `After clearing` and verify that exact result.
 
 Explain why this covers more than the supplied clear test.
+
+```bash
+npm run test:forms -- --mochaOpts.grep "accept new input after clearing twice"
+```
 
 <details><summary>Hint</summary>
 
@@ -154,5 +172,7 @@ The setup restarts the demo before the test. Do not assume another test has alre
 - What would a result of `First valueSecond value` tell you in exercise 06-A?
 
 **Evidence to retain:** One controlled single-test run, the three added scenarios, and a full Forms run. Document failures you investigated instead of repeatedly rerunning until green.
+
+Keep the supplied examples when adding exercises. The reference file begins with three tests; adding the three exercises produces six Forms cases unless you deliberately changed that scope. Use the reported names to verify what ran rather than treating a successful exit alone as coverage.
 
 [Model answers](../solutions/06-forms.md) · [Next: 07 · Login](07-login.md)

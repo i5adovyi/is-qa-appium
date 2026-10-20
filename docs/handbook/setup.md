@@ -112,6 +112,10 @@ If the driver is already installed, inspect `npx appium driver list --installed`
 
 When several devices are connected, set `ANDROID_UDID` in your local `.env` to the intended serial shown by `adb devices`. Preflight diagnoses prerequisites; it does not run a mobile test.
 
+Preflight checks declared dependencies and local toolchain inputs, including Java plus `javac`, SDK directories/build-tools, and the selected ADB device. It is preliminary: run `appium:doctor` for the driver's fuller checks. Neither check guarantees version compatibility with every app or proves a test's selectors are correct.
+
+For a physical Android test device, enable developer options and USB debugging, connect it to this machine, unlock it, and approve the matching debugging authorization prompt. Check the serial and `device` state before selecting it. Use a dedicated device with synthetic data; do not assume the emulator's keyboard, permissions, or OS image match a phone. Follow the [official hardware-device guide](https://developer.android.com/studio/run/device).
+
 ## 4. First mobile run
 
 ```bash
@@ -121,6 +125,8 @@ npm run test:login
 ```
 
 WebdriverIO starts the local Appium server. Do not simultaneously leave another server or Inspector session using the same port/device.
+
+The baseline automatically grants supported requested permissions and restarts the demo before each Forms/Login test. Those choices simplify training; they do not test denial, persistence, or background recovery. Use the [permissions and state manual](mobile-state.md) when extending coverage.
 
 ## 5. Inspector
 

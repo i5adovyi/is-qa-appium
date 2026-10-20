@@ -30,6 +30,7 @@ Cleanup/state left behind:
 Could it pass without the action? Why/why not?
 Test level: UI / lower-level if source available / manual exploration
 Environment assumptions:
+Permission / lifecycle / network assumptions:
 ```
 
 ## Failure investigation
@@ -81,6 +82,7 @@ Device or emulator / Android API:
 App artifact and version:
 Local or cloud:
 Relevant capabilities (no credentials):
+Permission baseline / restart policy:
 Command:
 Passed / failed / skipped:
 Not run:
@@ -101,6 +103,7 @@ State/reset strategy:
 Failure diagnostics:
 Verified environment and results:
 Known limitations:
+Mobile risk status: permissions / interruption / offline / accessibility
 Next improvement and why:
 ```
 

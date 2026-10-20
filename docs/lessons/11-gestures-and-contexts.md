@@ -1,7 +1,7 @@
 # 11 · Gestures and hybrid app exploration
 
 **Stage:** Diagnose and explain\
-**Time:** 120–180 minutes, plus environment investigation if needed\
+**Estimated time:** 120–180 minutes, plus environment investigation if needed\
 **Prerequisites:** Lesson 10, working Android emulator, Appium Inspector.\
 **Outcome:** Design a gesture around a visible outcome and explain native versus WebView contexts.
 
@@ -47,15 +47,26 @@ console.log(contexts) // Demo environment only; inspect URLs before sharing logs
 After you identify the actual WebView URL/title, select it deliberately:
 
 ```ts
+let bodyFailed = false
 try {
     await driver.switchContext({ url: /webdriver\.io/ })
     // Now inspect and assert a stable DOM element in the actual loaded page.
+} catch (error) {
+    bodyFailed = true
+    throw error
 } finally {
-    await driver.switchContext('NATIVE_APP')
+    try {
+        await driver.switchContext('NATIVE_APP')
+    } catch (cleanupError) {
+        if (!bodyFailed) throw cleanupError
+        console.warn('Native context cleanup also failed', cleanupError)
+    }
 }
 ```
 
 The URL pattern is an **example for the demo's WebdriverIO content**, not a promise about its current remote page. Verify what loads. A context switch is not proof that the page has finished loading. Read [context discovery](https://webdriver.io/docs/api/mobile/getContexts) and [switching contexts](https://webdriver.io/docs/api/mobile/switchContext) for current behavior.
+
+The nested cleanup catch preserves the original failure if returning to native also fails. If the body succeeded but cleanup failed, cleanup correctly fails the test. A plain `finally { await switchContext(...) }` can replace the original error with the cleanup error. Do not cache a native element and then use it as a web element; locate controls in the context where they belong.
 
 ## Guided lab
 
@@ -63,7 +74,7 @@ The URL pattern is an **example for the demo's WebdriverIO content**, not a prom
 2. Stop the runner. Start `npx appium --address 127.0.0.1 --port 4723`.
 3. Connect Inspector using the capabilities in [setup](../handbook/setup.md). Manually inspect Swipe and Webview. Record labels, bounds, and contexts; avoid assuming selector names.
 4. End Inspector and stop its server before running WebdriverIO.
-5. Create an exploratory spec in `experiments/gestures.spec.ts` with a narrow scenario and screen setup. Run it explicitly:
+5. Create an exploratory spec in `experiments/gestures.spec.ts` with a narrow scenario and screen setup. Because this file is one directory shallower than `test/specs`, imports of shared helpers use paths such as `../test/helpers/restartApp.js` and `../test/screens/TabBar.js`. The experiment must supply its own `describe`, `it`, imports, and navigation to the inspected screen; the fragments above alone are not complete specs. Run it explicitly:
 
    ```bash
    npx wdio run config/wdio.android.conf.ts --spec experiments/gestures.spec.ts

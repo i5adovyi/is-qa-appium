@@ -100,4 +100,6 @@ This helper describes the input for learning purposes. It does not implement or 
 
 Keep the lab file if useful; it is included in project type checking. Resolve intentional errors before moving on.
 
+The exercises extend the same file, so edit the existing `PracticeCase` and `cases` declarations rather than pasting a second declaration with the same name. `export {}` keeps that file's names module-local. Printing matching lengths is useful manual feedback; the optional `throw new Error` check makes a mismatch produce an unsuccessful program result.
+
 [Back to lesson](../lessons/02-typescript.md) · [Next lesson](../lessons/03-async-and-assertions.md)

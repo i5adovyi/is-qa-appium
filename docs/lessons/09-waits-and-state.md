@@ -1,7 +1,7 @@
 # 09 · Reliable waits and independent state
 
 **Stage:** Build a maintainable suite\
-**Time:** 90–120 minutes\
+**Estimated time:** 90–120 minutes\
 **Prerequisites:** Lessons through 08; Forms and Login run locally.\
 **Outcome:** Wait for meaningful conditions, establish initial state, and expose order-dependent tests.
 
@@ -13,7 +13,7 @@ There are also two different assertion systems in many WebdriverIO examples. Thi
 
 ## Worked example: wait for an echo
 
-This is a teaching version of the pattern used by screen actions:
+This expands the `waitForText` pattern used by the Forms specs:
 
 ```ts
 await FormsScreen.input.setValue('Reliable input')
@@ -35,6 +35,19 @@ The condition is observational. It reads state repeatedly. Putting `click()` ins
 
 The wait describes readiness. The assertion describes the expectation. A helper that combines the two is reasonable, provided its name and error clearly explain the behavior.
 
+### Choose the timeout that belongs to the failure
+
+Read these values in the actual configs rather than changing all of them together:
+
+| Setting in this project | What it bounds | What it does not repair |
+|---|---|---|
+| `waitforTimeout: 15000` | Default duration of explicit WebdriverIO waits used here | Wrong selector or impossible expected text |
+| `mochaOpts.timeout: 3 * 60 * 1000` | Overall execution allowance for a Mocha test/hook | A missing state-specific wait |
+| `connectionRetryTimeout: 120000` | WebdriverIO request/connection allowance | The app's business behavior |
+| `appium:newCommandTimeout: 240` | Seconds Appium tolerates between client commands before expiring a session | Time an individual assertion should poll |
+
+`connectionRetryCount` is transport-level retry behavior; `mochaOpts.retries: 0` disables whole-test retries. These are different mechanisms. A later passing retry does not invalidate the first failure.
+
 ## Reset is a contract
 
 Opening a tab is navigation, not proof of a clean screen. A switch can remain on; a text field can retain text; a dialog can obscure the next action. Decide what a test owns:
@@ -48,6 +61,10 @@ Opening a tab is navigation, not proof of a clean screen. A switch can remain on
 | Fresh application data | Use a documented reset strategy only when the scenario needs one |
 
 `noReset` is not a magic speed switch. Preserving app data changes the starting-state contract. A process restart alone may preserve data. Do not reset the entire device to repair an ordinary text-field test.
+
+The local config sets `appium:noReset: false` for **session startup**. It does not create a new session before every `it`. Within a file, this repository calls `restartDemoApp()` in `beforeEach`, which terminates and activates the demo process. That is why session reset, test setup, and persistent data must be discussed separately.
+
+Both local and cloud configs also set `appium:autoGrantPermissions: true`. That simplifies ordinary demo interactions but is not permission-dialog coverage. Likewise, restarting before each test does not prove that an in-progress form survives an interruption. Read [permissions and lifecycle state](../handbook/mobile-state.md) before designing those scenarios.
 
 ## Guided lab
 
@@ -114,6 +131,7 @@ The second case must arrange off itself or receive that guarantee from `beforeEa
 - Why should a polling function avoid side effects?
 - Which state survives merely navigating away and back?
 - Can retries make a deterministic state dependency appear to disappear?
+- Why does an automatically granted permission leave the deny/recovery flow untested?
 
 Reference: [WebdriverIO waitUntil](https://webdriver.io/docs/api/browser/waitUntil) and [Mocha hooks](https://mochajs.org/features/hooks/).
 
