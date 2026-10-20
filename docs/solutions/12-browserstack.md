@@ -12,13 +12,13 @@ Read the current config rather than memorizing provider examples:
 | Destination | `hostname` | Sends the session to the remote hub |
 | Device selection | device name and platform version in capabilities | Requests an available execution target |
 | Run labels | `projectName`, `buildName` | Organizes results |
-| Upload | BrowserStack service `app` option | Gives the service the local APK to upload |
-| Diagnostics | enabled service/capability logging options | Determines extra provider evidence |
+| Upload | Launch script → `BROWSERSTACK_APP_URL` → `appium:app` | Verifies/uploads the APK and selects the uploaded artifact |
+| Diagnostics | enabled capability logging options | Determines extra provider evidence |
 | Concurrency | `maxInstances` | Bounds simultaneous worker sessions |
 
-The remote device cannot open a path on your laptop. The service uploads the app, then configures the remote run to use the uploaded artifact. A cloud configuration without local Appium service is intentional.
+The remote device cannot open a path on your laptop. The launch script verifies/uploads the app before starting WebdriverIO, then passes the returned `bs://` identifier through the environment to the config. A cloud configuration without local Appium service is intentional.
 
-The starter's diagnostics are specific: `bstack:options.debug` is `true`, `networkLogs` is `false`, and service options disable Test Observability and Percy. Those choices do not prove which artifacts a particular account ultimately provides; inspect the resulting session. Neither local nor cloud `autoGrantPermissions: true` tests the permission prompt flow.
+The starter's diagnostics are specific: `bstack:options.debug` is `true`, `networkLogs` is `false`, and no Test Observability, Percy or local-tunnel service is installed. The `after` hook sends the full session result using the provider's status executor. Those choices do not prove which artifacts a particular account ultimately provides; inspect the resulting session. Neither local nor cloud `autoGrantPermissions: true` tests the permission prompt flow.
 
 ## 12-B · Risk-based device matrix
 

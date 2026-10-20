@@ -6,6 +6,7 @@
  */
 import path from 'node:path'
 import fs from 'node:fs'
+import { verifyApp } from '../scripts/lib/demo-app.ts'
 import { config as shared } from './wdio.shared.conf.js'
 
 const app = path.resolve('apps/wdio-demo.apk')
@@ -13,6 +14,7 @@ const udid = process.env.ANDROID_UDID?.trim()
 if (!fs.existsSync(app)) {
     throw new Error('Demo APK is missing. Run npm run app:download before mobile tests.')
 }
+await verifyApp(app)
 
 export const config: WebdriverIO.Config = {
     ...shared,

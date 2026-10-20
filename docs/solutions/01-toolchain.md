@@ -25,7 +25,7 @@ A blocked result is acceptable lesson evidence if you identify the layer and a p
 ## 01-B · Setup incidents
 
 1. **No devices:** Check that an AVD actually exists and is running in Device Manager. Wait for boot, then run `adb devices` again. If still empty, confirm `command -v adb` points to the intended SDK's platform-tools. For a physical device, USB debugging/authorization and cable connectivity introduce additional checks.
-2. **Driver cannot load:** Run `npx appium driver list --installed` from the project. If UiAutomator2 is absent, run `npm run appium:setup`, then `npm run appium:doctor`. If present but failing to load, read the actual compatibility/load error rather than reinstalling repeatedly.
+2. **Driver cannot load:** Run `npx appium driver list --installed` from the project. If UiAutomator2 is absent, run `npm ci`, then `npm run appium:setup` and `npm run appium:doctor`. Setup verifies discovery of the local locked driver. If present but failing to load, read the actual compatibility/load error rather than reinstalling repeatedly.
 3. **Port conflict:** Check the terminal where you started Inspector's standalone Appium server. End the Inspector session, stop that server with Ctrl+C, and rerun the suite. If you cannot identify the owner, inspect the listening process with `lsof -nP -iTCP:4723 -sTCP:LISTEN`; identify it before stopping it.
 
 The ownership distinction matters: your test runner can stop the Appium service it started, but it does not make arbitrary old servers disappear.
@@ -38,7 +38,7 @@ The ownership distinction matters: your test runner can stop the Appium service 
 |---|---|
 | Configure SDK and Java paths | Open a terminal with the expected environment |
 | Install dependencies, or update them deliberately | Start an existing emulator |
-| Install the Appium driver when missing | Check `adb devices` |
+| Install the project driver with `npm ci` when missing | Check `adb devices` |
 | Download the APK when missing or changing app version | Run `npm run typecheck` after code edits |
 | Create an AVD when no suitable one exists | Run `npm run test:forms` |
 

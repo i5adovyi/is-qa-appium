@@ -16,7 +16,7 @@ This repository separates its default CI checks from a manually dispatched Brows
 
 The manual cloud workflow avoids consuming account sessions merely because someone pushes a commit. Running it requires a hosted repository, configured secrets, and authorized App Automate access. The existence of a YAML file does not mean GitHub has executed it.
 
-The default workflow runs `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, `framework:test`, and `course:test`. These check TypeScript, course structure, offline reference solutions, mocked framework regressions, and the local reader/server and progress-backup behavior. The mocked framework checks do not launch Appium or prove a device interaction. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the Android suite remotely. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
+The default workflow runs `audit`, `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, `framework:test`, and `course:test`. These check known package advisories, TypeScript, course structure, offline reference solutions, mocked framework regressions, and the local reader/server and progress-backup behavior. The mocked framework checks do not launch Appium or prove a device interaction. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the Android suite remotely. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
 
 ## Worked example: evidence belongs to a run
 
@@ -42,6 +42,7 @@ The current cloud workflow uses `if: failure()` to upload `logs/` only after fai
 2. Run the relevant local checks:
 
    ```bash
+   npm run audit
    npm run check
    npm run course:test
    npm run test:smoke

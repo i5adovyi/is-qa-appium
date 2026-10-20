@@ -22,8 +22,8 @@ Run the smallest diagnostic that can distinguish the next cause. Keep the first 
 | Device unauthorized | Device's USB authorization prompt | Authorize your intended test machine/device |
 | Device offline | Device Manager and adb status | Investigate device boot/connection before running tests |
 | More than one target | Device serials | Set `ANDROID_UDID` to the intended target |
-| APK missing | `apps/wdio-demo.apk` | Run `npm run app:download` and check download completion |
-| Driver missing | `npx appium driver list --installed` | Run `npm run appium:setup` once |
+| APK missing or checksum mismatch | `npm run app:verify` | Run `npm run app:download`; do not bypass a mismatch or replace the pinned digest with an unexpected hash |
+| Driver missing or from a different installation | `npm run appium:setup` | Run `npm ci` from the repository, then verify discovery again |
 | Port 4723 in use | Standalone Appium/Inspector terminal | Stop the known unused server; do not kill unrelated processes |
 | Session dies during setup | Appium log and device state | Fix that first; screenshots may be unavailable |
 
@@ -65,7 +65,7 @@ Limit the spec files as well as the Mocha grep for a small paid experiment. A fi
 
 ## Dependency audit findings
 
-This training stack has known dependency advisories; see the current repository verification notes for the observed count. Counts change as the registry and lockfile change. Do not describe the repository as vulnerability-free.
+The 20 October 2026 maintenance baseline reports zero npm audit findings; see [dependency maintenance](dependency-maintenance.md) for the changes and repeatable checks. Counts change as the registry and lockfile change. Do not describe the repository as vulnerability-free.
 
 Use `npm audit` to inspect affected packages and dependency paths. Determine whether an advisory concerns the runner, local server, reporting integration, or application dependency. Review compatible fixes first, rerun typecheck and relevant device tests after changes, and document remaining issues. `npm audit fix --force` can change major versions and invalidate the tested stack.
 

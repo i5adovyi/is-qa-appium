@@ -37,6 +37,7 @@ jobs:
             exit 1
           fi
       - run: npm ci
+      - run: npm run audit
       - run: npm run typecheck
       - run: npm run app:download
       - run: npm run preflight -- --cloud

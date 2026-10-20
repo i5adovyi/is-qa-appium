@@ -50,23 +50,30 @@ Commands and saved outputs are in the [validation record](validation.md). The or
 published commit's hosted [GitHub Actions run](https://github.com/i5adovyi/is-qa-appium/actions/runs/39427787762)
 also passed. Hosted results belong to their exact commit, not every subsequent edit.
 
+## Dependency and download follow-up
+
+The subsequent maintenance pass on 20 October 2026 resolved the 38 remaining audit
+findings and added pinned SHA-256/size checks for APK download, local execution,
+preflight and cloud upload. The downloader preserves the existing APK on failure.
+WebdriverIO 10, reviewed Appium overrides and unbundled driver packaging are described
+in [dependency maintenance](handbook/dependency-maintenance.md). The latest checks
+passed 7 Android tests, 31 offline lab tests, 27 framework checks and 11 reader checks.
+See the [maintenance evidence](evidence/security-maintenance.md).
+
 ## Remaining boundaries and useful next work
 
 1. **Real cloud evidence:** run the first BrowserStack exercise with working account
-   credentials and a deliberately selected device. Configuration checks cannot
-   establish provider availability or cloud UI behavior.
-2. **Dependency maintenance:** the earlier audit reported 38 unresolved package
-   findings. A compatibility-tested dependency migration remains separate work;
-   this review did not force framework version changes.
-3. **Broader mobile coverage:** iOS needs its own toolchain and app build. Permission,
+   credentials and a deliberately selected device. Mocked API and launcher checks
+   cannot establish provider availability or cloud UI behavior.
+2. **Broader mobile coverage:** iOS needs its own toolchain and app build. Permission,
    network, deep-link and upgrade scenarios need an app that exposes those features.
    Gesture and hybrid tasks remain exploratory until you execute and verify them.
-4. **Distribution reproducibility:** the APK release is version-pinned, but the current
-   download command has no checksum/signature verification and replaces the target
-   file. The preflight's ZIP/header check is only a quick sanity check.
+3. **Ongoing maintenance:** the audited dependency tree needs periodic reassessment.
+   Replace the documented unbundled driver workaround when upstream packaging
+   provides patched dependencies. APK hashes pin bytes; signing-certificate
+   validation and application security assessment remain separate concerns.
 
-These boundaries are explicit learning and maintenance work, not passing coverage
-claims. Use the [state manual](handbook/mobile-state.md) and
+Use the [state manual](handbook/mobile-state.md) and
 [capstone rubric](handbook/capstone-rubric.md) to choose the next extension.
 
 [Course map](README.md)

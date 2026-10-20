@@ -3,6 +3,8 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { spawnSync } from 'node:child_process'
+import { verifyApp } from './lib/demo-app.ts'
+import { verifyDriver } from './lib/driver.mjs'
 
 const root = fileURLToPath(new URL('..', import.meta.url))
 const args = process.argv.slice(2)
@@ -50,16 +52,10 @@ check(!missing.length && fs.existsSync(appium), 'Declared project dependencies i
 const apk = path.join(root, 'apps/wdio-demo.apk')
 let validApk = false
 try {
-    const fd = fs.openSync(apk, 'r')
-    try {
-        const magic = Buffer.alloc(4)
-        fs.readSync(fd, magic, 0, 4, 0)
-        validApk = fs.fstatSync(fd).size > 1_000_000 && magic.equals(Buffer.from([0x50, 0x4b, 0x03, 0x04]))
-    } finally {
-        fs.closeSync(fd)
-    }
+    await verifyApp(apk)
+    validApk = true
 } catch {}
-check(validApk, 'Demo APK present and looks like an APK/ZIP', 'Run npm run app:download. This quick check is not a signature or checksum verification.')
+check(validApk, 'Demo APK matches the pinned SHA-256 and size', 'Run npm run app:download. Do not bypass a checksum mismatch.')
 
 if (cloud) {
     for (const name of ['BROWSERSTACK_USERNAME', 'BROWSERSTACK_ACCESS_KEY']) {
@@ -113,12 +109,12 @@ if (cloud) {
         }
     }
     if (fs.existsSync(appium)) {
-        const installed = run(process.execPath, [appium, 'driver', 'list', '--installed', '--json'])
         let driverInstalled = false
         try {
-            driverInstalled = JSON.parse(installed.stdout).uiautomator2?.installed === true
+            verifyDriver()
+            driverInstalled = true
         } catch {}
-        check(installed.status === 0 && driverInstalled, 'Appium can discover the UiAutomator2 driver', 'Run npm run appium:setup, then npm run appium:doctor. The driver is also a project dependency.')
+        check(driverInstalled, 'Appium uses the locked project UiAutomator2 driver', 'Run npm ci, npm run appium:setup, then npm run appium:doctor from this repository.')
     }
     console.log('For Appium’s full environment checks, also run npm run appium:doctor.')
 }

@@ -9,7 +9,7 @@ const port = Number(process.env.COURSE_PORT ?? 4173)
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('COURSE_PORT must be an integer from 1 to 65535')
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json' }
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-const allowedRootFiles = new Set(['README.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json'])
+const allowedRootFiles = new Set(['README.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
 function allowedPage(name) {
     if (allowedRootFiles.has(name)) return true
     if (/^(docs|exercises)\//.test(name)) return /\.(md|ts)$/.test(name)

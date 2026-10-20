@@ -61,6 +61,7 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 - [Troubleshooting](handbook/troubleshooting.md): symptoms, evidence, next action.
 - [Permissions and lifecycle](handbook/mobile-state.md): state layers, permission scenarios and background/resume experiments.
 - [Glossary](handbook/glossary.md): the terms used in this course.
+- [Dependency and APK maintenance](handbook/dependency-maintenance.md): audited packages, driver provenance, and verified downloads.
 - [Review checklist](handbook/review-checklist.md): inspect your test before calling it done.
 - [Capstone rubric](handbook/capstone-rubric.md): assess correctness and reasoning.
 - [Reading library](resources.md): official documentation, articles and legal book recommendations.

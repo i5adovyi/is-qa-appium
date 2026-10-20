@@ -33,7 +33,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     assert.equal(catalog.lessons.length, 16)
     const pages = [...catalog.lessons.map(lesson => lesson.path),
         ...catalog.lessons.map(lesson => lesson.path.replace('/lessons/', '/solutions/')),
-        ...catalog.library.map(item => item.path)]
+        ...catalog.library.map(item => item.path), 'vendor/README.md']
     for (const path of pages) {
         const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(path)}`)
         assert.equal(page.status, 200, path)
@@ -53,7 +53,8 @@ test('reads approved source as escaped code', async () => {
     assert.match((await response.json()).html, /<pre><code>/)
 })
 test('refuses secrets, installed dependencies, traversal, and writes', async () => {
-    for (const name of ['.env', '.env.example', 'node_modules/chai/package.json', 'docs/../../.zshrc', '/etc/passwd', 'docs/../.env']) {
+    for (const name of ['.env', '.env.example', 'node_modules/chai/package.json', 'docs/../../.zshrc', '/etc/passwd', 'docs/../.env',
+        'vendor/appium-uiautomator2-driver-8.7.0-unbundled.tgz']) {
         const response = await fetch(`${origin}/api/page?path=${encodeURIComponent(name)}`)
         assert.ok([403, 404].includes(response.status), name)
     }

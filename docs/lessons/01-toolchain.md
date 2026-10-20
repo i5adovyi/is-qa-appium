@@ -27,7 +27,7 @@ This real capability means “automate this session using UiAutomator2”:
 'appium:automationName': 'UiAutomator2'
 ```
 
-It does not install the driver. The project's setup script performs installation; the doctor script checks driver prerequisites.
+It does not install the driver. The project driver is installed by `npm ci`; the setup script verifies Appium discovers that installation, and doctor checks its prerequisites.
 
 ## Guided lab: verify from the outside in
 
@@ -81,7 +81,7 @@ npm run appium:setup
 npm run appium:doctor
 ```
 
-Do not repeatedly install a driver that is already present. An npm package dependency makes code available; Appium's extension registry determines which driver it can load for sessions. The [UiAutomator2 driver README](https://github.com/appium/appium-uiautomator2-driver) documents its requirements and doctor checks.
+Do not install a separate global driver for this course. Appium discovers the project dependency; `appium:setup` and preflight verify its path and version. See [dependency maintenance](../handbook/dependency-maintenance.md) for why this driver is packaged locally. The [UiAutomator2 driver README](https://github.com/appium/appium-uiautomator2-driver) documents its requirements and doctor checks.
 
 ### 3. Start a device and obtain the app
 
@@ -158,7 +158,7 @@ Check device boot/connection, driver registration, and who owns the existing App
 
 ### 01-C · Explain the installation/run boundary
 
-Create a two-column checklist: “once per machine or dependency change” and “before/for a normal practice run.” Place these tasks: configure SDK paths, install npm dependencies, install driver, download APK, start emulator, check `adb devices`, typecheck, run Forms tests.
+Create a two-column checklist: “once per machine or dependency change” and “before/for a normal practice run.” Place these tasks: configure SDK paths, install npm dependencies, verify the project driver, download APK, start emulator, check `adb devices`, typecheck, run Forms tests.
 
 Then run:
 

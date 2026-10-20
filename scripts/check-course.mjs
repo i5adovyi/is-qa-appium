@@ -33,7 +33,7 @@ for (const lesson of catalog.lessons) {
     }
 }
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)
-const files = ['README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
+const files = ['README.md', 'vendor/README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
 let localLinks = 0
 for (const file of files) {
     const source = (await readFile(path.join(root, file), 'utf8')).replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '')

@@ -14,7 +14,7 @@ The test still calls the same screen methods. The connection and device provisio
 | Local | BrowserStack |
 |---|---|
 | Appium service starts a local server | Runner connects to the provider's hub |
-| APK path points to your disk | BrowserStack service uploads the configured APK |
+| APK path points to your disk | The launch script verifies and uploads the configured APK |
 | You start and maintain the emulator | Provider allocates an available real device |
 | Local screenshot/source/log evidence | Provider session evidence plus configured local artifacts |
 | Local CPU and SDK constraints | Account access, concurrency and device availability constraints |
@@ -52,7 +52,7 @@ Edit it locally and keep credentials out of terminal history. The username and a
 ## Guided lab
 
 1. Run `npm run typecheck` and `npm run test:smoke` locally.
-2. Read `.env.example`, the BrowserStack config, and the `browserstack` service options.
+2. Read `.env.example`, the BrowserStack config, `scripts/run-browserstack.mjs`, and `config/browserstack-api.ts`.
 3. If you have authorized account access, enter credentials locally. Check the inputs, then select only the Login spec's smoke case for the first remote run:
 
    ```bash
@@ -76,8 +76,8 @@ Annotate the cloud config in your study notes: which values select the device, w
 
 **Acceptance:** every category has an actual config example; secrets are redacted; you can explain why a local absolute APK path is not itself a cloud app identifier.
 
-<details><summary>Hint 1 · Follow the service</summary>
-The `app` service option supplies the upload. The provider makes that uploaded application available to its session.
+<details><summary>Hint 1 · Follow the launch script</summary>
+`npm run test:bs` verifies the APK, uploads it, and passes the returned identifier to the runner. The config uses it as `appium:app`. The `after` hook reports the session result. See the [upload API](https://www.browserstack.com/docs/app-automate/api-reference/appium/apps).
 </details>
 <details><summary>Hint 2 · Do not confuse labels and selectors</summary>
 A build name groups results; a device name requests an execution environment.

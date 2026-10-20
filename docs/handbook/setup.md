@@ -1,6 +1,6 @@
 # Setup manual
 
-This course targets **Node 24, Appium 3, WebdriverIO 9, TypeScript, Mocha and Chai**, initially on Android. The repository's lockfile records package versions. iOS is an extension requiring its own environment, build, selectors, and validation; it is not supplied as a tested path.
+This course targets **Node 24, Appium 3, WebdriverIO 10, TypeScript, Mocha and Chai**, initially on Android. The repository's lockfile records package versions. iOS is an extension requiring its own environment, build, selectors, and validation; it is not supplied as a tested path.
 
 The Mac used to develop this project already has an Android toolchain. A new machine still needs the steps below. Never infer that a tool is installed merely because an earlier chat said so: check the commands.
 
@@ -99,7 +99,7 @@ emulator -avd Pixel_8_API_35
 
 `Pixel_8_API_35` is the existing Mac's AVD name, not a universal default. Wait for Android's home screen. `adb devices` should show a chosen device in state `device`, not `offline` or `unauthorized`.
 
-Install/verify the driver and download the app:
+Verify the project driver and download the app:
 
 ```bash
 npm run appium:setup
@@ -108,7 +108,7 @@ npm run app:download
 npm run preflight
 ```
 
-If the driver is already installed, inspect `npx appium driver list --installed`; an already-installed message is not a reason to reinstall everything. `app:download` uses `curl` through npm's shell. On a Windows environment without curl, download the exact APK linked by that script into `apps/wdio-demo.apk` or use `curl.exe` with the same URL.
+`npm ci` installs the pinned project driver. `appium:setup` verifies that Appium discovers that exact installation; it does not install a separate global copy. `app:download` uses Node 24 on every platform, verifies the pinned SHA-256 and size, and preserves the existing APK if verification fails. Run `npm run app:verify` to recheck it without downloading. See [dependency maintenance](dependency-maintenance.md) for the hash source and driver packaging.
 
 When several devices are connected, set `ANDROID_UDID` in your local `.env` to the intended serial shown by `adb devices`. Preflight diagnoses prerequisites; it does not run a mobile test.
 

@@ -6,7 +6,7 @@
 
 Your table must match the checked-in YAML. A sound interpretation distinguishes:
 
-- Default CI: install locked dependencies and run configured source/course checks, reference solutions, mocked `framework:test`, and reader/progress `course:test`. It needs Node and package access. It cannot prove a mobile element exists.
+- Default CI: install locked dependencies, audit all dependency categories, and run configured source/course checks, reference solutions, mocked `framework:test`, and reader/progress `course:test`. It needs Node and package access. It cannot prove a mobile element exists.
 - Manually dispatched BrowserStack workflow: install dependencies, obtain the demo APK, read repository secrets, and execute the configured remote suite. It needs account access and provider availability. It cannot prove untested devices or iOS work.
 
 If a workflow includes additional offline solution checks, list them separately from mobile tests. The hosted evidence is a run URL with commit, job logs, conclusion, and artifacts. A local check or a YAML file is not hosted execution evidence.

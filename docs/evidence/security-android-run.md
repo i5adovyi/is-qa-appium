@@ -1,0 +1,55 @@
+# Android verification after dependency maintenance
+
+Command: `npm run test:android`. Node 24, WebdriverIO 10.1.0, Appium 3.8.0,
+UiAutomator2 8.7.0 (unbundled package), API 35 emulator. Exit status: 0.
+
+```text
+> is-qa-appium@1.0.0 test:android
+> wdio run config/wdio.android.conf.ts
+
+
+Execution of 3 workers started at 2026-10-20T15:20:38.522Z
+
+[0-0] RUNNING in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.forms.spec.ts
+[0-0] PASSED in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.forms.spec.ts
+[0-1] RUNNING in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.login.spec.ts
+[0-1] PASSED in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.login.spec.ts
+[0-2] RUNNING in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.smoke.spec.ts
+[0-2] PASSED in Android on Android - file:///Users/igor_sadovyi/Projects/is-qa-appium/test/specs/app.smoke.spec.ts
+
+ "spec" Reporter:
+------------------------------------------------------------------
+[wdio-demo.apk Android #0-0] Running: wdio-demo.apk on Android
+[wdio-demo.apk Android #0-0] Session ID: e8a3a7f2-0d1e-4cb3-98d8-367494887c18
+[wdio-demo.apk Android #0-0]
+[wdio-demo.apk Android #0-0] » test/specs/app.forms.spec.ts
+[wdio-demo.apk Android #0-0] Forms screen
+[wdio-demo.apk Android #0-0]    ✓ should echo typed text in the result field
+[wdio-demo.apk Android #0-0]    ✓ should toggle the switch
+[wdio-demo.apk Android #0-0]    ✓ should clear the result when the input is cleared
+[wdio-demo.apk Android #0-0]
+[wdio-demo.apk Android #0-0] 3 passing (19.7s)
+------------------------------------------------------------------
+[wdio-demo.apk Android #0-1] Running: wdio-demo.apk on Android
+[wdio-demo.apk Android #0-1] Session ID: 0504055c-5bb3-43f9-9609-5c965fea0e2c
+[wdio-demo.apk Android #0-1]
+[wdio-demo.apk Android #0-1] » test/specs/app.login.spec.ts
+[wdio-demo.apk Android #0-1] Login form
+[wdio-demo.apk Android #0-1]    ✓ should log in with valid credentials @smoke
+[wdio-demo.apk Android #0-1]    ✓ should show validation errors for invalid input
+[wdio-demo.apk Android #0-1]    ✓ should show both validation messages when empty fields are submitted
+[wdio-demo.apk Android #0-1]
+[wdio-demo.apk Android #0-1] 3 passing (30s)
+------------------------------------------------------------------
+[wdio-demo.apk Android #0-2] Running: wdio-demo.apk on Android
+[wdio-demo.apk Android #0-2] Session ID: 3cdc0cf6-40e5-4fed-af8c-440bf423268a
+[wdio-demo.apk Android #0-2]
+[wdio-demo.apk Android #0-2] » test/specs/app.smoke.spec.ts
+[wdio-demo.apk Android #0-2] App launch @smoke
+[wdio-demo.apk Android #0-2]    ✓ should open the app and show the tab bar
+[wdio-demo.apk Android #0-2]
+[wdio-demo.apk Android #0-2] 1 passing (3.6s)
+
+
+Spec Files:	 3 passed, 3 total (100% completed) in 00:01:13
+```

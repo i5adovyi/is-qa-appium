@@ -28,6 +28,7 @@
     { "title": "Course map", "path": "docs/README.md" },
     { "title": "Offline TypeScript labs", "path": "exercises/README.md" },
     { "title": "Setup manual", "path": "docs/handbook/setup.md" },
+    { "title": "Dependencies & APK integrity", "path": "docs/handbook/dependency-maintenance.md" },
     { "title": "Troubleshooting playbook", "path": "docs/handbook/troubleshooting.md" },
     { "title": "Permissions & app lifecycle", "path": "docs/handbook/mobile-state.md" },
     { "title": "Glossary", "path": "docs/handbook/glossary.md" },

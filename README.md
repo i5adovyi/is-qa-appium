@@ -2,7 +2,7 @@
 
 **Learn mobile test automation by building, breaking, investigating, and explaining real tests.**
 
-An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 9 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
+An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
 ## Start the course
 
@@ -123,7 +123,7 @@ npm run preflight -- --cloud
 
 ## Quality and scope
 
-See **[the validation record](docs/validation.md)** and **[second-review findings](docs/review-notes.md)** for executed checks and limitations. This is a training framework, not a production-security certification. The dependency audit has unresolved transitive findings. Hosted CI evidence is tied to its exact commit. BrowserStack, iOS and exploratory hybrid/gesture labs have separate prerequisites and are not claimed as validated.
+See **[the validation record](docs/validation.md)** and **[second-review findings](docs/review-notes.md)** for executed checks and limitations. This is a training framework, not a production-security certification. The maintenance pass resolved all 38 dependency audit findings and added pinned APK checksums; see [dependency maintenance](docs/handbook/dependency-maintenance.md) for the driver packaging, overrides and verification commands. Hosted CI evidence is tied to its exact commit. BrowserStack, iOS and exploratory hybrid/gesture labs have separate prerequisites and are not claimed as validated.
 
 The demo login checks simulated client-side behaviour; it is not a real authentication service. Restarting this demo resets its in-memory state, not arbitrary app storage or backend data.
 
