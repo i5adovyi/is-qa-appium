@@ -6,6 +6,8 @@ An Android-first training project using **Appium 3 · TypeScript · Chai · Webd
 
 ## Start the course
 
+**On a new computer? Start with [Setup on a new machine](#setup-on-a-new-machine)** to install the prerequisites and download this private repository before running the course.
+
 ```bash
 npm run course
 ```
@@ -51,36 +53,252 @@ Design exercises identify features the demo does not implement.
 4. Work through [06 · Forms](docs/lessons/06-forms.md) and [07 · Login](docs/lessons/07-login.md). Both include code walkthroughs and guided changes.
 5. Record one result in your [learning journal](docs/learning-journal.md). Explain what passed, not only that it passed.
 
-## Setup on this Mac
+## Setup on a new machine
 
-Node 24, Android Studio, the Android SDK, and `Pixel_8_API_35` were installed during the initial setup. For a new terminal:
+The lessons, exercises and tests run independently of your OpenAI account. You
+need a GitHub account with access to
+[this private repository](https://github.com/i5adovyi/is-qa-appium) to clone it.
+
+| What you want to do | What you need |
+|---|---|
+| Read lessons and practise TypeScript | Git, Node 24, installed project dependencies, a browser and an editor |
+| Run local Android tests | The above plus Android Studio, SDK/JDK and a running emulator or connected Android test device |
+| Run BrowserStack tests | Project dependencies, the demo APK and your own BrowserStack App Automate access; no local emulator required |
+
+Complete steps 1–4 to start learning. Steps 5–7 add local Android execution.
+Step 8 is the optional cloud path; step 9 transfers your existing progress.
+The [setup manual](docs/handbook/setup.md) contains more detailed platform
+instructions, and the [validation record](docs/validation.md) identifies what
+has actually been tested.
+
+### 1. Install Git and Node 24
+
+Install [Git](https://git-scm.com/downloads/) and
+[Node.js **24**](https://nodejs.org/en/download) for your operating system.
+Node includes npm. If you already use a Node version manager, use it to select
+24 instead of adding another global installation.
+
+Open a new terminal after installation and check:
+
+```bash
+git --version
+node --version
+npm --version
+```
+
+The Node result must start with **`v24.`**. If you already use `nvm`,
+`nvm install 24` followed by `nvm use 24` selects the required version.
+
+### 2. Clone the private repository and install dependencies
+
+In a terminal, navigate to the folder where you keep projects, then run:
+
+```bash
+git clone https://github.com/i5adovyi/is-qa-appium.git
+cd is-qa-appium
+npm ci
+```
+
+Authenticate Git with the GitHub account that can access this repository.
+An authentication error or “Repository not found” can mean you are using an
+account without access. You can also clone through GitHub Desktop, then open
+a terminal in the cloned folder.
+
+`npm ci` installs the versions recorded in the lockfile, including Appium,
+TypeScript, Chai and the Android automation driver. No separate global Appium
+or driver installation is needed.
+
+**Run all remaining commands from inside the `is-qa-appium` folder.** On
+Windows, use PowerShell; if its policy blocks `npm.ps1`, use `npm.cmd` in place
+of `npm` as described in the setup manual.
+
+### 3. Check the installation and open the course
+
+Run these commands one at a time. Resolve a failed check before continuing:
+
+```bash
+npm run check
+npm run course:test
+npm run course
+```
+
+The first two commands check the project without an emulator or BrowserStack
+account. The last starts the course website. Open
+**http://127.0.0.1:4173** in your browser.
+
+Keep that terminal open while using the reader. Open a second terminal in the
+project folder for exercises, or press **Ctrl+C** to stop the reader.
+
+Start with [Lesson 00: Orientation](docs/lessons/00-orientation.md), then follow
+the [learning plan](docs/handbook/study-plans.md). You can also read the lessons
+directly in your editor through [the course map](docs/README.md).
+
+### 4. Try your first coding exercise
+
+```bash
+npm run practice
+npm run practice -- 01
+```
+
+The first command lists the twelve labs. The second checks your work in lab 01.
+Read [the lab instructions](exercises/01-typed-data/README.md), open
+[`starter.ts`](exercises/01-typed-data/starter.ts) in your editor, complete the
+task and save it. Run `npm run practice -- 01` again to check your changes.
+
+**An unfinished exercise failing is expected.** Labs 01–10 need implementation;
+labs 11–12 contain deliberate bugs to repair. `npm run check` and
+`npm run practice:solutions` validate the supplied reference solutions, not
+completion of your exercises.
+
+You can study and practise at this point without installing Android Studio.
+
+### 5. Install Android Studio and create an emulator
+
+Install [Android Studio](https://developer.android.com/studio). In its
+**SDK Manager**, install:
+
+- Android SDK Platform **35 / Android 15**, the project's emulator baseline.
+- Android SDK Platform-Tools and Build-Tools.
+- Android SDK Command-line Tools (latest).
+- Android Emulator.
+
+Open **Device Manager → Create Device**, select a phone such as Pixel 8,
+and download an Android 15 system image matching your computer's architecture.
+Start the emulator and wait for the Android home screen.
+
+You do not need to create a new Android app project. Your emulator's name is
+whatever you choose; `Pixel_8_API_35` in older examples is the original Mac's
+device name. If the emulator cannot boot, follow the
+[official virtual-device guide](https://developer.android.com/studio/run/managing-avds)
+and check your host's virtualization/acceleration setup.
+
+### 6. Configure the Android and Java paths
+
+`ANDROID_HOME` must point to your Android SDK directory. `JAVA_HOME` must point
+to a JDK, including `javac`; Android Studio's bundled `jbr` is used by this
+project's baseline.
+
+On **macOS with zsh**, verify the following paths match your installation,
+then add these lines to `~/.zshrc`:
+
+```bash
+export ANDROID_HOME="$HOME/Library/Android/sdk"
+export JAVA_HOME="/Applications/Android Studio.app/Contents/jbr/Contents/Home"
+export PATH="$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$ANDROID_HOME/cmdline-tools/latest/bin:$JAVA_HOME/bin"
+```
+
+Reload the settings:
 
 ```bash
 source ~/.zshrc
 ```
 
-Start the emulator in Android Studio's Device Manager or in another terminal:
+On **Windows or Linux**, use your platform's environment-variable instructions
+in the [setup manual](docs/handbook/setup.md); the paths and shell commands
+differ from macOS. Persist the settings so they survive a new terminal.
+
+With the emulator running, verify:
 
 ```bash
-emulator -avd Pixel_8_API_35
+java -version
+javac -version
+adb version
+adb devices
 ```
 
-Wait for Android to boot, then:
+Your emulator should appear in `adb devices` with status **`device`**, not
+`offline` or `unauthorized`. If several devices are connected, create a local
+`.env` from `.env.example` if needed and set `ANDROID_UDID` to the intended
+serial shown by `adb devices`.
+
+### 7. Download the demo app and run local Android tests
+
+Run these commands one at a time, fixing any required prerequisite before
+continuing:
 
 ```bash
+npm run appium:setup
+npm run appium:doctor
+npm run app:download
 npm run preflight
 npm run test:smoke
 ```
 
-For a **new machine or checkout**, follow the [setup manual](docs/handbook/setup.md). With Node 24 and the SDK installed:
+`appium:setup` verifies the project driver installed by `npm ci`.
+`app:download` downloads the demo APK and verifies its pinned SHA-256 checksum
+and size. Preflight diagnoses prerequisites; the smoke test performs actual
+Android interactions.
+
+After the smoke test passes, try the Forms and Login suites:
 
 ```bash
-npm ci
-npm run app:download
-npm run appium:doctor
+npm run test:forms
+npm run test:login
 ```
 
-UiAutomator2 is a project dependency. If `appium driver list --installed` does not discover it, follow the setup manual's driver diagnostics before reinstalling it. Do not rerun the driver-install command blindly when it is already installed.
+Or run all seven Android reference tests:
+
+```bash
+npm run test:android
+```
+
+WebdriverIO starts Appium automatically. Stop any separately started Appium
+server or Inspector session before running these tests.
+Use [troubleshooting](docs/handbook/troubleshooting.md) if a command fails.
+
+### 8. Use BrowserStack when your account is ready (optional)
+
+After steps 1–3, you can use this cloud path without steps 5–7. You need your
+own **BrowserStack App Automate access**, credentials, and a device/OS pair
+available in your account.
+
+In your editor or file manager, copy `.env.example` to `.env` **only if `.env`
+does not already exist**. Enter your credentials in that local file:
+
+```dotenv
+BROWSERSTACK_USERNAME=your_username
+BROWSERSTACK_ACCESS_KEY=your_access_key
+```
+
+Replace these placeholders and check `BROWSERSTACK_DEVICE_NAME` and
+`BROWSERSTACK_PLATFORM_VERSION` against the devices available in your account.
+Keep credentials out of Git and chat.
+
+```bash
+npm run app:download
+npm run preflight -- --cloud
+npm run test:bs
+```
+
+Cloud preflight checks local prerequisites and credential presence; it does
+not prove account access or run a device session. `test:bs` uploads the
+verified APK and starts cloud tests. See [lesson 12](docs/lessons/12-browserstack.md)
+for the full walkthrough.
+
+### 9. Bring your progress to the new computer
+
+Before leaving the old computer:
+
+1. Click **Export progress** in the course reader and save the downloaded
+   `mobile-automation-progress.json`. On the new computer, start the reader
+   and use **Import progress**.
+2. Save and commit/push your exercise and learning-journal edits, or copy those
+   files separately. Only committed and pushed edits arrive through a new clone.
+3. Recreate `.env` locally when needed. Download the APK and install dependencies
+   using the commands above.
+
+Browser progress is separate from Git. The repository excludes `.env`,
+downloaded APKs, `node_modules`, runtime logs and personal progress backups.
+Import merges completions and preserves an existing note if imported text
+conflicts with it.
+
+On later days, open a terminal in this project and run `npm run course`.
+For mobile practice, also start the emulator, then run `npm run preflight`
+and the test you are working on. Installation and APK download are not daily
+steps.
+
+The [resume guide](docs/RESUME.md) contains a prompt for continuing your
+training in a new chat after changing OpenAI accounts.
 
 ## Commands you will actually use
 
