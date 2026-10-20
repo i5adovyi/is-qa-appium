@@ -97,6 +97,14 @@ One critical broken flow can outweigh many passing cosmetic checks.
 Request investigation of the reproducible failure and the device coverage justified by the release's users.
 </details>
 
+## Workplace extension
+
+Complete [lab 09: run summaries](../../exercises/09-run-summary/README.md) to
+distinguish first-attempt passes, recovered retries and unrun coverage. Then
+review RW-17 in the [workplace workbook](../handbook/workplace-scenarios.md) and
+D4 in the [interview drills](../handbook/interview-drills.md). These exercises
+do not enable retries or alter the current workflows.
+
 ## Checkpoint
 
 - Why is `npm ci` useful for a committed lockfile?

@@ -148,6 +148,14 @@ An input that starts empty cannot prove clearing works.
 Compare the input's displayed value and the echoed result, and retain a screenshot when characters differ.
 </details>
 
+## Workplace extension
+
+Use [lab 08: fixture cleanup](../../exercises/08-fixture-cleanup/README.md) to
+practise API-created data ownership with fake callbacks, including simultaneous
+test and cleanup failures. Then design workplace case RW-16 in the
+[scenario workbook](../handbook/workplace-scenarios.md). The demo login has no
+real account API; the lab does not create accounts.
+
 ## Checkpoint
 
 - Why is one `it` per data row more diagnostic than one `it` with a device loop?

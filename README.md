@@ -14,11 +14,17 @@ Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, cod
 
 Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is an ordinary Markdown file you own and can edit.
 
+**Switching OpenAI accounts or computers?** Use [Resume this project](docs/RESUME.md)
+for the private GitHub location, recovery commands, progress backup and a prompt
+for your next chat. The course and tests run without an OpenAI account.
+
 | What is included | What you do with it |
 |---|---|
 | **16 lessons across 4 stages** | Learn programming foundations, write tests, make them reliable, then deliver them |
 | **48 lesson exercises + worked answers** | Practise with hints, acceptance criteria and an explanation of the solution |
-| **6 offline TypeScript labs** | Implement small functions and get feedback without an emulator |
+| **10 offline TypeScript labs** | Practise fundamentals, parallel planning, fixture cleanup, reporting and API contracts |
+| **28 workplace scenario exercises** | Investigate recovery, races, authentication, upgrades, accessibility and real-app incidents |
+| **48 interview questions + 10 practical drills** | Explain tradeoffs, review code, practise SQL and defend your decisions |
 | **7 Android reference tests** | Study working examples for launch, Forms, login and empty-field validation |
 | **Setup and debugging manuals** | Diagnose failures from evidence rather than guessing |
 | **Permissions and app-lifecycle field guide** | Distinguish app restart, background/resume, stored data and permission state |
@@ -27,6 +33,13 @@ Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is a
 | **CI templates** | Separate quick offline checks from manual cloud-device runs |
 
 These counts describe the supplied course. Your learner implementations intentionally start unfinished; the Android reference suite starts complete.
+
+Preparing for a job? Start with the [coverage review](docs/coverage-review.md),
+then use the [workplace scenarios](docs/handbook/workplace-scenarios.md) and
+[interview practice](docs/handbook/interview-practice.md). These are also in the
+reader's workbench. Use **Workplace & interview practice** on the dashboard to
+search full case text or a case ID and jump directly to its exercise.
+Design exercises identify features the demo does not implement.
 
 ## Your first hour
 
@@ -75,7 +88,7 @@ Run from the project root. Device commands require a booted emulator or connecte
 |---|---|
 | `npm run course` | Open the local course reader |
 | `npm run check` | TypeScript, documentation links, reference lab tests, offline framework regression checks |
-| `npm run practice` | List the six offline labs |
+| `npm run practice` | List the ten offline labs |
 | `npm run practice -- 03` | Test your work on one lab; initial failure is expected |
 | `npm run practice:solutions` | Test the supplied offline solutions |
 | `npm run preflight` | Check local prerequisites without running a UI test |
@@ -101,7 +114,7 @@ config/                 Shared, local Android, and BrowserStack runner settings
 docs/lessons/           The sixteen guided lessons
 docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
-exercises/             Six offline TypeScript labs, tests and reference solutions
+exercises/             Ten offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
 test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence

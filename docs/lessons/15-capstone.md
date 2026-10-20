@@ -83,6 +83,14 @@ Explain why the test exists and how its failure should be interpreted, not just 
 Use the known injected defect. It demonstrates diagnostic skill without pretending the application shipped a bug.
 </details>
 
+## Interview demonstration
+
+Use the [question bank](../handbook/interview-practice.md) and
+[ten practical drills](../handbook/interview-drills.md) to rehearse your handover.
+Choose one real failure from this capstone for D6 and one design-only workplace
+case to explain as a future extension. Keep the distinction explicit. The
+optional interview scoring is separate from the core capstone rubric.
+
 ## Final checkpoint
 
 Answer without opening the solution:

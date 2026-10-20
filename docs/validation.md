@@ -28,15 +28,15 @@ See the [setup manual](handbook/setup.md).
 | `npm run typecheck` | Passed for framework configuration, helpers, screen objects and mobile specs |
 | `npm run typecheck:practice` | Passed for offline starters, references and tests |
 | `npm run preflight` | Passed against this Mac's installed SDK, Java compiler, dependencies, driver and booted emulator |
-| `npm run practice:solutions` | **Passed:** 31 test cases across six labs |
+| `npm run practice:solutions` | **Passed:** 58 test cases across ten labs after the second workplace/interview review |
 | `npm run practice -- 01` before learner edits | Failed as designed: the unfinished starter throws; it is not pre-solved |
-| `npm run course:check` | **Passed:** sixteen lessons, 48 exercise/solution pairs, six lab structures and local Markdown links |
-| Reader test suites | **Passed:** five server and six progress test groups, including every lesson, solution and library page, module routes, file restrictions and backup merging; runnable together with `npm run course:test` |
+| `npm run course:check` | **Passed:** sixteen lessons, 48 exercise/solution pairs, ten lab structures, 86 indexed practice items and local Markdown links |
+| Reader test suites | **Passed:** sixteen checks covering the server, progress backups and practice search, including every indexed heading target; run with `npm run course:test` |
 | `npm run audit` | **Passed:** zero vulnerabilities after a clean `npm ci`; all dependency categories included |
 | `npm run app:download` / `app:verify` | **Passed:** fresh download and pinned SHA-256/size verification |
 | `npm run appium:setup` / `appium:doctor` | Project driver discovery passed; doctor reported zero required fixes and three optional tools absent |
 | `npm run framework:test` | **Passed:** 27 checks covering preflight, diagnostics, APK integrity and mocked BrowserStack upload/launch behavior |
-| Reader in the browser | Verified lesson rendering/navigation, section links, malformed-link recovery, progress import, conflict preservation, downloaded export contents and reload persistence |
+| Original reader in the browser | Previously verified lesson navigation, section links, malformed-link recovery and progress import/export; the later practice search has server/unit checks, not new visual verification |
 | Failure diagnostics with a mocked session | Verified distinct PNG/XML names for repeated titles and preservation of the original failure when capture fails |
 | Cloud credential guards with placeholders | Rejected before session creation; no credential values printed |
 | Hosted GitHub Actions | [Run 39427787762](https://github.com/i5adovyi/is-qa-appium/actions/runs/39427787762) passed for published commit `4f04bd9`; a later commit needs its own run |
@@ -60,6 +60,29 @@ checks are manual observations, not a complete accessibility or cross-browser au
 The backup check used synthetic notes on a separate local origin. It confirmed the
 downloaded JSON contains the merged completions and preserved current note.
 See [review findings](review-notes.md) for the changes and targeted fault experiments.
+
+## Workplace and interview extension checks
+
+The [coverage review](coverage-review.md) adds learning material and four offline
+helpers across two passes. The second pass also adds reader search and a portable
+handover guide. Mobile specs, runtime configs and dependencies remain unchanged.
+
+- `npm run check` passed, including both TypeScript projects, local documentation
+  structure/links, **58 reference lab tests** and **27 framework checks**.
+- `npm run course:test` passed **16 checks**, including full-text search/category
+  filtering and verifying that each of the 86 index links targets a real heading.
+- Labs 07–10 each failed with their expected unfinished-starter message.
+  Their reference implementations passed; learner work remains intentionally undone.
+- Eight deliberately broken helper implementations were caught in disposable copies
+  across the two passes, including wrong API identity and unsafe integer amounts.
+- Both SQL drill results were verified in an in-memory SQLite database.
+- The three checkout pricing examples in D9 were independently calculated.
+- Twenty-eight workplace case IDs, forty-eight interview question IDs, ten practical
+  drill IDs and balanced expandable answer blocks were checked.
+
+The Android suite and BrowserStack were **not run in these documentation/offline-lab
+passes**. Earlier Android evidence remains historical. No new browser interaction
+or visual reader verification is claimed. See [extension evidence](evidence/workplace-review.md).
 
 ## Android lesson learned during validation
 

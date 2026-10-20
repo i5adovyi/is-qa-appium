@@ -44,7 +44,39 @@ This creates momentum; it does not replace the course:
 
 If setup consumes the day, use the offline exercises and preserve a precise environment report. Do not label unexecuted mobile work complete.
 
-## When stuck
+## Interview preparation after the foundations
+
+Use six 60–90-minute sessions, repeating any that expose a weak foundation:
+
+| Session | Work | Evidence |
+|---|---|---|
+| 1 | Q01–Q12; practical drill D1 | Explain the command path and repair an assertion |
+| 2 | Q13–Q20; D3 SQL | Fixture ownership, a query and its limitations |
+| 3 | Lab 07; RW-15 | Isolated worker plan with edge cases |
+| 4 | Lab 08; RW-04/RW-05 | Cleanup behavior and an authentication/recovery design |
+| 5 | Lab 09; RW-17; D4 | Honest result summary and actionable review comments |
+| 6 | Q33–Q40; a timed mock; D6 | Recorded explanation, rubric scores and next steps |
+
+The [question bank](interview-practice.md), [drills](interview-drills.md) and
+[workplace cases](workplace-scenarios.md) contain the referenced tasks. This is
+additional practice, not a promise of interview readiness in six sessions. Choose
+iOS, hardware and framework-owner extensions from the target job's requirements.
+
+## Incident practice after the interview foundation
+
+After those six sessions, use three incident sessions to turn explanations into
+evidence. Each is 60–90 minutes; repeat weak areas before adding more topics.
+
+| Session | Work | Evidence |
+|---|---|---|
+| 7 | Lab 10, D8, Q41; RW-16/RW-22 | Passing API contract helper and clear separation of HTTP, data and business failures |
+| 8 | D7, RW-21/RW-23/RW-27, Q42–Q44 | Timestamped diagnosis with competing hypotheses and next observations |
+| 9 | D9/D10, RW-24/RW-25/RW-26/RW-28, Q45–Q48 | Prioritized test table, rollout/consent risks and a truthful handover |
+
+In the course dashboard, use **Workplace & interview practice** to search full
+case text or IDs, then filter by type. Selecting a card opens that exact exercise.
+
+## Getting unstuck
 
 Try for 15–20 focused minutes. Then open the first hint, not the solution. Write your current hypothesis and the observation needed to test it. After seeing a solution, close it and reconstruct the essential code from memory in a fresh practice attempt.
 

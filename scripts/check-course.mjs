@@ -1,6 +1,7 @@
 import { readFile, readdir, access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { indexCollection } from './course-index.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const catalog = JSON.parse(await readFile(path.join(root, 'course/catalog.json'), 'utf8'))
@@ -33,7 +34,20 @@ for (const lesson of catalog.lessons) {
     }
 }
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)
-const files = ['README.md', 'vendor/README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
+let indexedItems = 0
+const practiceIds = new Set()
+for (const collection of catalog.practiceCollections) {
+    check(catalog.library.some(item => item.path === collection.path), `Practice collection missing from library: ${collection.path}`)
+    const entries = indexCollection(collection, await readFile(path.join(root, collection.path), 'utf8'))
+    check(entries.length === collection.count, `${collection.path}: expected ${collection.count} indexed items`)
+    entries.forEach((entry, index) => {
+        check(!practiceIds.has(entry.id), `Duplicate practice ID: ${entry.id}`)
+        practiceIds.add(entry.id)
+        check(Number(entry.id.slice(collection.prefix.length)) === index + 1, `${collection.path}: nonsequential ID ${entry.id}`)
+    })
+    indexedItems += entries.length
+}
+const files = ['README.md', 'AGENTS.md', 'vendor/README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
 let localLinks = 0
 for (const file of files) {
     const source = (await readFile(path.join(root, file), 'utf8')).replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '')
@@ -48,7 +62,9 @@ for (const file of files) {
         check(await exists(path.relative(root, resolved)), `${file}: broken link ${href}`)
     }
 }
-for (const id of ['01-typed-data', '02-validation', '03-async-order', '04-selectors', '05-polling', '06-diagnosis']) {
+const labs = ['01-typed-data', '02-validation', '03-async-order', '04-selectors', '05-polling',
+    '06-diagnosis', '07-session-plan', '08-fixture-cleanup', '09-run-summary', '10-api-contract']
+for (const id of labs) {
     for (const filename of ['README.md', 'starter.ts', 'solution.ts', 'exercise.test.ts']) {
         check(await exists(`exercises/${id}/${filename}`), `Missing practice file ${id}/${filename}`)
     }
@@ -57,6 +73,7 @@ if (errors.length) {
     console.error(`Course check failed (${errors.length}):\n${errors.map(error => `- ${error}`).join('\n')}`)
     process.exitCode = 1
 } else {
-    console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, 6 offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
+    console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, ${labs.length} offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
+    console.log(`${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
     console.log('This checks repository structure and local links, not external site availability or mobile behaviour.')
 }

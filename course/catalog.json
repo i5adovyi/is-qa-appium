@@ -24,8 +24,18 @@
     { "id": "14", "stage": "delivery", "title": "Choose what deserves a test", "subtitle": "Risk, coverage, maintainability, and review.", "path": "docs/lessons/14-test-design.md" },
     { "id": "15", "stage": "delivery", "title": "Ship your capstone", "subtitle": "A portfolio project with evidence and an honest quality report.", "path": "docs/lessons/15-capstone.md" }
   ],
+  "practiceCollections": [
+    { "category": "workplace", "label": "Workplace case", "prefix": "RW-", "count": 28, "path": "docs/handbook/workplace-scenarios.md" },
+    { "category": "interview", "label": "Interview question", "prefix": "Q", "count": 48, "path": "docs/handbook/interview-practice.md" },
+    { "category": "drill", "label": "Practical drill", "prefix": "D", "count": 10, "path": "docs/handbook/interview-drills.md" }
+  ],
   "library": [
     { "title": "Course map", "path": "docs/README.md" },
+    { "title": "Resume after changing accounts", "path": "docs/RESUME.md" },
+    { "title": "Workplace scenario workbook · 28 cases", "path": "docs/handbook/workplace-scenarios.md" },
+    { "title": "Interview practice · 48 questions", "path": "docs/handbook/interview-practice.md" },
+    { "title": "Practical interview drills · code, SQL & review", "path": "docs/handbook/interview-drills.md" },
+    { "title": "Real-world & interview coverage review", "path": "docs/coverage-review.md" },
     { "title": "Offline TypeScript labs", "path": "exercises/README.md" },
     { "title": "Setup manual", "path": "docs/handbook/setup.md" },
     { "title": "Dependencies & APK integrity", "path": "docs/handbook/dependency-maintenance.md" },

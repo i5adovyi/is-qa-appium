@@ -60,6 +60,23 @@ in [dependency maintenance](handbook/dependency-maintenance.md). The latest chec
 passed 7 Android tests, 31 offline lab tests, 27 framework checks and 11 reader checks.
 See the [maintenance evidence](evidence/security-maintenance.md).
 
+## Workplace and interview follow-up
+
+A further [coverage review](coverage-review.md) compared the learning path with
+platform documentation and examples of employer requirements. It adds twenty
+workplace cases, forty interview prompts, six practical drills and three offline
+labs for parallel planning, fixture cleanup and reporting. These are available
+from the course reader's workbench and relevant lessons. They extend practice;
+they do not convert design-only scenarios into executed device coverage.
+
+The second pass expands that material to 28 scenarios, 48 questions, ten practical
+drills and ten total coding labs. New incidents include races, private staging,
+flags, analytics consent, uploads, wrong artifacts and inherited flaky suites.
+Lab 10 exercises real local HTTP responses as well as malformed payloads.
+The dashboard searches all 86 scenario/question/drill entries and opens their
+specific headings. A [handover guide](RESUME.md) makes the project usable from
+a fresh chat or computer without depending on the original conversation.
+
 ## Remaining boundaries and useful next work
 
 1. **Real cloud evidence:** run the first BrowserStack exercise with working account

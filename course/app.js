@@ -1,9 +1,11 @@
 import { parseProgress, mergeProgress } from './progress.js'
+import { headingSlug, findPractice } from './practice.js'
 
 const $ = selector => document.querySelector(selector)
 const storageKey = 'mobile-automation-lab-v1'
 let catalog, currentLesson, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
+let showAllPractice = false
 function toast(message) {
     $('#toast').textContent = message
     $('#toast').hidden = false
@@ -60,6 +62,25 @@ function refresh() {
     }
     if (!visible.length) grid.append(node('p', 'empty-state', 'No matching lessons. Try “login”, “TypeScript”, or “cloud”.'))
 }
+function refreshPractice() {
+    const query = $('#practice-search').value
+    const category = $('#practice-category').value
+    const matches = findPractice(catalog.practice, query, category)
+    const visible = showAllPractice || query.trim() || category !== 'all' ? matches : matches.slice(0, 9)
+    const grid = $('#practice-grid')
+    grid.replaceChildren()
+    for (const entry of visible) {
+        const card = link('', `${entry.path}#${entry.anchor}`, 'library-card practice-card')
+        card.append(node('span', 'practice-meta', `${entry.id} · ${entry.label}`),
+            node('strong', '', entry.title), node('span', 'practice-open', 'Open exercise & review guide ↗'))
+        grid.append(card)
+    }
+    $('#practice-count').textContent = visible.length === matches.length
+        ? `${matches.length} matching items`
+        : `Showing ${visible.length} of ${matches.length} items. Search a topic or browse all.`
+    if (!matches.length) grid.append(node('p', 'empty-state', 'No matches. Try “SQL”, “permission”, “401”, or a case ID such as “RW-21”.'))
+    $('#practice-show-all').hidden = visible.length === matches.length
+}
 function safeContent(html, page) {
     const template = document.createElement('template')
     template.innerHTML = html
@@ -71,7 +92,7 @@ function safeContent(html, page) {
     })
     const slugs = new Map()
     template.content.querySelectorAll('h1,h2,h3,h4').forEach(heading => {
-        const base = heading.textContent.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, '').trim().replace(/\s+/g, '-')
+        const base = headingSlug(heading.textContent)
         const count = slugs.get(base) ?? 0
         slugs.set(base, count + 1)
         heading.id = count ? `${base}-${count}` : base
@@ -193,6 +214,15 @@ async function init() {
     }
     catalog.library.forEach(item => $('#library-grid').append(link(`${item.title} ↗`, item.path, 'library-card')))
     $('#search').addEventListener('input', refresh)
+    $('#practice-search').addEventListener('input', refreshPractice)
+    $('#practice-category').addEventListener('change', refreshPractice)
+    $('#practice-show-all').addEventListener('click', () => {
+        showAllPractice = true
+        refreshPractice()
+        // Move focus to the first newly revealed item when the button disappears.
+        $('#practice-grid').children[9]?.focus()
+    })
+    refreshPractice()
     $('#complete-button').addEventListener('click', () => {
         if (!currentLesson) return
         const id = currentLesson.id

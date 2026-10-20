@@ -1,4 +1,13 @@
 :root{--paper:#f7f7f2;--ink:#202b27;--muted:#6b756e;--line:#dce1d8;--green:#d7ef9b;--deep:#172923;--orange:#c35c32;--sidebar:272px}
+.practice-intro{font-size:12px;color:var(--muted);max-width:680px}
+.practice-tools{display:flex;flex-wrap:wrap;gap:16px}
+.practice-tools label{display:flex;flex-direction:column;gap:5px;font-size:12px}
+.practice-tools input[type=search]{width:min(320px,100%)}
+.practice-tools select{font:inherit;color:var(--ink);background:#fffefa;border:1px solid var(--line);border-radius:6px;padding:10px 13px}
+.practice-card{display:flex;flex-direction:column;gap:9px;overflow-wrap:anywhere}
+.practice-meta,.practice-open{font-size:10px;color:#516443}
+.practice-open{margin-top:auto}
+#practice-show-all{margin-top:16px}
 *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px;line-height:1.6}
 a{color:inherit}button,input,textarea{font:inherit}button,a,input,textarea{touch-action:manipulation}button{cursor:pointer}
 [hidden]{display:none!important}:focus-visible{outline:3px solid #b86038;outline-offset:4px}.skip-link{position:fixed;top:-80px;left:12px;padding:12px;background:var(--green);z-index:100}.skip-link:focus{top:12px}

@@ -10,6 +10,10 @@ const lessons = [
     ['04', 'selectors', 'Selectors: choose a stable locator and escape its value'],
     ['05', 'polling', 'Polling: retry observations with a strict limit'],
     ['06', 'diagnosis', 'Diagnosis: classify evidence without overclaiming'],
+    ['07', 'session-plan', 'Parallel planning: isolate devices, ports and fixture namespaces'],
+    ['08', 'fixture-cleanup', 'Fixture ownership: preserve test and cleanup failures'],
+    ['09', 'run-summary', 'Reporting: distinguish first passes, retries and unrun tests'],
+    ['10', 'api-contract', 'API contracts: validate HTTP status, identity and unknown JSON'],
 ]
 const args = process.argv.slice(2)
 const solutions = args.includes('--solutions')
@@ -23,7 +27,7 @@ if (selection === 'help' || selection === '--help') {
 }
 const chosen = selection === 'all' ? lessons : lessons.filter(([id]) => id === selection.padStart(2, '0'))
 if (!chosen.length || args.filter(arg => arg !== '--solutions').length > 1) {
-    console.error('Choose 01–06 or all. Example: npm run practice -- 03')
+    console.error('Choose 01–10 or all. Example: npm run practice -- 03')
     process.exit(2)
 }
 const testFiles = chosen.map(([id, name]) => path.join(root, 'exercises', `${id}-${name}`, 'exercise.test.ts'))

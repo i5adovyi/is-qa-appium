@@ -85,6 +85,15 @@ Thirty strings with equivalent behavior may exercise one partition thirty times.
 Time saved can fund a device variant or deeper investigation, but choose that investment based on users and failure history.
 </details>
 
+## Workplace extension
+
+Use the [28 workplace cases](../handbook/workplace-scenarios.md) to extend your
+risk inventory beyond the demo: authentication, offline recovery, upgrades,
+deep links, accessibility, performance and hardware. Pick three relevant cases,
+state the required test environment and oracle, and label each as implemented,
+designed only, blocked or not applicable. Avoid adding one UI test per category
+without a meaningful requirement.
+
 ## Checkpoint
 
 - What is the oracle for your last new assertion?

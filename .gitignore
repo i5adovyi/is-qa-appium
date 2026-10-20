@@ -10,3 +10,4 @@ logs/
 local.log
 browserstack.err
 .DS_Store
+mobile-automation-progress*.json

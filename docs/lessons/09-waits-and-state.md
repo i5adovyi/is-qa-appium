@@ -125,6 +125,13 @@ Place both cases in the same Forms `describe`. Separate worker sessions can hide
 The second case must arrange off itself or receive that guarantee from `beforeEach`.
 </details>
 
+## Workplace extension
+
+Investigate keyboard, permission and lifecycle cases RW-01–RW-03 in the
+[scenario workbook](../handbook/workplace-scenarios.md). Practise explaining
+stale elements, implicit/explicit waits and reset boundaries with Q06–Q08 and Q15
+in [interview practice](../handbook/interview-practice.md).
+
 ## Checkpoint
 
 - What is the difference between waiting for existence and waiting for correct text?

@@ -109,6 +109,15 @@ The evidence does not support blaming credentials or APK upload first.
 `LoginScreen.login` already handles the keyboard. Check whether the failing path used that action and what the device reported.
 </details>
 
+## Workplace extension
+
+Before proposing parallel cloud execution, complete
+[lab 07: worker isolation](../../exercises/07-session-plan/README.md). It creates
+an offline plan, not device sessions. Use RW-15/RW-18 in the
+[workplace workbook](../handbook/workplace-scenarios.md) to explain shared-data
+collisions, provider concurrency and a useful device matrix. The baseline remains
+sequential.
+
 ## Checkpoint
 
 - Does a passing cloud session on one device prove all Android devices work?

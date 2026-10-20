@@ -1,8 +1,9 @@
 # The offline practice lab
 
-These six small TypeScript problems isolate skills you will use in mobile tests.
-They use Node's test runner and Chai, not Appium. No device, network, account or
-real credentials are involved. They are **not substitutes for device tests**.
+These ten TypeScript problems isolate skills you will use in mobile tests.
+They use Node's test runner and Chai, not Appium. No device, internet service,
+account or real credentials are involved. Lab 10 starts a temporary HTTP server
+on your own computer. They are **not substitutes for device tests**.
 
 ## Your loop
 
@@ -25,6 +26,14 @@ write down your reasoning and change the contract and tests together as a separa
 | 04 | [Selectors](04-selectors/README.md) | Decision logic and string escaping | [Lesson 05](../docs/lessons/05-selectors.md) |
 | 05 | [Polling](05-polling/README.md) | Bounded retries and failure evidence | [Lesson 09](../docs/lessons/09-waits-and-state.md) |
 | 06 | [Diagnosis](06-diagnosis/README.md) | Classifying symptoms without guessing | [Lesson 10](../docs/lessons/10-debugging.md) |
+| 07 | [Parallel worker planning](07-session-plan/README.md) | Immutable inputs, unique ports and data namespaces | [Lesson 12](../docs/lessons/12-browserstack.md) |
+| 08 | [Fixture cleanup](08-fixture-cleanup/README.md) | Awaited setup/use/cleanup, preserving two failures | [Lesson 08](../docs/lessons/08-test-data.md) |
+| 09 | [Run summary](09-run-summary/README.md) | Typed results, retry evidence and honest rates | [Lesson 13](../docs/lessons/13-ci-and-reports.md) |
+| 10 | [API contract](10-api-contract/README.md) | HTTP status, unknown JSON, identity and business state | [Lesson 08](../docs/lessons/08-test-data.md) |
+
+Labs 01–06 build foundations. Labs 07–10 extend them into workplace and interview
+problems; read each lab's prerequisites first. They do not enable parallel cloud
+sessions, delete real records or change the mobile runner's retry settings.
 
 ## Commands
 

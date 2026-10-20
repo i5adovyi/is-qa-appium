@@ -59,6 +59,30 @@ Use the project's [permissions and lifecycle manual](handbook/mobile-state.md) t
 
 Assignment: compare a static CI pass, a local emulator pass, and a real cloud-device pass. Write one claim each supports and one claim it does not support.
 
+## Workplace and interview reference shelf
+
+Use the [workplace cases](handbook/workplace-scenarios.md) and
+[interview drills](handbook/interview-drills.md) to apply these sources:
+
+| Primary source | Reading task |
+|---|---|
+| [Appium session capabilities](https://appium.io/docs/en/latest/guides/caps/) | Distinguish session negotiation, extension prefixes and runtime settings |
+| [UiAutomator2 parallel tests](https://github.com/appium/appium-uiautomator2-driver#parallel-tests) | Identify device and port isolation needed beyond worker count |
+| [Android core app quality](https://developer.android.com/docs/quality-guidelines/core-app-quality) | Choose three risks absent from a login-only suite |
+| [Android process lifecycle](https://developer.android.com/guide/components/activities/process-lifecycle) | Explain why backgrounding, activity recreation and process death differ |
+| [Android deep links](https://developer.android.com/training/app-links) | Separate OS link resolution from app routing and authorization |
+| [Android accessibility testing](https://developer.android.com/guide/topics/ui/accessibility/testing) | Plan a task with assistive technology, beyond locator checks |
+| [Android Macrobenchmark](https://developer.android.com/topic/performance/benchmarking/macrobenchmark-overview) | Separate app-performance measurements from test-runner duration |
+| [XCUITest requirements](https://github.com/appium/appium-xcuitest-driver/blob/master/docs/getting-started/system-requirements.md) | List the prerequisites missing from an Android-to-iOS port |
+| [OWASP MASVS](https://mas.owasp.org/MASVS/) | Identify authentication, storage and privacy checks outside functional UI coverage |
+| [HTTP semantics](https://www.rfc-editor.org/rfc/rfc9110.html#name-idempotent-methods) | Explain why a timeout is not proof that a write did not occur |
+| [SQLite SELECT](https://www.sqlite.org/lang_select.html) | Explain the left-join and grouping behavior in drill D3 |
+
+Employer descriptions used as examples of workplace expectations are linked in
+the [coverage review](coverage-review.md). They are not evidence of interview
+question frequency. The practice questions and fictional situations are original
+course material.
+
 ## Optional books
 
 | Book and primary source | Best point in this course | Why read it / practice afterward |

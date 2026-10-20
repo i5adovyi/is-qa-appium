@@ -3,13 +3,14 @@ import path from 'node:path'
 import { readFile, realpath, stat } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import { marked } from 'marked'
+import { indexCollection } from './course-index.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = Number(process.env.COURSE_PORT ?? 4173)
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('COURSE_PORT must be an integer from 1 to 65535')
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json' }
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
-const allowedRootFiles = new Set(['README.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
+const allowedRootFiles = new Set(['README.md', 'AGENTS.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
 function allowedPage(name) {
     if (allowedRootFiles.has(name)) return true
     if (/^(docs|exercises)\//.test(name)) return /\.(md|ts)$/.test(name)
@@ -36,7 +37,14 @@ const server = http.createServer(async (req, res) => {
     try {
         if (req.method !== 'GET') return send(res, 405, '{"error":"Read-only server"}')
         const url = new URL(req.url, `http://127.0.0.1:${port}`)
-        if (url.pathname === '/api/catalog') return send(res, 200, await readWithinRoot('course/catalog.json'))
+        if (url.pathname === '/api/catalog') {
+            const catalog = JSON.parse(await readWithinRoot('course/catalog.json'))
+            const groups = await Promise.all(catalog.practiceCollections.map(async collection => {
+                if (!allowedPage(collection.path)) throw new Error('Invalid practice collection')
+                return indexCollection(collection, await readWithinRoot(collection.path))
+            }))
+            return send(res, 200, JSON.stringify({ ...catalog, practice: groups.flat() }))
+        }
         if (url.pathname === '/api/page') {
             const name = url.searchParams.get('path') ?? ''
             if (!allowedPage(name)) return send(res, 403, '{"error":"This file is outside the course library."}')
@@ -46,7 +54,7 @@ const server = http.createServer(async (req, res) => {
                 : `<h1>${escape(path.basename(name))}</h1><pre><code>${escape(source)}</code></pre>`
             return send(res, 200, JSON.stringify({ path: name, html }))
         }
-        const assets = { '/': 'index.html', '/app.js': 'app.js', '/progress.js': 'progress.js', '/style.css': 'style.css' }
+        const assets = { '/': 'index.html', '/app.js': 'app.js', '/progress.js': 'progress.js', '/practice.js': 'practice.js', '/style.css': 'style.css' }
         const asset = assets[url.pathname]
         if (!asset) return send(res, 404, '{"error":"Not found"}')
         return send(res, 200, await readWithinRoot(`course/${asset}`), mime[path.extname(asset)])
