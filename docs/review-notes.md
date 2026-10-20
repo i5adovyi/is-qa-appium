@@ -77,7 +77,16 @@ The dashboard searches all 86 scenario/question/drill entries and opens their
 specific headings. A [handover guide](RESUME.md) makes the project usable from
 a fresh chat or computer without depending on the original conversation.
 
-## Remaining boundaries and useful next work
+## Third pass: learning under uncertainty
+
+The third pass found a practice-design gap: too many topics per session and too
+few ambiguous investigations. It adds eight cases (36 total), six incident shifts
+and two faulty-code repair labs (12 labs total). The study plan uses one core task
+per session and evidence gates. The new shifts ask for a prediction before a
+reveal, a changed hypothesis when warranted and a handover of unfinished work.
+Search now includes all 100 cases, questions, drills and shifts.
+
+## Remaining execution boundaries
 
 1. **Real cloud evidence:** run the first BrowserStack exercise with working account
    credentials and a deliberately selected device. Mocked API and launcher checks

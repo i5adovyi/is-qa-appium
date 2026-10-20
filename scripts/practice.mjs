@@ -14,6 +14,8 @@ const lessons = [
     ['08', 'fixture-cleanup', 'Fixture ownership: preserve test and cleanup failures'],
     ['09', 'run-summary', 'Reporting: distinguish first passes, retries and unrun tests'],
     ['10', 'api-contract', 'API contracts: validate HTTP status, identity and unknown JSON'],
+    ['11', 'fixture-isolation', 'Repair a shared nested fixture that passes alone and fails in a suite'],
+    ['12', 'uncertain-submit', 'Repair a retry that duplicates an order after a lost response'],
 ]
 const args = process.argv.slice(2)
 const solutions = args.includes('--solutions')
@@ -22,18 +24,18 @@ if (selection === 'help' || selection === '--help') {
     console.log('Offline TypeScript practice — no emulator or account needed.\n')
     lessons.forEach(([id, , title]) => console.log(`${id}  ${title}`))
     console.log('\nRun: npm run practice -- 01\nEdit the selected starter.ts, read its README, and rerun.')
-    console.log('Starter exercises intentionally fail until implemented. Reference tests: npm run practice:solutions')
+    console.log('Labs 01–10 start unfinished; 11–12 contain deliberate bugs. Reference tests: npm run practice:solutions')
     process.exit(0)
 }
 const chosen = selection === 'all' ? lessons : lessons.filter(([id]) => id === selection.padStart(2, '0'))
 if (!chosen.length || args.filter(arg => arg !== '--solutions').length > 1) {
-    console.error('Choose 01–10 or all. Example: npm run practice -- 03')
+    console.error('Choose 01–12 or all. Example: npm run practice -- 03')
     process.exit(2)
 }
 const testFiles = chosen.map(([id, name]) => path.join(root, 'exercises', `${id}-${name}`, 'exercise.test.ts'))
 console.log(solutions
     ? '\nChecking supplied reference solutions. This does not grade your starter.ts files.\n'
-    : `\nChecking your starter.ts files for lab(s): ${chosen.map(([id]) => id).join(', ')}. Initial failures are expected until you implement them.\n`)
+    : `\nChecking your starter.ts files for lab(s): ${chosen.map(([id]) => id).join(', ')}. Initial failures are expected until you implement or repair them.\n`)
 const result = spawnSync(process.execPath, ['--test', ...testFiles], {
     cwd: root,
     stdio: 'inherit',

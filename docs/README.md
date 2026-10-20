@@ -57,8 +57,9 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 ## Your workbench
 
 - [Resume this project](RESUME.md): account changes, GitHub recovery, progress backups and a prompt for your next chat.
-- [Ten offline TypeScript labs](../exercises/README.md): foundations plus parallel planning, fixture cleanup, reporting and API contracts; learner code starts unfinished.
-- [28 workplace scenarios](handbook/workplace-scenarios.md): real-app situations, prerequisites, evidence and review guides.
+- [Twelve offline TypeScript labs](../exercises/README.md): foundations, workplace helpers and two repairs of inherited faulty code.
+- [36 workplace scenarios](handbook/workplace-scenarios.md): real-app situations, prerequisites, evidence and review guides.
+- [Six incident shifts](handbook/incident-shifts.md): incomplete evidence, changing requirements, red-to-green repairs and decisions under time pressure.
 - [48 interview questions](handbook/interview-practice.md): answer criteria, follow-ups and timed mock interviews.
 - [Ten practical interview drills](handbook/interview-drills.md): code, SQL, Git review, architecture, log investigation, API checks, test design and communication.
 - [Coverage review](coverage-review.md): gaps found, their exercises, evidence sources and remaining limits.

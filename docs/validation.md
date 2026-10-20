@@ -28,10 +28,10 @@ See the [setup manual](handbook/setup.md).
 | `npm run typecheck` | Passed for framework configuration, helpers, screen objects and mobile specs |
 | `npm run typecheck:practice` | Passed for offline starters, references and tests |
 | `npm run preflight` | Passed against this Mac's installed SDK, Java compiler, dependencies, driver and booted emulator |
-| `npm run practice:solutions` | **Passed:** 58 test cases across ten labs after the second workplace/interview review |
+| `npm run practice:solutions` | **Passed:** 72 test cases across twelve labs after the incident-practice review |
 | `npm run practice -- 01` before learner edits | Failed as designed: the unfinished starter throws; it is not pre-solved |
-| `npm run course:check` | **Passed:** sixteen lessons, 48 exercise/solution pairs, ten lab structures, 86 indexed practice items and local Markdown links |
-| Reader test suites | **Passed:** sixteen checks covering the server, progress backups and practice search, including every indexed heading target; run with `npm run course:test` |
+| `npm run course:check` | **Passed:** sixteen lessons, 48 exercise/solution pairs, twelve lab structures, 100 indexed practice items and local Markdown links |
+| Reader test suites | **Passed:** seventeen checks covering the server, progress backups and practice search, including every indexed heading target; run with `npm run course:test` |
 | `npm run audit` | **Passed:** zero vulnerabilities after a clean `npm ci`; all dependency categories included |
 | `npm run app:download` / `app:verify` | **Passed:** fresh download and pinned SHA-256/size verification |
 | `npm run appium:setup` / `appium:doctor` | Project driver discovery passed; doctor reported zero required fixes and three optional tools absent |
@@ -63,9 +63,9 @@ See [review findings](review-notes.md) for the changes and targeted fault experi
 
 ## Workplace and interview extension checks
 
-The [coverage review](coverage-review.md) adds learning material and four offline
-helpers across two passes. The second pass also adds reader search and a portable
-handover guide. Mobile specs, runtime configs and dependencies remain unchanged.
+The first two passes of the [coverage review](coverage-review.md) added learning
+material and four offline helpers. The second also added reader search and a
+portable handover guide. These results are historical; the third pass follows.
 
 - `npm run check` passed, including both TypeScript projects, local documentation
   structure/links, **58 reference lab tests** and **27 framework checks**.
@@ -83,6 +83,28 @@ handover guide. Mobile specs, runtime configs and dependencies remain unchanged.
 The Android suite and BrowserStack were **not run in these documentation/offline-lab
 passes**. Earlier Android evidence remains historical. No new browser interaction
 or visual reader verification is claimed. See [extension evidence](evidence/workplace-review.md).
+
+## Incident-practice review checks
+
+The third pass adds repair labs 11–12, eight workplace cases and six incident
+shifts. It adjusts the study plan to one core task per session with evidence gates.
+Mobile specs, runtime configuration and dependencies were not changed.
+
+- `npm run check`: both TypeScript projects, course structure/local links,
+  **72 reference lab tests** and **27 framework checks** passed.
+- `npm run course:test`: **17 checks** passed, including the new shift category
+  and all **100** indexed heading targets.
+- Each new starter passes some checks and fails the intended causal assertion.
+  These are deliberately faulty repair exercises, not blank stubs.
+- Disposable incomplete repairs (copied array with shared item objects; unchecked
+  reconciliation receipt) were caught by the existing lab tests.
+- The Warsaw spring-midnight example was checked against runtime timezone data:
+  a **23-hour** interval. The three input examples have UTF-16 lengths **1, 2, 5**.
+- New reveal and answer blocks were checked for balanced markup.
+
+No emulator, real backend, cloud device or destructive cleanup was run during
+this pass. The new cases and shifts are fictional training evidence. See the
+[incident review execution record](evidence/incident-review.md).
 
 ## Android lesson learned during validation
 

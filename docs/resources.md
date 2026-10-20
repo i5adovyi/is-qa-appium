@@ -83,7 +83,19 @@ the [coverage review](coverage-review.md). They are not evidence of interview
 question frequency. The practice questions and fictional situations are original
 course material.
 
-## Optional books
+## Workplace investigation reading
+
+For the workplace apprenticeship, read a focused section and apply it to one shift:
+
+| Primary source | Apply it here |
+|---|---|
+| [Google SRE: Effective Troubleshooting](https://sre.google/sre-book/effective-troubleshooting/) | Write two hypotheses and a discriminating observation before opening a shift's reveal |
+| [AWS Builders' Library: Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/) | Explain why the lab 12 correlation key does not make duplicate creation safe |
+| [Node 24 signal events](https://nodejs.org/docs/latest-v24.x/api/process.html#signal-events) | Explain the boundary of cleanup hooks in RW-31 |
+| [MDN shallow copies](https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy) | Draw the shared references before repairing lab 11 |
+| [MDN local date arithmetic](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate) | Separate calendar rules from elapsed durations in RW-32 |
+
+## Optional books to deepen the foundations
 
 | Book and primary source | Best point in this course | Why read it / practice afterward |
 |---|---|---|

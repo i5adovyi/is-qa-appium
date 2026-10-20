@@ -22,8 +22,9 @@ for your next chat. The course and tests run without an OpenAI account.
 |---|---|
 | **16 lessons across 4 stages** | Learn programming foundations, write tests, make them reliable, then deliver them |
 | **48 lesson exercises + worked answers** | Practise with hints, acceptance criteria and an explanation of the solution |
-| **10 offline TypeScript labs** | Practise fundamentals, parallel planning, fixture cleanup, reporting and API contracts |
-| **28 workplace scenario exercises** | Investigate recovery, races, authentication, upgrades, accessibility and real-app incidents |
+| **12 offline TypeScript labs** | Build helpers and repair inherited bugs in fixture isolation and unsafe retries |
+| **36 workplace scenario exercises** | Investigate recovery, races, conflicting requirements, misleading results and real-app incidents |
+| **6 incident shifts** | Revise hypotheses from new evidence and hand over incomplete work under constraints |
 | **48 interview questions + 10 practical drills** | Explain tradeoffs, review code, practise SQL and defend your decisions |
 | **7 Android reference tests** | Study working examples for launch, Forms, login and empty-field validation |
 | **Setup and debugging manuals** | Diagnose failures from evidence rather than guessing |
@@ -32,7 +33,8 @@ for your next chat. The course and tests run without an OpenAI account.
 | **Capstone + assessment rubric** | Build a reviewable portfolio and assess its quality |
 | **CI templates** | Separate quick offline checks from manual cloud-device runs |
 
-These counts describe the supplied course. Your learner implementations intentionally start unfinished; the Android reference suite starts complete.
+These counts describe the supplied course. Learner labs start unfinished or
+deliberately faulty; the Android reference suite starts complete.
 
 Preparing for a job? Start with the [coverage review](docs/coverage-review.md),
 then use the [workplace scenarios](docs/handbook/workplace-scenarios.md) and
@@ -88,7 +90,7 @@ Run from the project root. Device commands require a booted emulator or connecte
 |---|---|
 | `npm run course` | Open the local course reader |
 | `npm run check` | TypeScript, documentation links, reference lab tests, offline framework regression checks |
-| `npm run practice` | List the ten offline labs |
+| `npm run practice` | List the twelve offline labs |
 | `npm run practice -- 03` | Test your work on one lab; initial failure is expected |
 | `npm run practice:solutions` | Test the supplied offline solutions |
 | `npm run preflight` | Check local prerequisites without running a UI test |
@@ -114,7 +116,7 @@ config/                 Shared, local Android, and BrowserStack runner settings
 docs/lessons/           The sixteen guided lessons
 docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
-exercises/             Ten offline TypeScript labs, tests and reference solutions
+exercises/             Twelve offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
 test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence

@@ -65,11 +65,12 @@ As reviewed on **20 October 2026**:
 
 - Stack: Node 24, Appium 3, WebdriverIO 10, TypeScript, Mocha/Chai,
   Android UiAutomator2 and BrowserStack App Automate.
-- Course: 16 lessons, 48 lesson exercises, 10 offline coding labs,
-  28 workplace scenarios, 48 interview questions and 10 practical drills.
+- Course: 16 lessons, 48 lesson exercises, 12 offline coding labs,
+  36 workplace scenarios, 48 interview questions, 10 practical drills and
+  six staged incident shifts.
 - Forms and Login have walkthroughs and reference tests, including clearing
   text and submitting empty login fields.
-- Offline starters intentionally throw until you implement them. Use
+- Labs 01–10 have unfinished starters; labs 11–12 have deliberate bugs to repair. Use
   `npm run practice -- 01` for your work and `npm run practice:solutions`
   to check the supplied references. Keep these meanings separate.
 - Dependency remediation and pinned APK SHA-256/size verification are already
@@ -79,8 +80,9 @@ As reviewed on **20 October 2026**:
   [validation](validation.md). Design-only scenarios are not device passes.
 - **BrowserStack remains pending:** you still need an account, local credentials
   and an actual real-device session. No successful BrowserStack run is claimed.
-- The latest review added search across scenario/question/drill text, supplied
-  incident evidence and a local HTTP contract lab. See the coverage review for
+- The latest review adds a workplace apprenticeship with staged evidence,
+  conflicting requirements and two faulty-code repair labs. Search includes
+  all scenarios, questions, drills and shifts. See the coverage review for
   requirements that need another app or backend.
 
 ## Prompt for the next chat

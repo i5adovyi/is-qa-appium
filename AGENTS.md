@@ -6,7 +6,8 @@ production application. Read `docs/RESUME.md` for the handover and
 Appium, TypeScript, Chai and BrowserStack from the foundations.
 
 - Preserve learner edits. Offline `starter.ts` files intentionally start
-  unfinished; do not copy reference implementations into them unless asked.
+  unfinished (01–10) or faulty (11–12); do not copy reference implementations
+  into them unless asked.
 - Use Node 24. `npm run check` validates types, course structure, reference labs
   and framework helpers; `npm run course:test` checks the local reader.
 - `npm run practice -- NN` grades the learner file. `npm run practice:solutions`

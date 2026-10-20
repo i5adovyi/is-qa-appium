@@ -25,14 +25,16 @@
     { "id": "15", "stage": "delivery", "title": "Ship your capstone", "subtitle": "A portfolio project with evidence and an honest quality report.", "path": "docs/lessons/15-capstone.md" }
   ],
   "practiceCollections": [
-    { "category": "workplace", "label": "Workplace case", "prefix": "RW-", "count": 28, "path": "docs/handbook/workplace-scenarios.md" },
+    { "category": "workplace", "label": "Workplace case", "prefix": "RW-", "count": 36, "path": "docs/handbook/workplace-scenarios.md" },
     { "category": "interview", "label": "Interview question", "prefix": "Q", "count": 48, "path": "docs/handbook/interview-practice.md" },
-    { "category": "drill", "label": "Practical drill", "prefix": "D", "count": 10, "path": "docs/handbook/interview-drills.md" }
+    { "category": "drill", "label": "Practical drill", "prefix": "D", "count": 10, "path": "docs/handbook/interview-drills.md" },
+    { "category": "shift", "label": "Incident shift", "prefix": "S", "count": 6, "path": "docs/handbook/incident-shifts.md" }
   ],
   "library": [
     { "title": "Course map", "path": "docs/README.md" },
     { "title": "Resume after changing accounts", "path": "docs/RESUME.md" },
-    { "title": "Workplace scenario workbook · 28 cases", "path": "docs/handbook/workplace-scenarios.md" },
+    { "title": "Workplace scenario workbook · 36 cases", "path": "docs/handbook/workplace-scenarios.md" },
+    { "title": "Incident shifts · six messy workdays", "path": "docs/handbook/incident-shifts.md" },
     { "title": "Interview practice · 48 questions", "path": "docs/handbook/interview-practice.md" },
     { "title": "Practical interview drills · code, SQL & review", "path": "docs/handbook/interview-drills.md" },
     { "title": "Real-world & interview coverage review", "path": "docs/coverage-review.md" },

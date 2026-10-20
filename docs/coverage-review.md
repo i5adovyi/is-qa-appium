@@ -110,17 +110,59 @@ and [Mocha callback context](https://mochajs.org/features/arrow-functions/).
 
 ## What was added
 
-- **28 workplace exercises**, each with a situation, task, evidence requirements
+- **36 workplace exercises**, each with a situation, task, evidence requirements
   and review guide. Execution modes prevent design work being confused with a pass.
 - **48 interview questions**, with answer criteria, follow-ups and common mistakes;
   three timed mock interviews and a reusable scoring rubric.
 - **Ten practical drills:** test review, TypeScript, SQL, PR review, framework
   design, an investigation story, log diagnosis, API contracts, checkout design
   and a work handover.
-- **Four new offline labs** across both review passes, with unfinished starters,
-  reference implementations and contract tests. The project contains **ten** labs.
+- **Six new offline labs** across the reviews, with unfinished or deliberately
+  faulty starters, references and contract tests. The project contains **twelve**
+  labs; the latest two practise repairing inherited code.
+- **Six incident shifts** with staged evidence, changing conclusions, runnable
+  repairs and review criteria. All 100 cases/questions/drills/shifts are searchable.
 - Links from relevant lessons, study plans, course map and reader workbench.
   The original sixteen-lesson sequence and its saved progress IDs stay intact.
+
+## Third-pass finding: breadth was ahead of workplace practice
+
+The earlier material covers many mobile topics. The larger remaining gap was
+how the learner makes decisions when evidence is incomplete. Most exercises had
+an explicit contract, an obvious target and a clear stopping point. Real work
+can also require clarifying the contract, rejecting misleading evidence and
+handing over a problem before it is fully solved.
+
+This review found an overloaded study-plan row combining multiple cases and
+drills in a single 60–90-minute session. The plan now distinguishes one core
+task from optional follow-up work and uses evidence gates between stages.
+
+| Gap | Added practice | What the learner produces |
+|---|---|---|
+| Contradictory requirements and changing decisions | RW-29, S1 | Provisional and revised acceptance tables with a decision owner |
+| Shared nested data despite distinct account IDs | RW-30, lab 11, S2 | Repair of an order-dependent bug, regression evidence |
+| Cleanup lost when the worker disappears | RW-31, S4 | Scoped cleanup candidate list, lease/concurrency reasoning |
+| Calendar rules, clock disagreement and DST | RW-32, S5 | Independent time oracle and boundary table |
+| Input methods and ambiguous character limits | RW-33 | Clarified units and interaction evidence |
+| Green tests that do not observe the intended behavior | RW-34, S5 | A relevant defect that the improved assertion detects |
+| Restricted diagnostics and missing testability support | RW-35, S6 | A feasible staged plan and a precise request to the team |
+| A timed-out write that actually committed | RW-36, lab 12, S3 | Bounded reconciliation, an unknown outcome and no blind replay |
+| Stale artifacts, time pressure and imperfect handover | S4/S6, decision-log template | Facts separated from inference and a defensible recommendation |
+
+The two new starters pass some checks and fail others. That makes a green
+happy path part of the investigation, rather than starting every exercise with
+an explicit “implement me” exception. The incident shifts reveal new information
+after the learner records a hypothesis; revised reasoning is part of assessment.
+
+Technical foundations were checked against
+[Google's troubleshooting method](https://sre.google/sre-book/effective-troubleshooting/),
+[AWS's idempotent API guidance](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/),
+[Node 24 signal behavior](https://nodejs.org/docs/latest-v24.x/api/process.html#signal-events),
+[MDN shallow copies](https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy)
+and [calendar arithmetic](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate).
+These sources support the technical distinctions; the fictional incident packets
+and assessment design are original to this project. No claim is made that other
+courses never teach these subjects.
 
 ## Recommended order
 
@@ -132,8 +174,9 @@ and [Mocha callback context](https://mochajs.org/features/arrow-functions/).
    Keep API/authentication tasks designed only until a suitable environment exists.
 4. **Broader mobile work:** choose remaining cases by the app and job requirements;
    complete a risk-based device plan and one automation-engineer mock.
-5. **Incident practice:** investigate D7/D8 and RW-21–RW-28 using the supplied
-   evidence; defend D9 and write the D10 handover.
+5. **Incident practice:** follow S1–S6 in the [incident shifts](handbook/incident-shifts.md),
+   including repair labs 11–12. Use D7–D10 and the wider case library as targeted
+   follow-ups, not a checklist to finish in one session.
 6. **Framework ownership:** defend D5 and the release scenarios. This is stretch
    work, not a requirement for writing your first tests.
 

@@ -23,6 +23,23 @@ Use [templates](templates.md) for a learning log. Mark a lesson complete when yo
 
 Revisit earlier lessons if you cannot explain `await`, an assertion, or the reset contract. Progress is not improved by carrying those gaps into a larger framework.
 
+## Choose a track and use evidence gates
+
+The case library is a reference, not a requirement to finish every item in four
+weeks. Use the core lessons for foundations, then choose interview practice or
+the workplace shifts. Keep one core task per session; stretch work is optional.
+
+| Gate | Evidence needed before moving on |
+|---|---|
+| Foundations → first test | Explain `await` and a failed assertion; finish one small starter without copying |
+| First test → reliability | Run a chosen test alone, prove it fails for a relevant defect, restore it |
+| Reliability → workplace shifts | Separate app/device/fixture state; write two hypotheses and a discriminating observation |
+| Workplace shifts → capstone | Repair one inherited helper, revise a hypothesis after new evidence, and hand over unresolved work honestly |
+
+If a device is unavailable, proceed with offline labs and written designs.
+Leave the device gate pending until you have device evidence. Do not mark all
+learning blocked, and do not mark unexecuted checks passed.
+
 ## Eight-week sustainable plan
 
 Use three 90–120-minute sessions per week. Spend weeks 1–2 on foundations, weeks 3–4 on first mobile scenarios, weeks 5–6 on reliability and diagnosis, and weeks 7–8 on delivery. Add 8–16 hours for the capstone, either as longer weekend blocks or as a ninth week. Split a long session into two shorter sessions when concentration fades.
@@ -46,7 +63,9 @@ If setup consumes the day, use the offline exercises and preserve a precise envi
 
 ## Interview preparation after the foundations
 
-Use six 60–90-minute sessions, repeating any that expose a weak foundation:
+Use six 60–90-minute sessions, repeating any that expose a weak foundation.
+Choose three questions from each listed range per session; the range is a topic
+pool, not a demand to complete every question plus a lab in ninety minutes.
 
 | Session | Work | Evidence |
 |---|---|---|
@@ -69,12 +88,35 @@ evidence. Each is 60–90 minutes; repeat weak areas before adding more topics.
 
 | Session | Work | Evidence |
 |---|---|---|
-| 7 | Lab 10, D8, Q41; RW-16/RW-22 | Passing API contract helper and clear separation of HTTP, data and business failures |
-| 8 | D7, RW-21/RW-23/RW-27, Q42–Q44 | Timestamped diagnosis with competing hypotheses and next observations |
-| 9 | D9/D10, RW-24/RW-25/RW-26/RW-28, Q45–Q48 | Prioritized test table, rollout/consent risks and a truthful handover |
+| 7 | Core: lab 10. Optional follow-up: D8/Q41 | Passing API contract helper and separation of HTTP, data and business failures |
+| 8 | Core: D7 timeline. Choose one follow-up from RW-21/RW-23/RW-27 | Diagnosis with competing hypotheses and next observations |
+| 9 | Core: D9 checkout design. Optional follow-up: D10 handover | Prioritized test table with requirement-based expected values |
 
 In the course dashboard, use **Workplace & interview practice** to search full
 case text or IDs, then filter by type. Selecting a card opens that exact exercise.
+
+## Workplace apprenticeship: six messy shifts
+
+Use [incident shifts S1–S6](incident-shifts.md) after the reliability gate.
+Each shift has an opening packet, an additional-evidence reveal, a task and a
+review guide. Write your prediction before revealing more evidence.
+
+| Session | Core work | Deliverable |
+|---|---|---|
+| S1 | Conflicting requirements and a changed decision | Provisional and revised acceptance tables; a clarification message |
+| S2 | Lab 11: shared nested fixture | Red-to-green repair, ownership sketch and one extra regression case |
+| S3 | Lab 12: committed write with lost response | Single-write recovery and an explicit unknown-outcome policy |
+| S4 | Killed worker and stale artifacts | Run/attempt evidence manifest and scoped cleanup dry-run |
+| S5 | A green test misses a deliberate defect | Independent oracle and mutation evidence, or clearly labeled design |
+| S6 | Incomplete release evidence and limited access | A recommendation, owner, next observation and residual risk |
+
+Give a repair lab a second session if needed. After each shift, repeat one small
+part the next day with a changed premise. The purpose is to defend your reasoning
+under change, not memorize the answer guide.
+
+Keep broader topics such as iOS, hardware, feature flags and analytics as
+job-specific electives. Select one relevant case at a time. Stop adding breadth
+when you cannot independently explain and reproduce your last repair.
 
 ## Getting unstuck
 

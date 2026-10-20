@@ -50,8 +50,8 @@ test('serves every reader module as JavaScript', async () => {
 })
 test('every indexed case has a real page heading and body text is searchable', async () => {
     const catalog = await (await fetch(`${origin}/api/catalog`)).json()
-    assert.equal(catalog.practice.length, 86)
-    assert.equal(new Set(catalog.practice.map(entry => entry.id)).size, 86)
+    assert.equal(catalog.practice.length, 100)
+    assert.equal(new Set(catalog.practice.map(entry => entry.id)).size, 100)
     for (const collection of catalog.practiceCollections) {
         const entries = catalog.practice.filter(entry => entry.category === collection.category)
         assert.equal(entries.length, collection.count)
@@ -64,6 +64,8 @@ test('every indexed case has a real page heading and body text is searchable', a
     assert.ok(findPractice(catalog.practice, 'refresh', 'workplace').some(entry => entry.id === 'RW-22'))
     assert.ok(findPractice(catalog.practice, 'SQL', 'drill').some(entry => entry.id === 'D3'))
     assert.equal(findPractice(catalog.practice, 'Q48', 'interview')[0].id, 'Q48')
+    assert.equal(findPractice(catalog.practice, 'S4', 'shift')[0].id, 'S4')
+    assert.ok(findPractice(catalog.practice, 'force-killed', 'shift').some(entry => entry.id === 'S4'))
 })
 test('reads approved source as escaped code', async () => {
     const response = await fetch(`${origin}/api/page?path=test/screens/FormsScreen.ts`)

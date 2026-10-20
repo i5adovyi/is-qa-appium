@@ -734,6 +734,12 @@ run. Complete D10 and the capstone handover.
 
 ## Mock interviews
 
+For follow-ups without a tidy single answer, choose one
+[incident shift](incident-shifts.md). S1 tests requirement clarification; S4 tests
+evidence identity and cleanup limits; S6 tests a release recommendation under
+uncertainty. Explain your initial position before opening the reveal, then say
+what changed your mind. Do not present fictional shift work as job experience.
+
 | Format | Agenda | Evidence to keep |
 |---|---|---|
 | Junior, 45 min | 5 min project explanation; 10 min Q01/Q05/Q09/Q12; 15 min D1 code review; 10 min one workplace case; 5 min reflection | Explanation, repaired snippet and next practice topic |

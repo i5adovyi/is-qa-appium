@@ -1,7 +1,8 @@
 # Workplace scenarios: beyond a passing login
 
-These **28 original case exercises** extend the sixteen core lessons. Start after
-lesson 09; use the interview companion after you have attempted a case yourself.
+These **36 original case exercises** extend the sixteen core lessons. Most start
+after lesson 09; follow the prerequisite on each case. Use the interview companion
+after you have attempted a case yourself.
 Each case should take about 25–45 minutes to design. Device implementation can
 take longer and requires the stated feature.
 
@@ -681,6 +682,211 @@ Rates are 30%, 20%, 15% for their respective groups, not product-quality scores.
 Removing failing tests changes the denominator; it does not prove repair. Compare
 first-attempt results, keep excluded coverage visible and avoid claiming
 statistical certainty from twenty observations. Practise the handover in D10.
+
+</details>
+
+## RW-29 · Product and development disagree about the expected result
+
+**After lesson 07. Mode: requirements investigation.** A ticket says “email is
+optional.” The acceptance table says an empty email must block submission.
+A designer's mock shows no required marker. The previous release accepted empty
+email. A developer asks you to “just automate the current behavior.”
+
+**Task:** separate observations, assumptions and conflicting sources. Draft
+three questions that change the test design, identify the decision owner, and
+prepare a provisional table with unresolved rows marked **blocked**.
+**Deliver:** a concise clarification request, conditional acceptance examples,
+and useful checks you can still run while waiting. Do not invent agreement.
+
+<details><summary>Review guide</summary>
+
+Neither an old build nor the newest comment automatically establishes the intended
+contract. Ask which users/flow the rule covers and whether this is a deliberate
+change. Test unrelated settled behavior while the owner decides. After a decision,
+record its source/version and update the test, not just the ticket text.
+Shift S1 supplies a follow-up decision to practise revising your plan.
+
+</details>
+
+## RW-30 · Different account IDs still share the same mutable fixture
+
+**After lessons 02, 08–09. Mode: [repair lab 11](../../exercises/11-fixture-isolation/README.md).**
+Checkout passes alone. After the coupon case it unexpectedly sees `SAVE10`.
+App restart and different account IDs do not repair it. The fixture factory
+creates a fresh outer object with `{ ...template }`.
+
+**Task:** predict the leaking reference, run the faulty helper and explain why
+this failure can occur even without parallel execution.
+**Deliver:** before/after test output, an ownership sketch, a narrow repair and
+a regression case that mutates a nested item. Preserve the intended coupon test.
+
+<details><summary>Review guide</summary>
+
+A new outer object does not make its nested cart, item objects or arrays new.
+Separate process state, fixture memory, device state and backend records.
+Serializing the suite can still leave an order dependency; randomizing order
+can expose it but does not fix it.
+[Shallow-copy reference](https://developer.mozilla.org/en-US/docs/Glossary/Shallow_copy).
+
+</details>
+
+## RW-31 · The job was killed before cleanup could run
+
+**After lab 08 and lesson 13. Mode: supplied-data investigation.** The CI runner
+disappeared while fixtures existed. Its `finally` block never completed.
+Fictional cleanup policy: consider only this team's **staging** fixtures whose
+run is confirmed terminated and whose lease is strictly expired at **12:00 UTC**.
+Unknown run status is a hold. Recheck lease/version atomically before deletion.
+
+| Record | Environment | Owner | Run status | Lease expiry UTC |
+|---|---|---|---|---|
+| a | staging | mobile-qa | terminated | 11:45 |
+| b | staging | mobile-qa | active | 11:40 |
+| c | staging | another-team | terminated | 11:30 |
+| d | production | mobile-qa | terminated | 11:20 |
+| e | staging | mobile-qa | unknown | 11:10 |
+| f | staging | mobile-qa | terminated | 12:00 |
+
+**Task:** produce a dry-run candidate list and reason for every exclusion.
+Then handle a heartbeat that renews candidate `a` after your first read.
+**Deliver:** a cleanup proposal with owner, scope, concurrency check and audit
+record. This exercise performs no deletion and asks for no production access.
+
+<details><summary>Review guide</summary>
+
+Only `a` is initially a candidate, not permission to delete it blindly. `f` is
+not strictly expired. A changed lease/version invalidates the original selection.
+Cleanup hooks handle ordinary control flow; they do not guarantee cleanup after
+process loss. A separate reconciler/lease policy and bounded ownership are needed.
+Node cannot install a handler for `SIGKILL`; catching every promise cannot fix
+that. [Node signal events](https://nodejs.org/docs/latest-v24.x/api/process.html#signal-events).
+
+**Follow-up:** distinguish process death from a caller giving up through a timeout.
+A timeout wrapper does not necessarily cancel the underlying request. Before
+cleanup, establish whether the operation stopped, may still commit, or is unknown;
+an abort request itself is not proof that a server-side write was rolled back.
+
+</details>
+
+## RW-32 · The test passes all year except the clock-change weekend
+
+**After lessons 08–09. Mode: time-contract investigation.** A fictional offer
+expires at the **next local midnight in Europe/Warsaw**, not after 24 elapsed
+hours. The UI displays a localized date; the API stores an instant.
+
+```text
+Synthetic oracle inputs:
+Start:        2026-03-29T00:00:00+01:00
+Next midnight:2026-03-30T00:00:00+02:00
+Implementation expiry: startInstant + 24 * 60 * 60 * 1000
+```
+
+**Task:** calculate the elapsed interval and compare the implementation.
+Cover just before/at/after expiry, device/server clock disagreement, a different
+display zone and the autumn transition. State which clock owns eligibility.
+**Deliver:** a table with zone, instant, expected eligibility and source of truth.
+Inject a controlled clock in owned code; do not change a shared device's time.
+
+<details><summary>Review guide</summary>
+
+The supplied instants are 23 hours apart; the fixed-duration implementation is
+one hour late. A date-only business rule, an absolute instant and an elapsed
+duration are different contracts. Local calendar arithmetic across DST can change
+elapsed duration. A formatted display string alone is not the eligibility oracle.
+[Date arithmetic reference](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/setDate).
+
+</details>
+
+## RW-33 · Direct value entry passes while a user cannot finish typing
+
+**After lessons 06–09. Mode: demo comparison plus feature design.** A fictional
+profile editor promises ten “characters.” Its developer counts JavaScript string
+length. Compare `é`, `e` followed by a combining accent, and `👩‍💻`.
+The field also has formatting, a keyboard action and an autofill path.
+
+**Task:** clarify whether the limit means UTF-16 units, Unicode code points,
+grapheme clusters or bytes. Compare value-setting, keyboard entry, paste, clear,
+autofill and committing composition where the test app supports them.
+**Deliver:** exact input/code-point evidence, a clarified limit and a small
+interaction matrix. Mark unsupported demo interactions as designed only.
+
+<details><summary>Review guide</summary>
+
+The supplied examples have JavaScript lengths 1, 2 and 5. That does not make them
+one, two and five user-perceived characters. Do not trim or normalize passwords
+or arbitrary user input without a requirement. A value visible in a field does
+not prove validation, blur/submit handling or keyboard interaction worked.
+Document the actual input method and committed value instead of equating every
+automation entry method with every user entry path.
+
+</details>
+
+## RW-34 · The test is green after you deliberately break the feature
+
+**After lessons 06 and 10. Mode: controlled local experiment or supplied evidence.**
+An input-clear test asserts only that the Forms screen exists. A checkout test
+calculates its expected amount using the same pricing helper as the app.
+
+**Task:** choose one controlled defect that each assertion should detect.
+Predict the result before changing anything, then explain a passing test that
+survives that defect. Use only a disposable experiment or restore the exact edit.
+**Deliver:** an action-to-observation map, independent expected values and evidence
+that a meaningful mutation fails. A different arbitrary failure is not enough.
+
+<details><summary>Review guide</summary>
+
+A surviving defect exposes a missing or coupled oracle; green execution alone
+does not establish feature coverage. Assert the empty value after proving it was
+populated. Derive pricing examples from an agreed table, not from the implementation
+under test. Do not turn every implementation detail into a brittle assertion.
+Lesson 09-B already demonstrates this habit; apply it across your suite.
+
+</details>
+
+## RW-35 · You have the APK but no useful diagnostics or test data API
+
+**After lessons 10–12. Mode: team negotiation.** The production-like build has
+certificate pinning, no debug logs and no test-data endpoint. You have a dedicated
+test account but cannot see server-side state. The team requests “full automation”
+by Friday.
+
+**Task:** define what observable UI behavior you can establish today and what
+requires cooperation. Request the smallest testability changes with owners:
+stable IDs, redacted correlation IDs, scoped fixtures and a supported test build.
+**Deliver:** a staged plan and a precise blocker report with the next observation
+needed. Include how a test build differs from the release build.
+
+<details><summary>Review guide</summary>
+
+Do not invent backend evidence or bypass production protections to meet a number.
+A debug build is useful evidence for its configuration, not proof the release
+artifact behaves identically. Agree which critical flows still need the release
+build, what logging may be collected and who can provide a sanitized server trace.
+Limited access is a real planning constraint, not automatically a tester failure.
+
+</details>
+
+## RW-36 · A timeout hides a committed order and the retry doubles it
+
+**After lab 10. Mode: [repair lab 12](../../exercises/12-uncertain-submit/README.md).**
+The server creates an order but the response disappears. An inherited helper
+submits again; its returned success hides two orders. The request carries a
+correlation key, but the backend does not enforce idempotency.
+
+**Task:** repair the unsafe replay and classify the outcomes: confirmed, explicitly
+rejected, unresolved and lookup unavailable. Inspect the fake ledger.
+**Deliver:** tests proving a single write per invocation, a matching-receipt check
+and an unresolved-state policy. Explain why a new helper invocation could still
+duplicate the order without caller/server coordination.
+
+<details><summary>Review guide</summary>
+
+Retrying a read and repeating a write have different consequences. A timeout
+does not prove rejection; a lookup returning nothing may lag behind a commit.
+Server-enforced idempotency needs defined scope, parameter matching and retention.
+Also identify which layer owns retry limits: transport, service client, helper
+and test-runner retries can otherwise multiply requests.
+[Safe retries reference](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
 
 </details>
 

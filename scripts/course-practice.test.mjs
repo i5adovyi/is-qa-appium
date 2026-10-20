@@ -44,3 +44,9 @@ test('reader slugs preserve Unicode and remove punctuation from visible heading 
         'q01-what-happens-after-await-loginscreenlogin')
     assert.equal(headingSlug('  Café & RTL — check  '), 'café-rtl-check')
 })
+test('incident shifts index reveal text but do not mix collection IDs', () => {
+    const shifts = indexCollection({ ...collection, prefix: 'S', category: 'shift' },
+        '## S1 · Follow the evidence\n\n<details><summary>Reveal</summary>\n\nA stale manifest.\n\n</details>\n\n## RW-01 · Other collection\n')
+    assert.deepEqual(shifts.map(entry => entry.id), ['S1'])
+    assert.equal(findPractice(shifts, 'manifest', 'shift')[0].anchor, 's1-follow-the-evidence')
+})

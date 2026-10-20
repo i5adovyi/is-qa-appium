@@ -1,6 +1,6 @@
 # The offline practice lab
 
-These ten TypeScript problems isolate skills you will use in mobile tests.
+These twelve TypeScript problems isolate skills you will use in mobile tests.
 They use Node's test runner and Chai, not Appium. No device, internet service,
 account or real credentials are involved. Lab 10 starts a temporary HTTP server
 on your own computer. They are **not substitutes for device tests**.
@@ -9,7 +9,8 @@ on your own computer. They are **not substitutes for device tests**.
 
 1. Read the exercise's README and write down its input, output and edge cases.
 2. Run `npm run practice -- 01` from the project root.
-3. Read the failure. The starter intentionally throws an error: this is your work to do.
+3. Read the failure. Labs 01–10 have unfinished starters; labs 11–12 have plausible
+   faulty implementations that already pass some checks. Diagnose before editing.
 4. Edit only that exercise's `starter.ts`. Keep its exported name and types.
 5. Rerun. Implement the smallest correct behaviour that satisfies the written contract.
 6. Add one extra case to `exercise.test.ts` that you think is missing.
@@ -30,9 +31,12 @@ write down your reasoning and change the contract and tests together as a separa
 | 08 | [Fixture cleanup](08-fixture-cleanup/README.md) | Awaited setup/use/cleanup, preserving two failures | [Lesson 08](../docs/lessons/08-test-data.md) |
 | 09 | [Run summary](09-run-summary/README.md) | Typed results, retry evidence and honest rates | [Lesson 13](../docs/lessons/13-ci-and-reports.md) |
 | 10 | [API contract](10-api-contract/README.md) | HTTP status, unknown JSON, identity and business state | [Lesson 08](../docs/lessons/08-test-data.md) |
+| 11 | [Repair fixture isolation](11-fixture-isolation/README.md) | Nested shared state and order-dependent failures | [Incident shift S2](../docs/handbook/incident-shifts.md) |
+| 12 | [Repair uncertain submission](12-uncertain-submit/README.md) | Lost responses, duplicate writes and unknown outcomes | [Incident shift S3](../docs/handbook/incident-shifts.md) |
 
 Labs 01–06 build foundations. Labs 07–10 extend them into workplace and interview
-problems; read each lab's prerequisites first. They do not enable parallel cloud
+problems; labs 11–12 practise repairing inherited code. Read the prerequisites
+first. They do not enable parallel cloud
 sessions, delete real records or change the mobile runner's retry settings.
 
 ## Commands
@@ -45,8 +49,9 @@ npm run practice:solutions       # validate the supplied reference implementatio
 npm run typecheck:practice       # check TypeScript, including your edits
 ```
 
-The reference run must pass out of the box. The learner run must initially fail:
-otherwise it would not tell you what still needs implementing.
+The reference run must pass out of the box. Each learner lab must initially fail
+at least one check. In the repair labs, a few green checks are part of the lesson:
+happy-path success can coexist with a serious bug.
 
 ## How to judge your work
 

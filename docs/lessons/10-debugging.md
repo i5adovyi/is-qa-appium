@@ -95,6 +95,13 @@ Create a one-page investigation note for a failure you injected. Include environ
 “Error message not displayed in the screenshot” is an observation. “The app never validated” is a stronger inference requiring more evidence.
 </details>
 
+## A less tidy investigation
+
+After the guided mutations, try one [incident shift](../handbook/incident-shifts.md).
+The opening packet is incomplete; record a hypothesis before opening the reveal.
+S2 has runnable faulty code. S4 asks you to separate artifacts from different runs.
+Use the decision log to keep facts, guesses and changed conclusions distinct.
+
 ## Checkpoint
 
 - Why can a screenshot fail to save even though the failure hook ran?

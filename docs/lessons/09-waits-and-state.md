@@ -132,6 +132,12 @@ Investigate keyboard, permission and lifecycle cases RW-01–RW-03 in the
 stale elements, implicit/explicit waits and reset boundaries with Q06–Q08 and Q15
 in [interview practice](../handbook/interview-practice.md).
 
+For an order dependency outside the app process, repair
+[lab 11's nested fixture leak](../../exercises/11-fixture-isolation/README.md).
+For a mutating retry that appears to succeed, try
+[lab 12's lost-response recovery](../../exercises/12-uncertain-submit/README.md).
+Explain why neither is repaired by restarting the Android app.
+
 ## Checkpoint
 
 - What is the difference between waiting for existence and waiting for correct text?

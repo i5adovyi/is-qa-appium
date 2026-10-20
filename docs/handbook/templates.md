@@ -89,6 +89,27 @@ Not run:
 Evidence location:
 ```
 
+## Decision and evidence log
+
+Use this during an incident shift. Keep your initial prediction so a later
+correction is visible; changing your mind after evidence is useful work.
+
+```text
+Run / test / attempt / app build:
+Observed facts and source timestamps:
+Requirement source / revision / unresolved conflict:
+Hypothesis A / what would disprove it:
+Hypothesis B / what would disprove it:
+Next smallest observation, owner and timebox:
+Prediction before reveal or experiment:
+New evidence:
+What changed in my explanation:
+Current status: passed / failed / blocked / not run / designed only
+User impact and residual uncertainty:
+Repair or containment, scope and rollback:
+Next action / decision owner:
+```
+
 ## Capstone handover
 
 ```text

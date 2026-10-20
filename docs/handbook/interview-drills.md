@@ -64,6 +64,8 @@ Choose one:
 | [Fixture cleanup](../../exercises/08-fixture-cleanup/README.md) | `npm run practice -- 08` | How two errors survive without losing the primary failure |
 | [Run summary](../../exercises/09-run-summary/README.md) | `npm run practice -- 09` | Why zero execution has no pass rate |
 | [API contract](../../exercises/10-api-contract/README.md) | `npm run practice -- 10` | Why resolved HTTP and valid business data are different |
+| [Repair fixture isolation](../../exercises/11-fixture-isolation/README.md) | `npm run practice -- 11` | Why a new outer object can still share nested state |
+| [Repair uncertain submission](../../exercises/12-uncertain-submit/README.md) | `npm run practice -- 12` | Why retry success can conceal duplicate writes |
 
 **Acceptance:** contract met, an extra edge case, readable types, input ownership
 preserved, and a short complexity explanation. Predict at least one test result

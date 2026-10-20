@@ -87,7 +87,7 @@ Time saved can fund a device variant or deeper investigation, but choose that in
 
 ## Workplace extension
 
-Use the [28 workplace cases](../handbook/workplace-scenarios.md) to extend your
+Use the [36 workplace cases](../handbook/workplace-scenarios.md) to extend your
 risk inventory beyond the demo: authentication, offline recovery, upgrades,
 deep links, accessibility, performance and hardware. Pick three relevant cases,
 state the required test environment and oracle, and label each as implemented,

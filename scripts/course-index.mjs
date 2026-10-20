@@ -10,7 +10,7 @@ export function indexCollection(collection, markdown) {
         if (heading.type !== 'heading') continue
         // Indexed headings use plain text and inline code; keep reader text identical.
         const text = heading.text.replaceAll('`', '')
-        const match = /^(RW-\d+|Q\d+|D\d+) · (.+)$/.exec(text)
+        const match = /^(RW-\d+|Q\d+|D\d+|S\d+) · (.+)$/.exec(text)
         if (!match || !match[1].startsWith(collection.prefix)) continue
         let end = i + 1
         while (end < tokens.length
