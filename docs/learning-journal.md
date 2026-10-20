@@ -3,12 +3,15 @@
 Copy this template into your own notes for each lesson. Do not store real credentials,
 personal data, access tokens or confidential app screenshots here.
 
-In the course reader, notes are saved only in the current browser and origin.
-Use **Export progress** at the end of a session. **Import progress** restores that
-JSON backup by combining completed lessons and filling missing notes. If both copies
-have different nonempty notes for a lesson, the current browser's note is preserved;
-compare the backup manually before editing it. Progress records do not include your
-source-code changes: save those separately in Git.
+The local reader saves notes and completion marks in SQLite on your computer.
+Wait for **Saved to local database**, and use `npm run progress:backup` for a
+saved-record backup. Hosted/static readers use browser storage; use **Export
+progress** there, or when local edits have not yet saved. **Import progress**
+combines completed lessons and fills missing notes. If both copies have
+different nonempty notes, the destination's current note is preserved; compare
+the backup manually before editing it. See [local data and recovery](handbook/local-data.md).
+Progress backups do not include source-code changes or this journal file:
+save those separately in Git or a personal file backup.
 
 ## Session record
 

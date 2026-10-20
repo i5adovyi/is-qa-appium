@@ -96,6 +96,13 @@ intended account.
 
 As reviewed on **20 October 2026**:
 
+- Project purpose: take a beginner from understanding a single mobile command
+  to writing useful tests, investigating workplace failures and defending
+  decisions in interviews. The course and framework already exist. A fresh
+  session should continue the current work, not regenerate a starter project.
+- Shared assistant guidance is in [AGENTS.md](../AGENTS.md);
+  [CLAUDE.md](../CLAUDE.md) points to the same guidance. Distinguish a tutoring
+  session from an implementation/maintenance request.
 - Stack: Node 24, Appium 3, WebdriverIO 10, TypeScript, Mocha/Chai,
   Android UiAutomator2 and BrowserStack App Automate.
 - Course: 16 lessons, 48 lesson exercises, 12 offline coding labs,
@@ -113,10 +120,21 @@ As reviewed on **20 October 2026**:
   [validation](validation.md). Design-only scenarios are not device passes.
 - **BrowserStack remains pending:** you still need an account, local credentials
   and an actual real-device session. No successful BrowserStack run is claimed.
-- The latest review adds a workplace apprenticeship with staged evidence,
+- The workplace review added an apprenticeship with staged evidence,
   conflicting requirements and two faulty-code repair labs. Search includes
   all scenarios, questions, drills and shifts. See the coverage review for
   requirements that need another app or backend.
+- The latest implemented extension adds local SQLite persistence, protected
+  browser draft recovery, JSON backups/imports and separate Site profiles.
+  Its recorded offline checks and limits are in the validation record.
+- **New-account Site publication remains pending:** the workflow and
+  `second-account` profile initialization are supplied; registration/publication
+  must happen with Sites access while signed into the intended owner account.
+  A local profile or Git push is not a deployed Site.
+- **The learner's last completed exercise is not established here.** Inspect
+  relevant attempts and available notes, or ask which lesson to resume.
+  The journal template, supplied solutions and completed reference tests do
+  not establish learner progress.
 
 ## Prompt for the next chat
 

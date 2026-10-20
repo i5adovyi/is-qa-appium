@@ -4,6 +4,65 @@
 
 An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
+## Why this project exists
+
+This project helps a learner go from no mobile automation experience to writing,
+debugging and explaining useful tests, then handling workplace problems and job
+interviews. The goal is independent skill: understand the code, make a prediction,
+run an experiment and explain the evidence. Passing supplied examples alone does
+not establish that skill.
+
+The repository brings three parts together:
+
+- **A course and practice library:** staged lessons, exercises, hints, worked
+  answers, interview drills and investigations with incomplete or misleading
+  evidence.
+- **A runnable training framework:** Android demo tests, offline TypeScript labs,
+  diagnostic helpers, CI checks and a BrowserStack execution path.
+- **A personal learning workspace:** a local course reader with saved notes and
+  progress, plus an optional static reader published as a private OpenAI Site.
+
+Lessons and offline labs work without an AI subscription. An assistant can tutor
+you or maintain the project; your files and progress must remain useful when you
+change computers, accounts or assistants. The current project is already built.
+Continue from its existing lessons and code instead of generating a new starter.
+
+## Starting a new assistant session
+
+Open this repository's root folder in your editor or assistant. These files carry
+the context that a previous conversation cannot be assumed to provide:
+
+| File | What it explains |
+|---|---|
+| [AGENTS.md](AGENTS.md) | Shared assistant instructions, teaching approach, architecture and safeguards |
+| [CLAUDE.md](CLAUDE.md) | Claude entry point to the same shared instructions |
+| [Resume guide](docs/RESUME.md) | Dated implementation state, pending work and continuation prompt |
+| [Validation record](docs/validation.md) | What was actually checked, on which environment, and what remains unverified |
+| [Course map](docs/README.md) and [study plans](docs/handbook/study-plans.md) | Lesson order, practice tracks and evidence needed to advance |
+| [Account handover](docs/handbook/account-handover.md) | Moving accounts/computers and creating a separately owned Site |
+
+For a learning session, paste:
+
+> Read AGENTS.md, README.md, docs/RESUME.md and docs/validation.md first.
+> Inspect the current project and my relevant exercise edits; do not assume
+> earlier chat history or that I completed the supplied examples. Help me
+> continue learning Appium, TypeScript, Chai and BrowserStack. Choose one
+> practical task at my current level, explain prerequisites, let me attempt it,
+> then review my reasoning and evidence. Use hints before full solutions unless
+> I ask for the answer. Preserve my code, notes, database and credentials.
+> If my latest exercise is unclear, ask which lesson or exercise I want to resume.
+
+For maintenance, give the assistant a concrete change or failure to investigate.
+It should implement and verify that work while preserving learner exercises.
+Teaching and maintaining the course are different session goals.
+
+The latest recorded baseline includes runnable Android reference tests, local
+SQLite progress and account-specific Site tooling. BrowserStack's first real
+device run and publication under another OpenAI account remain unverified in the
+saved handover. Check [the current handover](docs/RESUME.md#current-learning-and-implementation-state)
+before treating either as complete. Supplied solutions, green CI and self-marked
+lessons are separate from the learner's demonstrated progress.
+
 ## Start the course
 
 **On a new computer? Start with [Setup on a new machine](#setup-on-a-new-machine)** to install the prerequisites and download this private repository before running the course.
@@ -407,6 +466,10 @@ exercise implementations, use `npm run practice -- 01` (or `-- all`) and
 ## Where things live
 
 ```text
+README.md               Project purpose, entry points and setup
+AGENTS.md               Shared instructions for assistants working in this repository
+CLAUDE.md               Claude entry point; refers to the shared instructions
+docs/RESUME.md          Portable session handover and dated project state
 course/                 Local reader interface and lesson catalog
 config/                 Shared, local Android, and BrowserStack runner settings
 docs/lessons/           The sixteen guided lessons

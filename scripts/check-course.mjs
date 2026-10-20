@@ -47,7 +47,7 @@ for (const collection of catalog.practiceCollections) {
     })
     indexedItems += entries.length
 }
-const files = ['README.md', 'AGENTS.md', 'vendor/README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
+const files = ['README.md', 'AGENTS.md', 'CLAUDE.md', 'vendor/README.md', ...await markdownFiles('docs'), ...await markdownFiles('exercises')]
 let localLinks = 0
 for (const file of files) {
     const source = (await readFile(path.join(root, file), 'utf8')).replace(/^```[^\n]*\n[\s\S]*?^```\s*$/gm, '')

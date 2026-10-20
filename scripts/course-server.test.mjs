@@ -46,7 +46,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     assert.equal(catalog.lessons.length, 16)
     const pages = [...catalog.lessons.map(lesson => lesson.path),
         ...catalog.lessons.map(lesson => lesson.path.replace('/lessons/', '/solutions/')),
-        ...catalog.library.map(item => item.path), 'vendor/README.md']
+        ...catalog.library.map(item => item.path), 'AGENTS.md', 'CLAUDE.md', 'vendor/README.md']
     for (const path of pages) {
         const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(path)}`)
         assert.equal(page.status, 200, path)

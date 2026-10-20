@@ -4,7 +4,7 @@ import { marked } from 'marked'
 import { indexCollection } from './course-index.mjs'
 
 export const courseAssets = ['index.html', 'app.js', 'data.js', 'progress.js', 'progress-storage.js', 'practice.js', 'style.css']
-const rootFiles = new Set(['README.md', 'AGENTS.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
+const rootFiles = new Set(['README.md', 'AGENTS.md', 'CLAUDE.md', 'package.json', 'tsconfig.json', 'tsconfig.practice.json', 'vendor/README.md'])
 const escape = text => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;')
 
 export function allowedPage(name) {
