@@ -1,0 +1,26 @@
+name: Learning project checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run typecheck:practice
+      - run: npm run course:check
+      - run: npm run practice:solutions
+      - run: npm run course:test
+      # These are static/offline checks, not evidence of an Android test run.

@@ -1,0 +1,51 @@
+name: BrowserStack practice (manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type RUN to authorize using BrowserStack device minutes'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: browserstack-practice
+  cancel-in-progress: false
+
+jobs:
+  android:
+    if: inputs.confirm == 'RUN'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
+      BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
+      BROWSERSTACK_BUILD_NAME: training-ci-${{ github.run_id }}-${{ github.run_attempt }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - name: Check secrets without printing them
+        run: |
+          if [ -z "$BROWSERSTACK_USERNAME" ] || [ -z "$BROWSERSTACK_ACCESS_KEY" ]; then
+            echo "::error::Add BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY as repository secrets."
+            exit 1
+          fi
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run app:download
+      - run: npm run preflight -- --cloud
+      - run: npm run test:bs
+      - name: Save failure artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mobile-failures-${{ github.run_id }}-${{ github.run_attempt }}
+          path: logs/
+          if-no-files-found: ignore
+          retention-days: 7

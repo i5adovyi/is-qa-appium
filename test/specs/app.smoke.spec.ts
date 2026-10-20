@@ -1,10 +1,15 @@
 import { expect } from 'chai'
 import TabBar from '../screens/TabBar.js'
+import { restartDemoApp } from '../helpers/restartApp.js'
 
 /**
  * Your very first test: does the app start and show its navigation?
  */
 describe('App launch @smoke', () => {
+    beforeEach(async () => {
+        await restartDemoApp()
+    })
+
     it('should open the app and show the tab bar', async () => {
         await TabBar.waitForTabBarShown()
 

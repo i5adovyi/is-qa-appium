@@ -2,7 +2,10 @@ node_modules/
 apps/*.apk
 apps/*.zip
 .env
+.env.*
+!.env.example
 logs/
 *.log
 local.log
 browserstack.err
+.DS_Store

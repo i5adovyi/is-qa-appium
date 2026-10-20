@@ -1,0 +1,40 @@
+{
+  "title": "Mobile Automation Lab",
+  "stages": [
+    { "id": "foundations", "title": "01 · Foundations", "description": "Understand the tools and the code before touching a device." },
+    { "id": "first-tests", "title": "02 · Your first tests", "description": "Inspect elements, drive screens, and verify real behaviour." },
+    { "id": "reliability", "title": "03 · Reliable automation", "description": "Control state, diagnose failures, and handle mobile complexity." },
+    { "id": "delivery", "title": "04 · Deliver with confidence", "description": "Use the cloud, design CI, and defend a complete test strategy." }
+  ],
+  "lessons": [
+    { "id": "00", "stage": "foundations", "title": "The map before the journey", "subtitle": "What runs where, what you will build, and how to learn.", "path": "docs/lessons/00-orientation.md" },
+    { "id": "01", "stage": "foundations", "title": "Build your toolchain", "subtitle": "Node, Android, Appium, and your first green environment check.", "path": "docs/lessons/01-toolchain.md" },
+    { "id": "02", "stage": "foundations", "title": "TypeScript for test authors", "subtitle": "Values, types, objects, imports, and practical test data.", "path": "docs/lessons/02-typescript.md" },
+    { "id": "03", "stage": "foundations", "title": "Wait, then assert", "subtitle": "Promises, await, Mocha, and readable Chai assertions.", "path": "docs/lessons/03-async-and-assertions.md" },
+    { "id": "04", "stage": "first-tests", "title": "Read your first mobile test", "subtitle": "Follow a command from a spec to an Android screen.", "path": "docs/lessons/04-first-test.md" },
+    { "id": "05", "stage": "first-tests", "title": "Find the right element", "subtitle": "Inspector, accessibility IDs, resource IDs, and selector evidence.", "path": "docs/lessons/05-selectors.md" },
+    { "id": "06", "stage": "first-tests", "title": "Make Forms your playground", "subtitle": "Enter, clear, toggle, and write your first independent test.", "path": "docs/lessons/06-forms.md" },
+    { "id": "07", "stage": "first-tests", "title": "Test login beyond success", "subtitle": "Empty fields, validation messages, and native alerts.", "path": "docs/lessons/07-login.md" },
+    { "id": "08", "stage": "reliability", "title": "Let data drive coverage", "subtitle": "Boundaries, independent cases, and purposeful fixtures.", "path": "docs/lessons/08-test-data.md" },
+    { "id": "09", "stage": "reliability", "title": "Make tests trustworthy", "subtitle": "Condition waits, app lifecycle, and deliberate starting state.", "path": "docs/lessons/09-waits-and-state.md" },
+    { "id": "10", "stage": "reliability", "title": "Investigate a failure", "subtitle": "Screenshots, UI source, logs, and a reproducible diagnosis.", "path": "docs/lessons/10-debugging.md" },
+    { "id": "11", "stage": "reliability", "title": "Beyond taps and text", "subtitle": "Gesture experiments, scrolling, and hybrid contexts.", "path": "docs/lessons/11-gestures-and-contexts.md" },
+    { "id": "12", "stage": "delivery", "title": "Take a test to the cloud", "subtitle": "BrowserStack App Automate, device choices, and session evidence.", "path": "docs/lessons/12-browserstack.md" },
+    { "id": "13", "stage": "delivery", "title": "Build a useful pipeline", "subtitle": "Fast checks, deliberate mobile runs, and failure artifacts.", "path": "docs/lessons/13-ci-and-reports.md" },
+    { "id": "14", "stage": "delivery", "title": "Choose what deserves a test", "subtitle": "Risk, coverage, maintainability, and review.", "path": "docs/lessons/14-test-design.md" },
+    { "id": "15", "stage": "delivery", "title": "Ship your capstone", "subtitle": "A portfolio project with evidence and an honest quality report.", "path": "docs/lessons/15-capstone.md" }
+  ],
+  "library": [
+    { "title": "Course map", "path": "docs/README.md" },
+    { "title": "Offline TypeScript labs", "path": "exercises/README.md" },
+    { "title": "Setup manual", "path": "docs/handbook/setup.md" },
+    { "title": "Troubleshooting playbook", "path": "docs/handbook/troubleshooting.md" },
+    { "title": "Glossary", "path": "docs/handbook/glossary.md" },
+    { "title": "Review checklist", "path": "docs/handbook/review-checklist.md" },
+    { "title": "Study plans", "path": "docs/handbook/study-plans.md" },
+    { "title": "Capstone rubric", "path": "docs/handbook/capstone-rubric.md" },
+    { "title": "Books & reading library", "path": "docs/resources.md" },
+    { "title": "Learning journal", "path": "docs/learning-journal.md" },
+    { "title": "Validation & limitations", "path": "docs/validation.md" }
+  ]
+}

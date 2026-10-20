@@ -5,16 +5,27 @@
   "description": "Training project: mobile test automation with Appium + WebdriverIO + TypeScript + Mocha/Chai + BrowserStack",
   "type": "module",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24.0.0 <25"
   },
   "scripts": {
+    "test": "npm run test:smoke",
+    "preflight": "node scripts/preflight.mjs",
+    "course": "node scripts/course-server.mjs",
+    "course:check": "node scripts/check-course.mjs",
+    "course:test": "node --test scripts/course-server.test.mjs",
+    "practice": "node scripts/practice.mjs",
+    "practice:solutions": "node scripts/practice.mjs --solutions",
+    "typecheck:practice": "tsc -p tsconfig.practice.json",
+    "check": "npm run typecheck && npm run typecheck:practice && npm run course:check && npm run practice:solutions",
     "app:download": "curl -L --fail -o apps/wdio-demo.apk https://github.com/webdriverio/native-demo-app/releases/download/v2.2.0/android.wdio.native.app.v2.2.0.apk",
     "appium:setup": "appium driver install uiautomator2",
     "appium:doctor": "appium driver doctor uiautomator2",
     "typecheck": "tsc --noEmit",
     "test:android": "wdio run config/wdio.android.conf.ts",
     "test:bs": "wdio run config/wdio.browserstack.conf.ts",
-    "test:smoke": "wdio run config/wdio.android.conf.ts --mochaOpts.grep @smoke"
+    "test:smoke": "wdio run config/wdio.android.conf.ts --mochaOpts.grep @smoke",
+    "test:forms": "wdio run config/wdio.android.conf.ts --spec test/specs/app.forms.spec.ts",
+    "test:login": "wdio run config/wdio.android.conf.ts --spec test/specs/app.login.spec.ts"
   },
   "devDependencies": {
     "@types/chai": "^5.2.3",
@@ -30,6 +41,7 @@
     "appium": "^3.8.0",
     "appium-uiautomator2-driver": "^8.7.0",
     "chai": "^5.3.3",
+    "marked": "18.1.1",
     "typescript": "^5.9.3"
   }
 }
