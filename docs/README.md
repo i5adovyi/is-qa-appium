@@ -60,6 +60,7 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 
 ## Your workbench
 
+- [Project closeout and retrospective](PROJECT-CLOSEOUT.md): delivered work, history, verification, backups and remaining follow-ups.
 - [Resume this project](RESUME.md): account changes, GitHub recovery, progress backups and a prompt for your next chat.
 - [Open in Codex under another account](handbook/account-handover.md): reopen or clone the project, restore progress and publish a separate private Site.
 - [Local data and backups](handbook/local-data.md): SQLite persistence, interrupted drafts, conflicting edits, imports and recovery.

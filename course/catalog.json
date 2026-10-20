@@ -33,6 +33,7 @@
   "library": [
     { "title": "Course map", "path": "docs/README.md" },
     { "title": "Resume after changing accounts", "path": "docs/RESUME.md" },
+    { "title": "Project closeout & retrospective", "path": "docs/PROJECT-CLOSEOUT.md" },
     { "title": "Codex & new-account handover", "path": "docs/handbook/account-handover.md" },
     { "title": "Local database, backups & recovery", "path": "docs/handbook/local-data.md" },
     { "title": "Workplace scenario workbook · 36 cases", "path": "docs/handbook/workplace-scenarios.md" },

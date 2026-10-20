@@ -26,6 +26,8 @@ new request to run devices, publish a Site or finish exercises.
 
 1. Read [README.md](README.md) for the project idea and entry points, then
    [docs/RESUME.md](docs/RESUME.md) for the dated handover and pending work.
+   The initial build is closed; [docs/PROJECT-CLOSEOUT.md](docs/PROJECT-CLOSEOUT.md)
+   records its checkpoint and follow-ups. Resume the user's specific task.
 2. Read [docs/validation.md](docs/validation.md) before claiming anything passed.
    Historical evidence belongs to its recorded version and environment.
 3. Inspect `git status --short`, the relevant files and `package.json`. Preserve

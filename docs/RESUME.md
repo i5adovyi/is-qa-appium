@@ -4,6 +4,12 @@ This repository is the portable copy of your mobile automation training project.
 Its lessons, exercises, reference code and local reader need **no OpenAI account
 or API key**. You can study in an editor and run commands from a terminal.
 
+**Initial build closed:** 20 October 2026. Read the
+[closeout and retrospective](PROJECT-CLOSEOUT.md) for the historical
+`training-baseline-2026-10-20` checkpoint, storage/backup record and deferred
+account-dependent work. Continue with a specific learning or maintenance task;
+closure does not mean learner exercises or cloud sessions are complete.
+
 ## Where the project lives
 
 - Private GitHub repository: [i5adovyi/is-qa-appium](https://github.com/i5adovyi/is-qa-appium).

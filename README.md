@@ -4,6 +4,11 @@
 
 An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
+**Build status:** the initial training-project build is complete as of
+20 October 2026. See the [closeout and retrospective](docs/PROJECT-CLOSEOUT.md)
+for the historical checkpoint, verification, backup locations and explicit
+follow-ups. The project remains ready for study and future maintenance.
+
 ## Why this project exists
 
 This project helps a learner go from no mobile automation experience to writing,

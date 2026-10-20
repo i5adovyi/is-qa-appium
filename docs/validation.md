@@ -19,6 +19,15 @@ Use `npm ci` to install the locked dependencies. The Android SDK, emulator image
 Java runtime, and externally installed Appium extensions also affect reproducibility.
 See the [setup manual](handbook/setup.md).
 
+## Finalization checkpoint
+
+The [20 October closeout](PROJECT-CLOSEOUT.md) records a fresh full offline
+check: 72 reference cases, 27 framework checks, 68 reader/storage checks, zero
+audit findings, verified APK bytes and a successful progress-backup restore
+into a disposable database. Documentation/static export were checked after
+the closeout additions. Android/cloud results below retain their original
+execution dates and scope; they were not rerun for finalization.
+
 ## Account portability and local database checks
 
 The 20 October extension adds SQLite for localhost progress, per-window browser
