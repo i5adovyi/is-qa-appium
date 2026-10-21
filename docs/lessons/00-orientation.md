@@ -12,6 +12,11 @@
 
 ## Before your first command
 
+If “open the repository in an editor and terminal” is already unfamiliar,
+start with [computer basics](../handbook/computer-basics.md) and the
+[complete-beginner route](../handbook/start-from-zero.md). You can read this
+lesson's map now and return to its code-tracing exercises after that preparation.
+
 The **repository** is this project's folder and files. Its **root** is the folder containing `package.json`, `config/`, and `test/`. Open that folder in your editor, then open an integrated terminal there. A command such as `npm run typecheck` runs in the terminal's current folder, not automatically in whichever source file you are reading.
 
 Paths in lessons are relative to that root: `test/specs/app.forms.spec.ts` means open `test`, then `specs`, then the named file. Code blocks marked `ts` are TypeScript to read or put in a file as directed; blocks marked `bash` are shell commands. Copy commands without the terminal prompt. Press Enter after each command and wait for its result before starting the next.

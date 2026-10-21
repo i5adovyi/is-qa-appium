@@ -1,4 +1,6 @@
 :root{--paper:#f7f7f2;--ink:#202b27;--muted:#6b756e;--line:#dce1d8;--green:#d7ef9b;--deep:#172923;--orange:#c35c32;--sidebar:272px}
+.beginner-section .library-card strong{display:block;margin-bottom:7px}
+.beginner-section .library-card span{display:block;color:var(--muted)}
 .practice-intro{font-size:12px;color:var(--muted);max-width:680px}
 .practice-tools{display:flex;flex-wrap:wrap;gap:16px}
 .practice-tools label{display:flex;flex-direction:column;gap:5px;font-size:12px}

@@ -210,6 +210,12 @@ hosted reader's local progress unless you exported it.
 
 ## Verification limits
 
+**21 October 2026 observation:** the original `mobile-automation-lab` Site
+reported public access. The earlier private-publication instructions remain
+useful for a new owner-private Site; they do not describe the current audience
+of that existing Site. Always inspect the actual audience before publishing
+and preserve it unless an access change is requested.
+
 Automated checks cover SQLite persistence/recovery, progress transfers, profile
 identity isolation, static output and excluded files. A passing check does not
 authenticate another OpenAI account, publish a Site or establish a mobile/cloud

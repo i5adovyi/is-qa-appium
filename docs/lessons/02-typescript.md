@@ -12,6 +12,11 @@
 
 ## Start with the data your test actually needs
 
+**Need smaller steps?** [Programming first steps](../handbook/programming-first-steps.md)
+introduces one concept per exercise before this lesson combines them. Use it
+if variables, object literals or function parameters are new. Then use the
+[first lab coach](../handbook/first-lab-coach.md) alongside lab 01.
+
 In the Forms test:
 
 ```ts

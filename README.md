@@ -70,6 +70,12 @@ lessons are separate from the learner's demonstrated progress.
 
 ## Start the course
 
+**Completely new to coding or testing?** Use [Start from zero](docs/handbook/start-from-zero.md)
+for a slower eight-session route. It adds computer/terminal basics, eight tiny
+programming exercises, a first-test workbook and a first-lab coach. These
+supplement the existing course; Android and BrowserStack can wait until the
+offline foundations make sense. The reader now links this route prominently.
+
 **On a new computer? Start with [Setup on a new machine](#setup-on-a-new-machine)** to install the prerequisites and download this private repository before running the course.
 
 ```bash
@@ -81,6 +87,12 @@ Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, cod
 Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is an ordinary Markdown file you own and can edit.
 
 ## Localhost and OpenAI Sites
+
+**Hosting status checked 21 October 2026:** the original Site currently has
+public access. References below to its original private publication describe
+the earlier baseline, not its current audience. This content update preserves
+the existing access setting. GitHub repository access is separate and remains
+private. See [the beginner review](docs/beginner-review.md) for this update.
 
 Use the same reader locally while practising, or publish its static build to
 your private OpenAI Site for reading on another computer.
@@ -173,6 +185,11 @@ search full case text or a case ID and jump directly to its exercise.
 Design exercises identify features the demo does not implement.
 
 ## Your first hour
+
+Treat the following list as an accelerated tour once setup and basic coding
+are familiar. If starting from zero, spread it across sessions using the
+[beginner route](docs/handbook/start-from-zero.md); a first device run is not
+a one-hour requirement.
 
 1. Read [00 · Orientation](docs/lessons/00-orientation.md), then [02 · TypeScript](docs/lessons/02-typescript.md) and [03 · Async and assertions](docs/lessons/03-async-and-assertions.md) if these concepts are new.
 2. Run `npm run practice -- 01`. Read [the lab](exercises/01-typed-data/README.md), edit its `starter.ts`, and make it pass.

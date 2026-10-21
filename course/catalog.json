@@ -31,6 +31,12 @@
     { "category": "shift", "label": "Incident shift", "prefix": "S", "count": 6, "path": "docs/handbook/incident-shifts.md" }
   ],
   "library": [
+    { "title": "Complete beginner: start from zero", "path": "docs/handbook/start-from-zero.md" },
+    { "title": "Computer, editor & terminal basics", "path": "docs/handbook/computer-basics.md" },
+    { "title": "Programming one small step at a time", "path": "docs/handbook/programming-first-steps.md" },
+    { "title": "Your first test workbook", "path": "docs/handbook/first-test-workbook.md" },
+    { "title": "First lab coach", "path": "docs/handbook/first-lab-coach.md" },
+    { "title": "Complete-beginner coverage review", "path": "docs/beginner-review.md" },
     { "title": "Course map", "path": "docs/README.md" },
     { "title": "Resume after changing accounts", "path": "docs/RESUME.md" },
     { "title": "Project closeout & retrospective", "path": "docs/PROJECT-CLOSEOUT.md" },

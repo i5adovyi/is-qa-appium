@@ -18,6 +18,10 @@ Example: `makeCredentials('  A@example.com ', ' secret ')` returns
 
 ## Work
 
+**First coding lab?** Follow the [first lab coach](../../docs/handbook/first-lab-coach.md)
+for smaller steps, syntax explanations and feedback interpretation. The effort
+estimate above assumes the prerequisite programming concepts already make sense.
+
 1. Predict the result for an email containing a trailing newline.
 2. Run `npm run practice -- 01`; read the first failure.
 3. Implement the function, rerun, then add a whitespace-only email case.

@@ -21,6 +21,38 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Subsequent beginner extension — 21 October 2026
+
+The [beginner review](beginner-review.md) adds five preparation guides, 18
+small exercises and visible reader entry points. The 20 October closeout below
+remains a historical checkpoint. Existing lesson/exercise text is retained;
+learner starters, reference implementations, mobile specs and data storage code
+were not changed.
+
+- `npm run check` passed: both type checks, course structure/links, 72 reference
+  cases and 27 framework checks. `npm run course:test` passed all 68 checks.
+- `npm run course:build` exported 173 readable files, including all new guides.
+- Ten complete TypeScript code blocks were extracted from the new guides into
+  disposable files. All typechecked; nine produced the documented successful
+  output and the missing-value example produced its intentional error.
+- Four deliberate type mistakes and three deliberate assertion failures were
+  detected; the object deep-equality example passed. The initial literal-string
+  comparison in P2 exposed a TypeScript diagnostic during review and was revised
+  to compare its numeric length. The final example then passed.
+- The untouched `npm run practice -- 01` produced its expected unfinished-starter
+  failure. It was not replaced with a reference answer.
+- In the static preview browser, the dashboard beginner cards and sidebar link
+  opened the new route, the programming guide rendered its code blocks, and a
+  hint expanded successfully. Card title/description spacing was corrected
+  after visual inspection. This was a focused desktop check, not a complete
+  mobile-viewport, accessibility or cross-browser audit.
+
+These are documentation/offline checks. Android, BrowserStack and a second
+account's Site were not executed. PowerShell examples were not run on this Mac.
+The preparation route has not been evaluated in a novice-user study.
+
+### Original closeout — 20 October 2026
+
 The [20 October closeout](PROJECT-CLOSEOUT.md) records a fresh full offline
 check: 72 reference cases, 27 framework checks, 68 reader/storage checks, zero
 audit findings, verified APK bytes and a successful progress-backup restore

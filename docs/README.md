@@ -6,6 +6,12 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 ## Pick up here
 
+**Never used a terminal or written code?** Begin with the additional
+[Start from zero route](handbook/start-from-zero.md). It gives you smaller
+steps before lesson 00, a first-test workbook and help attempting lab 01.
+The original lesson sequence below remains available. Preparation does not
+add completion marks to the sixteen-lesson tracker.
+
 **New to programming?** Start at lesson 00. **Already running the starter tests?**
 Read 02–03, then work through 06–07 before expanding coverage.
 

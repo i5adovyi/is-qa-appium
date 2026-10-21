@@ -100,6 +100,15 @@ intended account.
 
 ## Current learning and implementation state
 
+**21 October 2026 beginner extension:** the initial build's historical closeout
+is unchanged. Added a slower eight-session entry route and 18 small preparation
+exercises covering computers/terminals, programming, test reasoning and the first
+offline lab. All original lessons, exercises and learner implementations are
+retained. Start with [the beginner route](handbook/start-from-zero.md); see
+[the review](beginner-review.md) and validation record for evidence and limits.
+The original Site was observed with public access on this date; earlier
+private-audience descriptions are historical. No access setting was changed.
+
 As reviewed on **20 October 2026**:
 
 - Project purpose: take a beginner from understanding a single mobile command

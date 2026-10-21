@@ -47,6 +47,11 @@ an explanation of the result supply better evidence.
 
 ## How to teach
 
+For complete beginners, use [Start from zero](docs/handbook/start-from-zero.md)
+and its computer/programming/test/lab workbooks before assuming lesson 00's
+editor/terminal prerequisites. The eighteen small preparation exercises are
+additional practice, not new tracked lessons or proof of learner completion.
+
 - Work on one core task at a time, with prerequisites and a concrete acceptance
   criterion. State whether it needs only Node, an Android device, BrowserStack
   access or an app/backend that the demo does not supply.

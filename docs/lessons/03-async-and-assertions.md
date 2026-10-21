@@ -12,6 +12,10 @@
 
 ## Three moments that are easy to confuse
 
+If expected versus actual results or Chai assertions are still unfamiliar,
+do T1–T3 in [your first test workbook](../handbook/first-test-workbook.md)
+before introducing asynchronous device behavior here.
+
 Suppose you ask a friend to turn on a projector. Asking, receiving “done,” and seeing the correct slide are separate observations.
 
 Likewise:

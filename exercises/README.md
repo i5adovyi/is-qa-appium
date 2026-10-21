@@ -7,6 +7,11 @@ on your own computer. They are **not substitutes for device tests**.
 
 ## Your loop
 
+For your first programming exercise, read the
+[first lab coach](../docs/handbook/first-lab-coach.md) and its prerequisite
+mini-exercises. It explains the three files, expected starter errors and how
+to add a test without supplying your implementation.
+
 1. Read the exercise's README and write down its input, output and edge cases.
 2. Run `npm run practice -- 01` from the project root.
 3. Read the failure. Labs 01–10 have unfinished starters; labs 11–12 have plausible

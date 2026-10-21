@@ -4,6 +4,11 @@ Course time is an estimate, not a promise. If programming is new, budget additio
 
 ## Every session
 
+For your first programming experience, use [Start from zero](start-from-zero.md)
+before the timed plans below. Its 20–40-minute sessions separate setup, coding
+and testing. Repeat a session as needed; the four-week plan assumes you can
+already save/run files and read basic functions, and is not a deadline.
+
 1. **Recall, 5 minutes:** explain yesterday's concept without notes.
 2. **Read, 10–20 minutes:** one worked example and its rationale.
 3. **Build, 25–60 minutes:** attempt the exercise before opening hints.
