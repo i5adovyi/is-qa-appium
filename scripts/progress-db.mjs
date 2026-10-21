@@ -1,7 +1,7 @@
 import path from 'node:path'
 import { readFileSync, statSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
-import { parseProgress } from '../course/progress.js'
+import { parseProgress, progressIdsForCatalog } from '../course/progress.js'
 import { defaultProgressDirectory, MAX_PROGRESS_BYTES, openProgressStore } from './progress-store.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
@@ -13,7 +13,7 @@ try {
         throw new Error('Usage: npm run progress:status | npm run progress:backup | npm run progress:import -- <backup.json>')
     }
     const catalog = JSON.parse(readFileSync(path.join(root, 'course/catalog.json'), 'utf8'))
-    const lessonIds = catalog.lessons.map(lesson => lesson.id)
+    const lessonIds = progressIdsForCatalog(catalog)
     let incoming
     if (command === 'import') {
         const info = statSync(input)
@@ -24,7 +24,8 @@ try {
     store = openProgressStore({ directory: defaultProgressDirectory(root), lessonIds })
     if (command === 'status') {
         const { revision, progress } = store.read()
-        console.log(`Local database: ${store.filePath}\nRevision: ${revision}\nCompleted lessons: ${progress.completed.length}\nNotes: ${Object.keys(progress.notes).length}`)
+        const count = items => items.filter(item => progress.completed.includes(item.id)).length
+        console.log(`Local database: ${store.filePath}\nRevision: ${revision}\nCompleted lessons: ${count(catalog.lessons)}\nCompleted challenges: ${count(catalog.challenges ?? [])}\nNotes: ${Object.keys(progress.notes).length}`)
     } else if (command === 'backup') {
         console.log(`Progress backup: ${store.backup()}`)
     } else {

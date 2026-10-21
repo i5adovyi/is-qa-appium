@@ -1,8 +1,17 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { parseProgress, mergeProgress } from '../course/progress.js'
+import { parseProgress, mergeProgress, progressIdsForCatalog } from '../course/progress.js'
 
 const ids = ['00', '01', '02']
+test('old lesson backups merge with independent challenge notes and completion marks', () => {
+    const known = progressIdsForCatalog({ lessons: [{ id: '00' }], challenges: [{ id: 'CH-01' }] })
+    assert.deepEqual(known, ['00', 'CH-01'])
+    const saved = { completed: ['CH-01'], notes: { 'CH-01': 'Keep evidence' } }
+    const legacy = parseProgress({ course: 'Mobile Automation Lab', completed: ['00'], notes: { '00': 'Older lesson' } }, known, true)
+    const combined = mergeProgress(saved, legacy, known).progress
+    assert.deepEqual(combined, { completed: ['00', 'CH-01'], notes: { 'CH-01': 'Keep evidence', '00': 'Older lesson' } })
+    assert.deepEqual(parseProgress({ schemaVersion: 1, course: 'Mobile Automation Lab', ...combined }, known, true), combined)
+})
 test('reads existing exports and removes duplicate or unknown lesson IDs', () => {
     assert.deepEqual(parseProgress({
         course: 'Mobile Automation Lab',

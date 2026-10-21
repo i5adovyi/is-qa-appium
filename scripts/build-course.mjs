@@ -26,6 +26,7 @@ export async function buildCourse({ root = projectRoot, destination = path.join(
     const required = [
         ...catalog.lessons.flatMap(lesson => [lesson.path, lesson.path.replace('/lessons/', '/solutions/')]),
         ...catalog.library.map(item => item.path),
+        ...(catalog.challenges ?? []).map(item => item.path),
         ...catalog.practiceCollections.map(item => item.path),
     ]
     for (const name of required) {

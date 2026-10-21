@@ -9,7 +9,7 @@ import { DatabaseSync } from 'node:sqlite'
 import { MAX_PROGRESS_BYTES, openProgressStore } from './progress-store.mjs'
 import { parseProgress } from '../course/progress.js'
 
-const lessonIds = ['00', '01', '02']
+const lessonIds = ['00', '01', '02', 'CH-01']
 const root = fileURLToPath(new URL('../', import.meta.url))
 const empty = () => ({ completed: [], notes: {} })
 function fixture(t) {
@@ -161,7 +161,7 @@ test('a damaged stored progress record is not silently replaced by empty progres
 
 test('CLI status, backup and import use COURSE_DATA_DIR and never print note contents', t => {
     const f = fixture(t)
-    const progress = { completed: ['00'], notes: { '00': 'private-note-sentinel' } }
+    const progress = { completed: ['00', 'CH-01'], notes: { '00': 'private-note-sentinel', 'CH-01': 'private-challenge-sentinel' } }
     const store = f.open()
     store.write(progress, 0)
     store.close()
@@ -171,6 +171,7 @@ test('CLI status, backup and import use COURSE_DATA_DIR and never print note con
     const status = run(['status'])
     assert.equal(status.status, 0, status.stderr)
     assert.match(status.stdout, /Completed lessons: 1/)
+    assert.match(status.stdout, /Completed challenges: 1/)
     const backup = run(['backup'])
     assert.equal(backup.status, 0, backup.stderr)
     const backupPath = backup.stdout.trim().replace(/^Progress backup: /, '')
@@ -182,11 +183,11 @@ test('CLI status, backup and import use COURSE_DATA_DIR and never print note con
     assert.deepEqual(restored.read().progress, progress)
     restored.close()
     for (const result of [status, backup, imported]) {
-        assert.doesNotMatch(`${result.stdout}${result.stderr}`, /private-note-sentinel/)
+        assert.doesNotMatch(`${result.stdout}${result.stderr}`, /private-(note|challenge)-sentinel/)
     }
     const broken = path.join(f.directory, 'broken.json')
     writeFileSync(broken, '{"private-note-sentinel":')
     const rejected = run(['import', broken])
     assert.equal(rejected.status, 1)
-    assert.doesNotMatch(`${rejected.stdout}${rejected.stderr}`, /private-note-sentinel/)
+    assert.doesNotMatch(`${rejected.stdout}${rejected.stderr}`, /private-(note|challenge)-sentinel/)
 })

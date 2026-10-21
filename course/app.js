@@ -1,4 +1,4 @@
-import { parseProgress, mergeProgress } from './progress.js'
+import { parseProgress, mergeProgress, progressIdsForCatalog } from './progress.js'
 import { headingSlug, findPractice } from './practice.js'
 import { createCourseClient } from './data.js'
 import { createProgressStorage } from './progress-storage.js'
@@ -9,7 +9,7 @@ const client = createCourseClient({
     mode,
     baseUrl: new URL('./', location.href),
 })
-let catalog, currentLesson, progressStorage, activeStage = 'all', renderId = 0
+let catalog, currentLesson, currentChallenge, progressStorage, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
 let showAllPractice = false
 function toast(message) {
@@ -75,6 +75,28 @@ function refresh() {
         grid.append(card)
     }
     if (!visible.length) grid.append(node('p', 'empty-state', 'No matching lessons. Try “login”, “TypeScript”, or “cloud”.'))
+}
+function refreshChallenges() {
+    const challenges = catalog.challenges ?? []
+    const done = challenges.filter(item => progress.completed.includes(item.id)).length
+    $('#challenge-count').textContent = `${done}/${challenges.length} challenges completed · self-reported`
+    const grid = $('#challenge-stages')
+    grid.replaceChildren()
+    for (const stage of catalog.challengeStages ?? []) {
+        const section = node('section', 'challenge-stage')
+        section.append(node('h2', '', stage.title), node('p', 'practice-intro', stage.description))
+        const cards = node('div', 'lesson-grid')
+        for (const item of challenges.filter(item => item.stage === stage.id)) {
+            const done = progress.completed.includes(item.id)
+            const card = link('', item.path, `lesson-card${done ? ' completed' : ''}`)
+            card.append(node('span', 'card-number', `${item.id} · ${done ? 'COMPLETED ✓' : item.requirements}`),
+                node('h3', '', item.title), node('p', '', item.subtitle),
+                node('span', 'card-footer', `DELIVER: ${item.deliverable} ↗`))
+            cards.append(card)
+        }
+        section.append(cards)
+        grid.append(section)
+    }
 }
 function refreshPractice() {
     const query = $('#practice-search').value
@@ -152,14 +174,21 @@ async function route() {
     } catch {
         $('#dashboard').hidden = true
         $('#reader').hidden = true
+        $('#challenge-dashboard').hidden = true
         $('#error').hidden = false
         $('#error').textContent = 'This course link is malformed. Use the Learning dashboard link to continue.'
         return
     }
     $('#dashboard').hidden = page !== 'home'
-    $('#reader').hidden = page === 'home'
+    $('#reader').hidden = ['home', 'challenges'].includes(page)
+    $('#challenge-dashboard').hidden = page !== 'challenges'
     currentLesson = catalog.lessons.find(lesson => lesson.path === page)
+    currentChallenge = (catalog.challenges ?? []).find(item => item.path === page)
     refresh()
+    refreshChallenges()
+    $('#reader-back').href = currentChallenge ? '#challenges' : '#home'
+    $('#reader-back').textContent = currentChallenge ? '← Real-world challenge path' : '← Learning path'
+    if (page === 'challenges') { document.title = 'Real-world challenge path · Mobile Automation Lab'; window.scrollTo({ top: 0 }); return }
     if (page === 'home') { document.title = 'Mobile Automation Lab'; window.scrollTo({ top: 0 }); return }
     $('#article').replaceChildren(node('p', '', 'Loading your lesson…'))
     $('#lesson-actions').hidden = true
@@ -169,16 +198,24 @@ async function route() {
         $('#article').replaceChildren(safeContent(data.html, page))
         $('#reader-stage').textContent = currentLesson
             ? catalog.stages.find(stage => stage.id === currentLesson.stage).title
+            : currentChallenge ? `REAL-WORLD CHALLENGE · ${currentChallenge.id} · ${currentChallenge.requirements}`
             : page.includes('/solutions/') ? 'WORKED SOLUTION · TRY THE EXERCISE FIRST' : 'THE WORKBENCH'
         document.title = `${$('#article h1')?.textContent ?? 'Course reader'} · Mobile Automation Lab`
-        $('#lesson-actions').hidden = !currentLesson
-        if (currentLesson) {
-            const index = catalog.lessons.indexOf(currentLesson)
-            $('#complete-button').textContent = progress.completed.includes(currentLesson.id) ? 'Completed · undo' : 'Mark complete ✓'
-            $('#lesson-notes').value = progress.notes[currentLesson.id] ?? ''
-            $('#previous-lesson').href = `#${catalog.lessons[index - 1]?.path ?? 'home'}`
-            $('#next-lesson').href = `#${catalog.lessons[index + 1]?.path ?? 'home'}`
-            $('#next-lesson').textContent = index === 15 ? 'Back to the path →' : 'Next lesson →'
+        const item = currentChallenge ?? currentLesson
+        $('#lesson-actions').hidden = !item
+        if (item) {
+            const sequence = currentChallenge ? catalog.challenges : catalog.lessons
+            const index = sequence.indexOf(item)
+            const back = currentChallenge ? 'challenges' : 'home'
+            $('#completion-help').textContent = currentChallenge
+                ? 'Run the assignment and record evidence against its acceptance criteria. Reading alone does not complete a challenge.'
+                : 'Finish the exercises and checkpoint before marking this lesson complete.'
+            $('#complete-button').textContent = progress.completed.includes(item.id) ? 'Completed · undo' : 'Mark complete ✓'
+            $('#lesson-notes').value = progress.notes[item.id] ?? ''
+            $('#previous-lesson').href = `#${sequence[index - 1]?.path ?? back}`
+            $('#next-lesson').href = `#${sequence[index + 1]?.path ?? back}`
+            $('#next-lesson').textContent = index === sequence.length - 1 ? 'Back to the path →' : currentChallenge ? 'Next challenge →' : 'Next lesson →'
+            $('#solution-link').hidden = Boolean(currentChallenge)
             $('#solution-link').href = `#${page.replace('/lessons/', '/solutions/')}`
         }
         const heading = (section && document.getElementById(section)) || $('#article h1')
@@ -197,7 +234,7 @@ async function route() {
 }
 async function init() {
     catalog = await client.getCatalog()
-    const lessonIds = catalog.lessons.map(lesson => lesson.id)
+    const lessonIds = progressIdsForCatalog(catalog)
     let recovering = false
     progressStorage = createProgressStorage({
         mode, baseUrl: new URL('./', location.href), lessonIds,
@@ -303,15 +340,18 @@ async function init() {
     })
     refreshPractice()
     $('#complete-button').addEventListener('click', () => {
-        if (!currentLesson || recovering) return
-        const id = currentLesson.id
+        const item = currentChallenge ?? currentLesson
+        if (!item || recovering) return
+        const id = item.id
         progress.completed = progress.completed.includes(id) ? progress.completed.filter(value => value !== id) : [...progress.completed, id]
         save()
         $('#complete-button').textContent = progress.completed.includes(id) ? 'Completed · undo' : 'Mark complete ✓'
         refresh()
+        refreshChallenges()
     })
     $('#lesson-notes').addEventListener('input', event => {
-        if (currentLesson && !recovering) { progress.notes[currentLesson.id] = event.target.value; save() }
+        const item = currentChallenge ?? currentLesson
+        if (item && !recovering) { progress.notes[item.id] = event.target.value; save() }
     })
     $('#export-progress').addEventListener('click', () => {
         downloadProgress(progress)
@@ -332,7 +372,7 @@ async function init() {
                 toast(!saved ? 'Imported into this draft. Check the save status and export it before leaving.'
                     : merged.conflicts
                     ? `Progress merged. Kept ${merged.conflicts} existing note(s) that differed from the backup.`
-                    : 'Progress imported. Existing notes and completed lessons were kept.')
+                    : 'Progress imported. Existing notes and completions were kept.')
             } catch (error) {
                 toast(`Import failed: ${error.message}`)
             } finally { event.target.value = '' }
@@ -342,6 +382,7 @@ async function init() {
     await route()
 }
 init().catch(error => {
+    $('#challenge-dashboard').hidden = true
     $('#dashboard').hidden = true
     $('#reader').hidden = true
     $('#retry-save').hidden = true

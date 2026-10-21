@@ -4,13 +4,14 @@ import { fileURLToPath } from 'node:url'
 import { allowedPage, courseAssets, loadCatalog, loadPage, readWithinRoot } from './course-content.mjs'
 import { defaultProgressDirectory, openProgressStore } from './progress-store.mjs'
 import { createProgressApi } from './progress-api.mjs'
+import { progressIdsForCatalog } from '../course/progress.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = Number(process.env.COURSE_PORT ?? 4173)
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw new Error('COURSE_PORT must be an integer from 1 to 65535')
 const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json' }
 const catalog = await loadCatalog(root)
-const progressStore = openProgressStore({ directory: defaultProgressDirectory(root), lessonIds: catalog.lessons.map(lesson => lesson.id) })
+const progressStore = openProgressStore({ directory: defaultProgressDirectory(root), lessonIds: progressIdsForCatalog(catalog) })
 const progressApi = createProgressApi({ store: progressStore, origin: `http://127.0.0.1:${port}` })
 let storeClosed = false
 function closeStore() {

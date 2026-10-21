@@ -1,6 +1,9 @@
 import { parseProgress } from './progress.js'
 
 export const legacyProgressKey = 'mobile-automation-lab-v1'
+// Older open tabs only know lesson IDs. A separate key prevents them from
+// overwriting challenge progress. Keep the original record during migration.
+export const browserProgressKey = 'mobile-automation-lab-v2'
 export const draftProgressKey = 'mobile-automation-lab-db-draft-v1'
 export const migrationKey = 'mobile-automation-lab-db-migration-v1'
 const empty = () => ({ completed: [], notes: {} })
@@ -63,17 +66,23 @@ export function createProgressStorage({
     async function request(method = 'GET', body) {
         const response = await fetcher(new URL('./api/progress', baseUrl), {
             method,
-            headers: body ? { 'Content-Type': 'application/json', 'X-Course-Token': database.writeToken } : {},
+            headers: body ? { 'Content-Type': 'application/json', 'X-Course-Token': database.writeToken,
+                'X-Course-Progress-Version': '2' } : {},
             ...(body ? { body: JSON.stringify(body) } : {}),
         })
         if (!response.ok) {
             const error = new Error(response.status === 409
                 ? 'Another window changed your progress. Export this draft before loading the saved version.'
+                : response.status === 426 ? 'Export this draft, then reload the reader before saving. This tab uses an older progress format.'
                 : `Local database request failed (${response.status}). Your draft has not been saved to the database.`)
             error.status = response.status
             throw error
         }
-        return response.json()
+        const value = await response.json()
+        if (method === 'GET' && value.progressProtocol !== 2) {
+            throw new Error('Restart npm run course and reload this page. The running server does not support challenge progress; no changes were uploaded.')
+        }
+        return value
     }
     function acknowledge(value, sent) {
         database = value
@@ -81,7 +90,7 @@ export function createProgressStorage({
         if (dirty) draft()
         else {
             remove(ownKey)
-            if (migration && raw(legacyProgressKey) === migration) remove(legacyProgressKey)
+            if (migration?.key === legacyProgressKey && raw(migration.key) === migration.value) remove(migration.key)
             migration = undefined
         }
     }
@@ -120,7 +129,7 @@ export function createProgressStorage({
         generation++
         dirty = true
         if (mode === 'static') {
-            dirty = !put(legacyProgressKey, current)
+            dirty = !put(browserProgressKey, current)
             status(dirty ? 'error' : 'saved', dirty
                 ? 'Browser storage is unavailable. Export progress before leaving.'
                 : 'Saved in this browser · export to move devices')
@@ -137,9 +146,13 @@ export function createProgressStorage({
     async function load() {
         status('loading', mode === 'static' ? 'Loading browser progress…' : 'Loading local database…')
         if (mode === 'static') {
-            const saved = read(legacyProgressKey)
+            const saved = read(browserProgressKey) ?? read(legacyProgressKey)
             current = saved ? parse(saved) : empty()
             loaded = true
+            if (saved && !raw(browserProgressKey)) {
+                update(current)
+                return copy(current)
+            }
             status('saved', 'Browser storage · export to move devices')
             return copy(current)
         }
@@ -148,11 +161,12 @@ export function createProgressStorage({
         loaded = true
         // Mark the migration attempt durably BEFORE writing: a lost response must
         // not import this stale cache into another empty database in the future.
-        if (database.revision === 0 && !raw(migrationKey) && raw(legacyProgressKey)) {
+        const sourceKey = raw(browserProgressKey) ? browserProgressKey : legacyProgressKey
+        if (database.revision === 0 && !raw(migrationKey) && raw(sourceKey)) {
             try {
-                const legacy = parse(read(legacyProgressKey))
+                const legacy = parse(read(sourceKey))
                 if (put(migrationKey, { attemptedAt: new Date().toISOString() })) {
-                    migration = raw(legacyProgressKey)
+                    migration = { key: sourceKey, value: raw(sourceKey) }
                     update(legacy)
                     await flush()
                     return copy(current)

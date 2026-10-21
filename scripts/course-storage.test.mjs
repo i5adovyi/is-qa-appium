@@ -1,8 +1,42 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { createProgressStorage, draftProgressKey, legacyProgressKey, migrationKey } from '../course/progress-storage.js'
+import { createProgressStorage, draftProgressKey, browserProgressKey, legacyProgressKey, migrationKey } from '../course/progress-storage.js'
 
 const progress = note => ({ completed: note ? ['00'] : [], notes: { '00': note } })
+
+test('hosted progress migrates once without letting an old tab erase challenge evidence', async () => {
+    const old = progress('Existing lesson evidence')
+    const storage = memory({ [legacyProgressKey]: old })
+    const options = { mode: 'static', lessonIds: ['00', 'CH-01'] }
+    const first = reader({}, storage, options).client
+    assert.deepEqual(await first.load(), old)
+    assert.deepEqual(JSON.parse(storage.getItem(legacyProgressKey)), old)
+    const updated = { completed: ['00', 'CH-01'], notes: { ...old.notes, 'CH-01': 'My baseline' } }
+    first.update(updated)
+    storage.setItem(legacyProgressKey, JSON.stringify(progress('Old tab writes here')))
+    assert.deepEqual(await reader({}, storage, options).client.load(), updated)
+    assert.deepEqual(JSON.parse(storage.getItem(browserProgressKey)), updated)
+})
+
+test('local adapter advertises challenge support and retains its draft when upgrade is required', async () => {
+    const db = backend()
+    const r = reader(db, memory(), { lessonIds: ['00', 'CH-01'], fetcher: async (url, options) => {
+        if (options.method !== 'PUT') return db.fetcher(url, options)
+        assert.equal(options.headers['X-Course-Progress-Version'], '2')
+        return new Response('', { status: 426 })
+    } })
+    await r.client.load()
+    const updated = { completed: ['CH-01'], notes: { 'CH-01': 'Unsaved evidence' } }
+    r.client.update(updated)
+    assert.equal(await r.client.flush(), false)
+    assert.deepEqual(r.client.getProgress(), updated)
+    assert.equal(r.client.hasPending(), true)
+    assert.match(r.statuses.at(-1).message, /Export this draft/)
+    const recovered = reader(db, r.storage, { lessonIds: ['00', 'CH-01'] }).client
+    await recovered.load()
+    assert.equal(recovered.getRecoveries().length, 1)
+    assert.deepEqual(await recovered.recover(recovered.getRecoveries()[0].key), updated)
+})
 function memory(values = {}) {
     const data = new Map(Object.entries(values).map(([key, value]) => [key, JSON.stringify(value)]))
     return {
@@ -14,7 +48,7 @@ function memory(values = {}) {
     }
 }
 function backend(initial = { completed: [], notes: {} }, revision = 0) {
-    let state = { databaseId: 'database-one', revision, progress: initial, writeToken: 'test-token' }
+    let state = { databaseId: 'database-one', revision, progress: initial, writeToken: 'test-token', progressProtocol: 2 }
     const requests = []
     const fetcher = async (_url, options = {}) => {
         requests.push(options.method)
@@ -65,6 +99,16 @@ test('initial database failure never uploads an empty state', async () => {
     assert.throws(() => client.update(progress('')), /loading/)
     assert.equal(await client.flush(), false)
     assert.deepEqual(requests, ['GET'])
+})
+
+test('a new reader refuses an old running server before it can discard challenge IDs', async () => {
+    const db = backend(progress('Existing note'), 2)
+    db.change({ progressProtocol: undefined })
+    const { client } = reader(db)
+    await assert.rejects(client.load(), /Restart npm run course/)
+    assert.throws(() => client.update(progress('New note')), /loading/)
+    assert.deepEqual(db.requests, ['GET'])
+    assert.deepEqual(db.get().progress, progress('Existing note'))
 })
 
 test('edits made during a save stay queued and use the acknowledged revision', async () => {

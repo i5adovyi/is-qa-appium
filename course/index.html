@@ -15,6 +15,7 @@
     <div class="sidebar-caption">YOUR FIELD GUIDE</div>
     <a class="overview-link" href="#home">↗ &nbsp; Learning dashboard</a>
     <a class="overview-link" href="#docs/handbook/start-from-zero.md">↗ &nbsp; Complete beginner? Start here</a>
+    <a class="overview-link challenge-nav" href="#challenges">↗ &nbsp; Real-world challenge path</a>
     <nav id="lesson-nav" aria-label="Course lessons"></nav>
     <div class="sidebar-footer"><span class="status-dot"></span> <span id="storage-description">Your personal learning progress.</span><br><small><a href="#docs/handbook/hosting.md">Localhost &amp; hosted access</a><br>Run tests from your project terminal.</small></div>
   </aside>
@@ -63,6 +64,11 @@
             <a class="library-card" href="#docs/handbook/first-lab-coach.md"><strong>5 · Attempt your first lab</strong><span>Find the right file, read feedback and use hints.</span></a>
           </div>
         </section>
+        <section class="challenge-callout" aria-labelledby="challenge-intro">
+          <div><p class="eyebrow">A SEPARATE PATH · 12 WORK ASSIGNMENTS</p><h2 id="challenge-intro">Learn by taking the ticket.</h2>
+          <p>Write a missing test. Diagnose a flaky run. Fix shared data. Defend a release decision. Each challenge ends with work you can show.</p></div>
+          <a class="primary-button" href="#challenges">Open challenge path ↗</a>
+        </section>
         <section class="stats" aria-label="Course overview">
           <div><strong>16</strong><span>guided lessons</span></div>
           <div><strong>48</strong><span>lesson exercises</span></div>
@@ -89,11 +95,22 @@
         <section class="library-section"><div class="section-heading"><div><p class="eyebrow">KEEP THESE CLOSE</p><h2>Your workbench</h2></div></div><div id="library-grid" class="library-grid"></div></section>
         <div class="honesty-note">Progress is self-reported, not a certification. BrowserStack needs your account; iOS and hybrid labs have additional prerequisites. Original lessons and exercises live in this repository. External books remain with their authors.</div>
       </div>
+      <section id="challenge-dashboard" hidden aria-labelledby="challenges-heading">
+        <div class="reader-top"><a href="#home">← Learning dashboard</a><span>PRACTICE TRACK / CH-01–CH-12</span></div>
+        <p class="eyebrow">TAKE THE TICKET. INVESTIGATE. SHOW THE EVIDENCE.</p>
+        <h1 id="challenges-heading">Real-world<br><em>challenge path.</em></h1>
+        <p class="hero-copy">Twelve work assignments alongside the lessons. Start with a small change, work through failures, and finish with an honest release handover.</p>
+        <a class="primary-button" href="#docs/challenges/README.md">Read the mission briefing ↗</a>
+        <p class="practice-intro">Use the lessons when you need a concept, then return to the ticket. Node-only assignments can run without Android or a cloud account. Device and cloud challenges clearly state what they need.</p>
+        <p id="challenge-count" role="status" aria-live="polite"></p>
+        <div id="challenge-stages"></div>
+        <p class="honesty-note">Checkpoints and evidence notes are saved with your progress. Completion is your assessment, not an automatic grade or proof of device coverage. Run commands in your project terminal.</p>
+      </section>
       <section id="reader" hidden>
-        <div class="reader-top"><a href="#home">← Learning path</a><span id="reader-stage"></span></div>
+        <div class="reader-top"><a id="reader-back" href="#home">← Learning path</a><span id="reader-stage"></span></div>
         <article id="article" class="prose"></article>
         <section id="lesson-actions" hidden>
-          <div class="completion-panel"><div><strong>Can you explain the result?</strong><p>Finish the exercises and checkpoint before marking this lesson complete.</p></div><button id="complete-button" class="primary-button">Mark complete ✓</button></div>
+          <div class="completion-panel"><div><strong>Can you explain the result?</strong><p id="completion-help">Finish the exercises and checkpoint before marking this lesson complete.</p></div><button id="complete-button" class="primary-button">Mark complete ✓</button></div>
           <label class="notes-label" for="lesson-notes">Your evidence & questions <span id="notes-storage">saved with your progress</span></label>
           <textarea id="lesson-notes" rows="5" placeholder="What did I run? What did I learn? What evidence proves it?"></textarea>
           <div class="reader-navigation"><a id="previous-lesson" href="#home">← Previous</a><a id="solution-link" href="#home">Worked solution</a><a id="next-lesson" href="#home">Next →</a></div>

@@ -74,7 +74,7 @@ export function createProgressApi({ store, origin }) {
                 throw new ProgressError('Progress is available only from this local course address.', 403)
             }
             if (req.method === 'GET') {
-                send(res, 200, { ...store.read(), writeToken })
+                send(res, 200, { ...store.read(), writeToken, progressProtocol: 2 })
             } else if (req.method === 'PUT') {
                 const supplied = Buffer.from(typeof req.headers['x-course-token'] === 'string'
                     ? req.headers['x-course-token'] : '')
@@ -85,6 +85,11 @@ export function createProgressApi({ store, origin }) {
                 if (!/^application\/json(?:\s*;\s*charset=utf-8)?$/i.test(req.headers['content-type'] ?? '')
                     || (req.headers['content-encoding'] && req.headers['content-encoding'] !== 'identity')) {
                     throw new ProgressError('Progress updates require an uncompressed application/json body.', 415)
+                }
+                // Pre-challenge readers filter unknown IDs out of full-record saves.
+                // Reject those writers even when they hold the latest revision.
+                if (req.headers['x-course-progress-version'] !== '2') {
+                    throw new ProgressError('Export your draft and reload the reader before saving challenge progress.', 426)
                 }
                 const value = await readJson(req)
                 if (!value || typeof value !== 'object' || Array.isArray(value)) {

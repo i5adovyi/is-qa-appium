@@ -10,6 +10,31 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
+## Latest addition — real-world challenge path, 21 October 2026
+
+The separate `#challenges` reader route adds twelve practical work tickets in
+`docs/challenges/`, with prerequisites, learner-owned changes, controlled failures,
+acceptance criteria and evidence notes. The original lessons, labs, references
+and 100 indexed workplace/interview entries are retained. Start with
+[the briefing](challenges/README.md); its offline route works while device/cloud
+access is pending. Do not infer that the learner completed any ticket.
+
+Challenge IDs CH-01–CH-12 share the portable progress record with lesson IDs
+00–15, with separate UI counts. SQLite, browser notes, CLI status and backup/import
+recognize both. The hosted reader migrates old browser data to a separate v2 key;
+old tabs cannot overwrite challenge notes. Export any old-tab drafts before
+reloading. Restart a running local reader after pulling this update: older
+servers/readers are rejected by the new progress protocol rather than dropping
+unknown IDs. Database/export schemas remain version 1. See
+[recovery guidance](handbook/local-data.md).
+
+The new track is teaching material; no learner starter or mobile reference spec
+was changed to solve it. Validation below/in the [validation record](validation.md)
+covers maintenance checks, not learner completion or a new real-device run.
+BrowserStack's first real session and separate-account Site ownership remain
+user-dependent follow-ups. The next smallest study action is CH-01's baseline
+report, if the learner chooses this track.
+
 ## Where the project lives
 
 - Private GitHub repository: [i5adovyi/is-qa-appium](https://github.com/i5adovyi/is-qa-appium).

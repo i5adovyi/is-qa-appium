@@ -24,6 +24,26 @@
     { "id": "14", "stage": "delivery", "title": "Choose what deserves a test", "subtitle": "Risk, coverage, maintainability, and review.", "path": "docs/lessons/14-test-design.md" },
     { "id": "15", "stage": "delivery", "title": "Ship your capstone", "subtitle": "A portfolio project with evidence and an honest quality report.", "path": "docs/lessons/15-capstone.md" }
   ],
+  "challengeStages": [
+    {"id": "take-ticket", "title": "01 · Take your first ticket", "description": "Establish a baseline and add useful coverage."},
+    {"id": "investigate", "title": "02 · Investigate before guessing", "description": "Separate a symptom from a cause; observe the right state."},
+    {"id": "repair", "title": "03 · Fix inherited defects", "description": "Repair isolation, uncertain writes and runtime contracts."},
+    {"id": "deliver", "title": "04 · Deliver evidence", "description": "Report actual coverage, execute a cloud smoke and hand over a decision."}
+  ],
+  "challenges": [
+    {"id": "CH-01", "stage": "take-ticket", "title": "Inherit the project", "subtitle": "Find what a green baseline actually proves.", "path": "docs/challenges/01-project-takeover.md", "requirements": "NODE ONLY", "deliverable": "Baseline report"},
+    {"id": "CH-02", "stage": "take-ticket", "title": "Build safe test data", "subtitle": "Implement a contract without changing the meaning of passwords.", "path": "docs/challenges/02-fixture-ticket.md", "requirements": "NODE ONLY", "deliverable": "Helper + regression"},
+    {"id": "CH-03", "stage": "take-ticket", "title": "Clear a populated field", "subtitle": "Prove a visible value changes from populated to empty.", "path": "docs/challenges/03-forms-clear.md", "requirements": "ANDROID", "deliverable": "UI test + failure proof"},
+    {"id": "CH-04", "stage": "take-ticket", "title": "Close a login coverage gap", "subtitle": "Test one missing field at a time, independently.", "path": "docs/challenges/04-login-validation.md", "requirements": "ANDROID", "deliverable": "Two negative tests"},
+    {"id": "CH-05", "stage": "investigate", "title": "The element disappeared", "subtitle": "Use UI evidence to distinguish a bad ID from a wrong screen.", "path": "docs/challenges/05-locator-incident.md", "requirements": "ANDROID", "deliverable": "Diagnosis + repair"},
+    {"id": "CH-06", "stage": "investigate", "title": "The result arrives late", "subtitle": "Replace a stale observation with bounded fresh reads.", "path": "docs/challenges/06-waiting-incident.md", "requirements": "NODE ONLY", "deliverable": "Wait helper + evidence"},
+    {"id": "CH-07", "stage": "repair", "title": "Tests contaminate each other", "subtitle": "Repair nested shared data and prove independence.", "path": "docs/challenges/07-fixture-contamination.md", "requirements": "NODE ONLY", "deliverable": "Isolation fix"},
+    {"id": "CH-08", "stage": "repair", "title": "A retry creates two orders", "subtitle": "Reconcile an uncertain write without submitting again.", "path": "docs/challenges/08-uncertain-write.md", "requirements": "NODE ONLY", "deliverable": "Recovery flow + ledger"},
+    {"id": "CH-09", "stage": "repair", "title": "HTTP 200, wrong order", "subtitle": "Validate real response values instead of trusting a type cast.", "path": "docs/challenges/09-api-contract.md", "requirements": "NODE + LOCAL HTTP", "deliverable": "Contract checks"},
+    {"id": "CH-10", "stage": "deliver", "title": "Green CI hides missing tests", "subtitle": "Count executed coverage and retries honestly.", "path": "docs/challenges/10-ci-evidence.md", "requirements": "NODE ONLY", "deliverable": "Summary + release comment"},
+    {"id": "CH-11", "stage": "deliver", "title": "Run one cloud smoke", "subtitle": "Execute the intended login on a real Android cloud device.", "path": "docs/challenges/11-cloud-smoke.md", "requirements": "BROWSERSTACK", "deliverable": "Session evidence"},
+    {"id": "CH-12", "stage": "deliver", "title": "Hand over a release decision", "subtitle": "Turn your results and uncertainties into a reviewable packet.", "path": "docs/challenges/12-release-handover.md", "requirements": "YOUR EVIDENCE", "deliverable": "Release handover"}
+  ],
   "practiceCollections": [
     { "category": "workplace", "label": "Workplace case", "prefix": "RW-", "count": 36, "path": "docs/handbook/workplace-scenarios.md" },
     { "category": "interview", "label": "Interview question", "prefix": "Q", "count": 48, "path": "docs/handbook/interview-practice.md" },
@@ -31,6 +51,7 @@
     { "category": "shift", "label": "Incident shift", "prefix": "S", "count": 6, "path": "docs/handbook/incident-shifts.md" }
   ],
   "library": [
+    {"title": "Real-world challenge path · 12 work assignments", "path": "docs/challenges/README.md"},
     { "title": "Complete beginner: start from zero", "path": "docs/handbook/start-from-zero.md" },
     { "title": "Computer, editor & terminal basics", "path": "docs/handbook/computer-basics.md" },
     { "title": "Programming one small step at a time", "path": "docs/handbook/programming-first-steps.md" },

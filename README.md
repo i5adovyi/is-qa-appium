@@ -11,6 +11,16 @@ follow-ups. The project remains ready for study and future maintenance.
 
 ## Why this project exists
 
+**Want to learn through work assignments?** Open the new
+[real-world challenge path](docs/challenges/README.md), or choose **Real-world
+challenge path** in the reader. Twelve tickets take you from inheriting the
+project to writing tests, diagnosing failures, fixing shared data and unsafe
+retries, and handing over a release decision. Each has prerequisites, a runnable
+task, acceptance criteria, hints and an evidence requirement. Challenge notes and
+completion marks persist separately from the sixteen-lesson checklist, using the
+same local database or hosted browser storage and progress export/import.
+Existing lessons, lab starters, references and practice workbooks remain available.
+
 This project helps a learner go from no mobile automation experience to writing,
 debugging and explaining useful tests, then handling workplace problems and job
 interviews. The goal is independent skill: understand the code, make a prediction,

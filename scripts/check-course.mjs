@@ -33,6 +33,20 @@ for (const lesson of catalog.lessons) {
         }
     }
 }
+check(catalog.challenges?.length === 12, 'Expected 12 real-world challenges')
+check(catalog.challengeStages?.length === 4, 'Expected four challenge stages')
+const allProgressIds = [...catalog.lessons, ...(catalog.challenges ?? [])].map(item => item.id)
+check(new Set(allProgressIds).size === allProgressIds.length, 'Lesson and challenge progress IDs must not collide')
+for (const [index, challenge] of (catalog.challenges ?? []).entries()) {
+    check(challenge.id === `CH-${String(index + 1).padStart(2, '0')}`, 'Challenge IDs must be stable and sequential')
+    check(catalog.challengeStages.some(stage => stage.id === challenge.stage), `${challenge.id}: unknown stage`)
+    check(Boolean(challenge.requirements && challenge.deliverable), `${challenge.id}: missing prerequisites or deliverable`)
+    if (!await exists(challenge.path)) { errors.push(`Missing ${challenge.path}`); continue }
+    const source = await readFile(path.join(root, challenge.path), 'utf8')
+    for (const heading of ['Prerequisites', 'Assignment', 'Acceptance criteria', 'Evidence and review']) {
+        check(source.includes(`## ${heading}`), `${challenge.id}: missing ${heading}`)
+    }
+}
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)
 let indexedItems = 0
 const practiceIds = new Set()
@@ -75,6 +89,6 @@ if (errors.length) {
     process.exitCode = 1
 } else {
     console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, ${labs.length} offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
-    console.log(`${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
+    console.log(`${catalog.challenges.length} real-world challenges; ${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
     console.log('This checks repository structure and local links, not external site availability or mobile behaviour.')
 }

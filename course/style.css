@@ -61,3 +61,10 @@ footer{border-top:1px solid var(--line);padding:22px 52px;font-size:11px;color:#
 @media(max-width:480px){.lesson-grid{grid-template-columns:1fr}.library-grid{grid-template-columns:1fr}.section-heading{flex-direction:column}.search-label,.search-label input{width:100%}.quiet-button{font-size:10px;padding:6px 8px}.reader-navigation{flex-wrap:wrap}.notes-label span{display:block;margin:3px 0}.edition{max-width:170px}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 @media print{.sidebar,.topbar,footer,#lesson-actions,.reader-top,.copy-code,#toast{display:none!important}.workspace{margin:0}main{padding:0}.prose{max-width:none;color:#000}.prose pre{white-space:pre-wrap;background:#eee;color:#000}.prose details{display:block}.prose table{display:table}a{text-decoration:none}}
+
+.challenge-callout{margin-top:35px;padding:27px;border:1px solid #b7c797;background:#e9efdb;border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.challenge-callout h2,.challenge-stage h2{font-family:Georgia,serif;font-size:29px;font-weight:400;line-height:1.25;margin:0 0 12px}
+.challenge-callout p:not(.eyebrow){font-size:13px;max-width:550px;margin:0;color:#526147}.challenge-callout .primary-button{flex-shrink:0}
+.challenge-stage{margin-top:40px}.challenge-stage .practice-intro{margin-bottom:20px}.challenge-nav{margin-top:8px;border:1px solid #6e8359}
+#challenge-count{font-size:13px;border-bottom:1px solid var(--line);padding:20px 0;color:#526147}
+@media(max-width:800px){.challenge-callout{align-items:flex-start;flex-direction:column}.challenge-nav{display:block;margin-top:18px;max-width:310px}}

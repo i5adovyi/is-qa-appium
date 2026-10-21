@@ -46,7 +46,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     assert.equal(catalog.lessons.length, 16)
     const pages = [...catalog.lessons.map(lesson => lesson.path),
         ...catalog.lessons.map(lesson => lesson.path.replace('/lessons/', '/solutions/')),
-        ...catalog.library.map(item => item.path), 'AGENTS.md', 'CLAUDE.md', 'vendor/README.md']
+        ...catalog.challenges.map(item => item.path), ...catalog.library.map(item => item.path), 'AGENTS.md', 'CLAUDE.md', 'vendor/README.md']
     for (const path of pages) {
         const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(path)}`)
         assert.equal(page.status, 200, path)
@@ -62,10 +62,10 @@ test('serves every reader module as JavaScript', async () => {
 })
 test('progress survives a full server restart and loads without any browser cache', async () => {
     const initial = await (await fetch(`${origin}/api/progress`)).json()
-    const progress = { completed: ['01'], notes: { '01': 'Saved across desktop sessions' } }
+    const progress = { completed: ['01', 'CH-01'], notes: { '01': 'Saved across desktop sessions', 'CH-01': 'Challenge evidence survives restart' } }
     const saved = await fetch(`${origin}/api/progress`, {
         method: 'PUT',
-        headers: { Origin: origin, 'Content-Type': 'application/json', 'X-Course-Token': initial.writeToken },
+        headers: { Origin: origin, 'Content-Type': 'application/json', 'X-Course-Token': initial.writeToken, 'X-Course-Progress-Version': '2' },
         body: JSON.stringify({ databaseId: initial.databaseId, revision: initial.revision, progress }),
     })
     assert.equal(saved.status, 200)

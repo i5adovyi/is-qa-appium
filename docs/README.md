@@ -27,6 +27,13 @@ preserves current notes when the backup text differs. See
 
 ## Four stages, sixteen lessons
 
+Prefer learning by taking a ticket? Use the separate
+[real-world challenge path](challenges/README.md): twelve assignments with their
+own saved notes and completion marks. They reuse the existing framework and labs
+and add investigation, regression and handover requirements. The briefing gives
+an offline route while Android or BrowserStack setup is pending. Use this lesson
+map whenever a challenge's prerequisite is unfamiliar.
+
 | Stage | Lesson | Evidence you produce |
 |---|---|---|
 | Foundations | [00 · Orientation](lessons/00-orientation.md) | A map of how a test reaches the app |

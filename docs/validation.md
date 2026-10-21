@@ -21,6 +21,39 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Subsequent real-world challenge path — 21 October 2026
+
+Added 12 work assignments in four stages, a dedicated reader route, per-challenge
+notes/completion and progress compatibility protections. Existing lesson IDs,
+starters, reference solutions, mobile specs and the 100-item practice index remain
+unchanged. New cases link to runnable local tasks and explicitly separate Node,
+Android, cloud and simulated evidence.
+
+- `npm run check` passed: both type checks, course structure/local links,
+  72 reference lab cases and 27 framework checks.
+- `npm run course:test` passed 73 checks. Added/extended coverage verifies old
+  lesson backup merging, challenge notes across full server restart, separate CLI
+  completion counts, backup/import, hosted key migration, retained recovery drafts,
+  rejection of old reader writes and rejection of old running servers.
+- `npm run course:build` exported 186 readable files. The HTTP reader/static
+  checks load all challenge pages and preserve the existing course/library pages.
+- The CH-10 packet was extracted, typechecked and executed with the reference
+  summary helper in a disposable directory. Both documented summaries matched.
+  This did not modify or complete the learner's starter.
+- Desktop static-preview QA opened the challenge route from the homepage and
+  sidebar, navigated between assignments, saved a test-only note and completion,
+  reloaded to verify persistence, and confirmed the lesson count remained 0/16
+  while the challenge count became 1/12. QA used a separate localhost origin;
+  the learner's database and hosted progress were not edited. The code-input
+  prediction table was changed to a code block after browser inspection showed
+  that whitespace was not sufficiently clear in the table.
+
+No Android or BrowserStack session was run for this change. The new device tickets
+are learner assignments using the existing framework; their outcomes are not
+claimed here. This was focused desktop QA, not a full accessibility, mobile
+viewport or cross-browser audit. Check the pushed commit's CI separately when
+making a current CI claim.
+
 ### Subsequent beginner extension — 21 October 2026
 
 The [beginner review](beginner-review.md) adds five preparation guides, 18

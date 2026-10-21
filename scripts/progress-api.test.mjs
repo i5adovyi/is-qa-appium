@@ -25,7 +25,7 @@ function rawRequest(url, options, body) {
 
 async function fixture(t) {
     const directory = mkdtempSync(path.join(tmpdir(), 'course-progress-api-'))
-    const store = openProgressStore({ directory, lessonIds: ['00', '01'] })
+    const store = openProgressStore({ directory, lessonIds: ['00', '01', 'CH-01'] })
     let handler
     const server = http.createServer(async (req, res) => {
         if (!await handler(req, res)) { res.writeHead(404); res.end() }
@@ -42,7 +42,7 @@ async function fixture(t) {
     })
     const response = await fetch(`${origin}/api/progress`)
     const initial = await response.json()
-    const headers = { Origin: origin, 'Content-Type': 'application/json', 'X-Course-Token': initial.writeToken }
+    const headers = { Origin: origin, 'Content-Type': 'application/json', 'X-Course-Token': initial.writeToken, 'X-Course-Progress-Version': '2' }
     const put = (value, overrides = {}) => fetch(`${origin}/api/progress`, {
         method: 'PUT', headers: { ...headers, ...overrides }, body: JSON.stringify(value),
     })
@@ -181,4 +181,14 @@ test('write tokens expire when the API handler is restarted', async t => {
     const res = { writeHead(value) { status = value }, end() {} }
     assert.equal(await replacement(req, res), true)
     assert.equal(status, 403)
+})
+
+test('an older reader cannot erase challenge progress even with a fresh revision and token', async t => {
+    const f = await fixture(t)
+    const progress = { completed: ['00', 'CH-01'], notes: { 'CH-01': 'Keep my investigation' } }
+    const saved = await (await f.put({ ...f.initial, progress })).json()
+    const response = await f.put({ ...saved, progress: { completed: ['00'], notes: {} } },
+        { 'X-Course-Progress-Version': '' })
+    assert.equal(response.status, 426)
+    assert.deepEqual(f.store.read(), saved)
 })

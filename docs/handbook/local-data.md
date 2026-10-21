@@ -190,3 +190,27 @@ the old private Site and conversation do not transfer through a Git clone.
 
 [Account handover](account-handover.md) · [Hosting](hosting.md) ·
 [Resume](../RESUME.md) · [Course map](../README.md)
+
+## Challenge progress and older tabs — 21 October 2026
+
+The real-world challenge path adds CH-01–CH-12 notes and completion marks to the
+same progress record as lessons 00–15. The lesson total stays sixteen. Backup,
+import and export include both tracks; exercise code and artifacts still require
+separate file backups. `progress:status` reports each completion count separately.
+
+Update your checkout before importing a backup containing challenges. An older
+checkout only recognizes lesson IDs. The current reader accepts older lesson-only
+exports and merges them without erasing challenge evidence.
+
+The hosted reader copies its older browser record to a new v2 storage key once,
+keeping the original. Old open tabs write the old key and cannot overwrite new
+challenge progress. Close older tabs after exporting any unsaved edits; import
+that export into the updated reader to reconcile them. There is no automatic
+two-way sync between old and new tabs.
+
+After updating the local project, restart `npm run course` so the server loads
+the new catalog, then reload the reader. The updated API rejects pre-challenge
+writers with HTTP 426 instead of accepting a record that omits challenge IDs.
+If a tab reports a failed save, export its draft before reloading. Database schema
+and export schema remain version 1; the browser key and write protocol version
+are separate compatibility mechanisms. Do not delete the database to upgrade.

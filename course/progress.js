@@ -29,3 +29,8 @@ export function mergeProgress(current, incoming, lessonIds) {
     }
     return { progress: { completed: lessonIds.filter(id => completed.has(id)), notes }, conflicts }
 }
+
+// Lesson and challenge IDs share one portable record, but retain separate UI totals.
+export function progressIdsForCatalog(catalog) {
+    return [...catalog.lessons, ...(catalog.challenges ?? [])].map(item => item.id)
+}

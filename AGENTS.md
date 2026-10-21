@@ -121,6 +121,15 @@ the allowlist in `scripts/course-content.mjs` and the documentation file list in
 `scripts/check-course.mjs`; a working GitHub link alone does not prove it opens
 in the local/static reader.
 
+The separate `#challenges` path is defined by `challengeStages` and `challenges`
+in the catalog and `docs/challenges/`. CH-01–CH-12 are stable progress IDs,
+independent of lesson IDs 00–15. Use `progressIdsForCatalog` for storage and
+imports; keep lesson and challenge totals separate in the UI. Challenge tickets
+reuse learner labs and mobile specs without pre-solving the learner's work.
+Hosted progress uses the v2 browser key, preserving the old lesson record during
+migration. Local API writes require progress protocol 2 to prevent old readers
+from silently discarding challenge IDs. Do not bypass that protection.
+
 ## Preserve personal data and portable ownership
 
 - Preserve `.env`, learner code, notes, databases and unsaved browser drafts.
