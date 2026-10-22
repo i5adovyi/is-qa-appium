@@ -21,6 +21,26 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Study themes — 22 October 2026
+
+Added a System/Light/Dark selector, an early theme script and dark screen styles.
+The preference uses its own browser storage key; no progress schema, learner
+exercise, mobile test or dependency changed.
+
+- `npm run course:check` passed documentation/structure checks.
+- `npm run course:test` passed all 73 reader/storage/profile checks, including
+  serving the new theme script locally and in the static export.
+- `npm run course:build` exported all 186 readable files and the theme asset.
+- Focused browser QA on a disposable localhost origin verified selecting Dark,
+  persistence after reload, switching back to Light and selecting System.
+  The dashboard, lesson text, code blocks, tables and expandable hints were
+  inspected in dark mode at desktop and narrower in-app browser widths.
+
+This is reader UI verification, not Android/BrowserStack execution or a complete
+accessibility/cross-browser audit. Live OS appearance changes, restricted-storage
+behavior and printed output were not exercised in the browser; their handling
+was reviewed in the source. Historical device results below retain their dates.
+
 ### Subsequent real-world challenge path — 21 October 2026
 
 Added 12 work assignments in four stages, a dedicated reader route, per-challenge

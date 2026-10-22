@@ -10,7 +10,18 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — real-world challenge path, 21 October 2026
+## Latest addition — study themes, 22 October 2026
+
+The reader now has a top-bar Theme control: System (default), Light and Dark.
+`course/theme.js` applies the preference before rendering and stores it in the
+browser's `mobile-automation-lab-theme` key. This is independent of SQLite,
+progress exports and the lesson/challenge completion record. The theme script
+is included in both local serving and static exports. Dark screen styles cover
+the dashboard, challenges, prose, code, hints and notes; print keeps light colors.
+This maintenance change does not complete any learner exercise. See the dated
+[validation record](validation.md) for verification and its limits.
+
+## Previous addition — real-world challenge path, 21 October 2026
 
 The separate `#challenges` reader route adds twelve practical work tickets in
 `docs/challenges/`, with prerequisites, learner-owned changes, controlled failures,

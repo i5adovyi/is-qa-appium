@@ -68,3 +68,49 @@ footer{border-top:1px solid var(--line);padding:22px 52px;font-size:11px;color:#
 .challenge-stage{margin-top:40px}.challenge-stage .practice-intro{margin-bottom:20px}.challenge-nav{margin-top:8px;border:1px solid #6e8359}
 #challenge-count{font-size:13px;border-bottom:1px solid var(--line);padding:20px 0;color:#526147}
 @media(max-width:800px){.challenge-callout{align-items:flex-start;flex-direction:column}.challenge-nav{display:block;margin-top:18px;max-width:310px}}
+
+/* The same controls work in the local reader and the static Site. */
+:root{color-scheme:light}
+.theme-control{display:inline-flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.theme-control select{font:inherit;color:var(--ink);background:#fffefa;border:1px solid #a5b09f;border-radius:6px;padding:6px 9px;min-height:34px;cursor:pointer}
+.progress-actions{align-items:center;max-width:100%}
+.topbar{height:auto;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
+/* Screen-only overrides keep printed lesson pages on the original light palette. */
+@media screen {
+:root[data-theme=dark]{color-scheme:dark;--paper:#141c19;--ink:#e1e7df;--muted:#abb8ad;--line:#3b4b40;--deep:#0e1712;--green:#c2da92;--orange:#e7a476;--night-panel:#1b2721;--night-raised:#223127;--night-link:#c2da92}
+:root[data-theme=dark] :focus-visible{outline-color:#eeb17d}
+:root[data-theme=dark] ::selection{background:#46613c;color:#fff}
+:root[data-theme=dark] .skip-link{color:#172118}
+:root[data-theme=dark] .quiet-button{border-color:#72826f;color:var(--ink)}
+:root[data-theme=dark] .theme-control select, :root[data-theme=dark] .practice-tools select, :root[data-theme=dark] input[type=search], :root[data-theme=dark] textarea, :root[data-theme=dark] #recovery-draft{background:#101813;color:var(--ink);border-color:#72826f}
+:root[data-theme=dark] input::placeholder, :root[data-theme=dark] textarea::placeholder{color:#a0b09f;opacity:1}
+:root[data-theme=dark] .eyebrow, :root[data-theme=dark] .card-number, :root[data-theme=dark] .card-footer, :root[data-theme=dark] .reader-top span, :root[data-theme=dark] .notes-label span, :root[data-theme=dark] .honesty-note, :root[data-theme=dark] footer, :root[data-theme=dark] .empty-state, :root[data-theme=dark] .tab, :root[data-theme=dark] .muted, :root[data-theme=dark] .terminal-top span{color:var(--muted)}
+:root[data-theme=dark] h1 em, :root[data-theme=dark] .practice-meta, :root[data-theme=dark] .practice-open, :root[data-theme=dark] .prose a, :root[data-theme=dark] .reader-navigation a, :root[data-theme=dark] .terminal-success, :root[data-theme=dark] .cursor{color:var(--night-link)}
+:root[data-theme=dark] .primary-button{background:#c2da92;color:#172118}
+:root[data-theme=dark] .primary-button:hover{background:#d0e8a2}
+:root[data-theme=dark] .hero-terminal{background:var(--night-panel);border-color:var(--line);box-shadow:10px 12px 0 #0f1612}
+:root[data-theme=dark] .terminal-top{border-color:var(--line)}
+:root[data-theme=dark] .terminal-top i{background:#72826f}
+:root[data-theme=dark] .accent{color:#e7a476}
+:root[data-theme=dark] .progress-track{background:#344638}
+:root[data-theme=dark] .progress-track>div{background:#b1cd80}
+:root[data-theme=dark] .tab.selected{background:#2c402e;color:#d5e7b5;border-color:#718761}
+:root[data-theme=dark] .lesson-card{background:var(--night-panel)}
+:root[data-theme=dark] .lesson-card:hover, :root[data-theme=dark] .library-card:hover{border-color:#91a77e}
+:root[data-theme=dark] .lesson-card.completed{background:#233524;border-color:#718761}
+:root[data-theme=dark] .card-footer{border-color:var(--line)}
+:root[data-theme=dark] .library-card{background:var(--night-raised)}
+:root[data-theme=dark] .prose code{background:#29392d;color:#e1e7df}
+:root[data-theme=dark] .prose pre{background:#0e1511;color:#d8e3d4;border:1px solid var(--line)}
+:root[data-theme=dark] .prose pre code{background:none;color:inherit}
+:root[data-theme=dark] .copy-code{background:#344c38;color:#e3efdc}
+:root[data-theme=dark] .prose th{background:var(--night-raised)}
+:root[data-theme=dark] .prose blockquote{background:var(--night-panel);color:#c8d4c5;border-color:#91a77e}
+:root[data-theme=dark] .prose details{background:var(--night-panel);border-color:var(--line)}
+:root[data-theme=dark] .completion-panel, :root[data-theme=dark] .challenge-callout{background:#243326;border-color:#526749}
+:root[data-theme=dark] .completion-panel p, :root[data-theme=dark] .challenge-callout p:not(.eyebrow), :root[data-theme=dark] #challenge-count{color:#bdcbb6}
+:root[data-theme=dark] .save-panel{background:#1b2721;color:#c5d2bc}
+:root[data-theme=dark] #save-status[data-state=error], :root[data-theme=dark] #save-status[data-state=conflict]{color:#f2b68e}
+:root[data-theme=dark] #error{background:#38251f;color:#f0c5ae;border-color:#976a53}
+:root[data-theme=dark] #toast{background:#2c4031;color:#e7efdc;border:1px solid #718761}
+}

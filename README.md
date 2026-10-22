@@ -96,6 +96,12 @@ Open **http://127.0.0.1:4173**. The local reader includes lesson navigation, cod
 
 Prefer your editor? Open **[the course map](docs/README.md)**. Every lesson is an ordinary Markdown file you own and can edit.
 
+For late-night reading, choose **Theme → Dark** in the top bar. **Light** keeps
+the original palette; **System** follows your device's appearance. The choice
+is saved in this browser for the current site address, independently of study
+progress, and works on localhost and the hosted Site. Printed lessons use the
+light palette. If browser storage is blocked, the choice lasts for this visit.
+
 ## Localhost and OpenAI Sites
 
 **Hosting status checked 21 October 2026:** the original Site currently has

@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="course-data-mode" content="local">
   <title>Mobile Automation Lab</title>
+  <script src="./theme.js"></script>
   <link rel="stylesheet" href="./style.css">
   <script src="./app.js" type="module"></script>
 </head>
@@ -23,6 +24,14 @@
     <header class="topbar">
       <span class="edition">ANDROID FIRST <span>/</span> TYPESCRIPT · APPIUM · CHAI</span>
       <div class="progress-actions">
+        <label id="theme-control" class="theme-control" for="theme-select" hidden>
+          <span>Theme</span>
+          <select id="theme-select" title="System follows your device. Your choice is saved in this browser.">
+            <option value="system">System</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+          </select>
+        </label>
         <button id="import-progress" class="quiet-button">Import progress</button>
         <button id="export-progress" class="quiet-button">Export progress</button>
         <input id="progress-file" type="file" accept=".json,application/json" aria-label="Choose a progress backup" hidden>
