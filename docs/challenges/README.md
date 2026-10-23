@@ -93,4 +93,4 @@ The [36 workplace cases](../handbook/workplace-scenarios.md),
 [six incident shifts](../handbook/incident-shifts.md) and
 [interview drills](../handbook/interview-drills.md) remain the larger practice
 library. Use their variations after finishing the core assignment. Existing
-lessons, 12 labs and reference solutions remain available.
+lessons, 14 labs and reference solutions remain available.

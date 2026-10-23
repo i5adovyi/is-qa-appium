@@ -1,0 +1,33 @@
+{
+  "saucelabs": {
+    "name": "Sauce Labs My Demo App (native Android)",
+    "version": "2.3.0",
+    "file": "saucelabs-mda-2.3.0.apk",
+    "package": "com.saucelabs.mydemoapp.android",
+    "activity": "com.saucelabs.mydemoapp.android.view.activities.SplashActivity",
+    "waitActivity": "com.saucelabs.mydemoapp.android.view.activities.MainActivity",
+    "url": "https://github.com/saucelabs/my-demo-app-android/releases/download/2.3.0/mda-2.3.0-27.apk",
+    "sha256": "bd3a3d6f2d50e076b2701ed2cc6a0ca82157b40a7033cf5be9f5d084b6591ec8",
+    "size": 18239748,
+    "source": "https://api.github.com/repos/saucelabs/my-demo-app-android/releases/assets/584634755",
+    "release": "https://github.com/saucelabs/my-demo-app-android/releases/tag/2.3.0",
+    "license": "No explicit repository license found at tag 2.3.0; download from upstream only",
+    "checked": "2026-10-23"
+  },
+  "apidemos": {
+    "name": "Appium ApiDemos",
+    "version": "6.1.2",
+    "file": "apidemos-6.1.2.apk",
+    "package": "io.appium.android.apis",
+    "activity": "io.appium.android.apis.ApiDemos",
+    "waitActivity": "io.appium.android.apis.ApiDemos",
+    "url": "https://github.com/appium/appium-android/releases/download/android-apidemos%406.1.2/ApiDemos-debug.apk",
+    "sha256": "dc74256d5d258e8d5959c55400b402d95e4596a7a9292d94121eb04ecab5daa2",
+    "size": 6986399,
+    "source": "https://api.github.com/repos/appium/appium-android/releases/assets/651504300",
+    "release": "https://github.com/appium/appium-android/releases/tag/android-apidemos%406.1.2",
+    "license": "Apache-2.0",
+    "licenseSource": "https://github.com/appium/appium-android/blob/android-apidemos%406.1.2/packages/android-apidemos/LICENSE",
+    "checked": "2026-10-23"
+  }
+}

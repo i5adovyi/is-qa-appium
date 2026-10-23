@@ -40,10 +40,11 @@ test('static client loads every exported page over HTTP with the same content as
     assert.deepEqual(exported, local)
     assert.equal(result.lessons, 16)
     assert.equal(result.practice, 100)
+    assert.equal(result.assignments, 24)
     for (const name of Object.keys(pageFiles)) {
         assert.deepEqual(await client.getPage(name), await loadPage(root, name), name)
     }
-    for (const item of [...catalog.lessons, ...catalog.challenges, ...catalog.library, ...catalog.practice]) {
+    for (const item of [...catalog.lessons, ...catalog.challenges, ...catalog.assignments, ...catalog.library, ...catalog.practice]) {
         assert.ok(Object.hasOwn(pageFiles, item.path), item.path)
     }
     assert.equal(requests.filter(name => name === '/data/catalog.json').length, 1)
@@ -163,6 +164,10 @@ test('new catalog entries require staged source, and rebuilds remove obsolete ge
     await assert.rejects(readFile(path.join(output, 'obsolete.json')), { code: 'ENOENT' })
     const catalog = JSON.parse(await readFile(path.join(source, 'course/catalog.json'), 'utf8'))
     catalog.library.push({ path: 'docs/untracked-notes.md' })
+    await writeFile(path.join(source, 'course/catalog.json'), JSON.stringify(catalog))
+    await assert.rejects(buildCourse({ root: source, destination: output }), /Stage the new course file/)
+    catalog.library.pop()
+    catalog.assignments = [{ path: 'docs/untracked-notes.md' }]
     await writeFile(path.join(source, 'course/catalog.json'), JSON.stringify(catalog))
     await assert.rejects(buildCourse({ root: source, destination: output }), /Stage the new course file/)
 })

@@ -2,6 +2,7 @@ import { readFile, readdir, access } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import path from 'node:path'
 import { indexCollection } from './course-index.mjs'
+import { headingSlug } from '../course/practice.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const catalog = JSON.parse(await readFile(path.join(root, 'course/catalog.json'), 'utf8'))
@@ -48,6 +49,45 @@ for (const [index, challenge] of (catalog.challenges ?? []).entries()) {
     }
 }
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)
+const assignments = catalog.assignments ?? []
+const topics = catalog.assignmentTopics ?? []
+const levels = catalog.assignmentLevels ?? []
+const environments = catalog.assignmentEnvironments ?? []
+check(assignments.length === 24, 'Expected 24 topic assignments')
+check(topics.length === 8 && new Set(topics.map(item => item.id)).size === 8, 'Expected eight unique assignment topics')
+check(JSON.stringify(levels.map(item => item.id)) === '["L1","L2","L3"]', 'Assignment levels must be L1, L2 and L3')
+check(new Set(environments.map(item => item.id)).size === environments.length, 'Assignment environments must be unique')
+for (const topic of topics) {
+    for (const level of levels) {
+        check(assignments.filter(item => item.topic === topic.id && item.level === level.id).length === 1,
+            `${topic.id}: expected one ${level.id} assignment`)
+    }
+}
+for (const [index, item] of assignments.entries()) {
+    check(item.id === `AS-${String(index + 1).padStart(2, '0')}`, 'Assignment IDs must be unique and sequential')
+    check(!allProgressIds.includes(item.id), `${item.id}: assignments must not reuse progress IDs`)
+    for (const [collection, key] of [[topics, 'topic'], [levels, 'level'], [environments, 'environment']]) {
+        check(collection.some(entry => entry.id === item[key]), `${item.id}: unknown ${key}`)
+    }
+    for (const key of ['title', 'summary', 'app', 'duration', 'deliverable']) {
+        check(typeof item[key] === 'string' && item[key].trim().length > 0, `${item.id}: missing ${key}`)
+    }
+    check(Array.isArray(item.prerequisites) && item.prerequisites.length > 0 && item.prerequisites.every(value => typeof value === 'string' && value.trim()),
+        `${item.id}: missing prerequisites`)
+    if (typeof item.path !== 'string' || !/^docs\/assignments\/[^/]+\.md$/.test(item.path) || !await exists(item.path)) {
+        errors.push(`${item.id}: missing or invalid assignment page`)
+        continue
+    }
+    const source = await readFile(path.join(root, item.path), 'utf8')
+    const heading = `## ${item.id} · ${item.title}`
+    check(source.split('\n').includes(heading), `${item.id}: catalog title must match the ticket heading`)
+    check(item.anchor === headingSlug(`${item.id} · ${item.title}`), `${item.id}: invalid heading anchor`)
+    const block = source.split(heading)[1]?.split(/^## /m)[0] ?? ''
+    for (const section of ['Prerequisites', 'Assignment', 'Acceptance criteria', 'Changed condition', 'Evidence and review']) {
+        check(block.includes(`### ${section}`), `${item.id}: missing ${section}`)
+    }
+    check(block.includes('<details>') && block.includes('</details>'), `${item.id}: missing hidden hint/review`)
+}
 let indexedItems = 0
 const practiceIds = new Set()
 for (const collection of catalog.practiceCollections) {
@@ -90,5 +130,6 @@ if (errors.length) {
 } else {
     console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, ${labs.length} offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
     console.log(`${catalog.challenges.length} real-world challenges; ${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
+    console.log(`${assignments.length} topic assignments across ${topics.length} topics and ${levels.length} difficulty levels; ticket anchors and required sections checked.`)
     console.log('This checks repository structure and local links, not external site availability or mobile behaviour.')
 }

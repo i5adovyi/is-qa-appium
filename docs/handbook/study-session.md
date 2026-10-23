@@ -51,6 +51,13 @@ be a useful session result when you understand it and save a reproducible next s
 
 ## Return after a break
 
+For targeted practice, choose one ticket in the
+[topic assignment bank](../assignments/README.md). L1 gives a guided contract,
+L2 asks you to choose and justify an approach, and L3 adds ambiguity or a changed
+condition. Use the reader's tool filter to find an offline task while a device
+is unavailable. Long tickets can span several sessions; keep a partial handover
+under the assignment ID rather than rushing to mark anything complete.
+
 1. Open your latest evidence note and the named exercise. Reading position helps
    you find the page; it does not establish what you can do unaided.
 2. Read the previous prediction, command/result and next action. If you have no

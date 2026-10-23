@@ -73,6 +73,21 @@ its asset digest, update all manifest fields together, download, and run the
 mobile suite. Never “fix” a mismatch by copying the unexpected file's hash into the
 manifest. There is no skip-verification environment variable.
 
+Optional assignment apps use a separate `apps/training-apps.json` manifest and
+the same download/verification implementation. Follow [training apps](training-apps.md)
+for the explicit `training:apps` and `test:training` commands. Each entry pins a
+release, SHA-256, size, package and launcher activity; the default WDIO manifest
+and cloud upload path remain separate. No optional APK is committed or bundled.
+
+When updating one of these fixtures, review the official release and license
+status, verify its published asset digest against a fresh download, inspect the
+APK package/launcher/wait-activity metadata and Android requirements, then run
+the offline checks and chosen assignment on a compatible
+test device. Update the guide and validation evidence with the exact tested
+version, preserving learner work and noting any changed locators or behavior.
+Download integrity and a manifest inspection alone do not establish
+working selectors, reset behavior or compatibility with the course's device.
+
 ## Checks after a maintenance change
 
 ```bash

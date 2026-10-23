@@ -1,5 +1,6 @@
 import { parseProgress, mergeProgress, progressIdsForCatalog } from './progress.js'
 import { headingSlug, findPractice } from './practice.js'
+import { findAssignments } from './assignments.js'
 import { createCourseClient } from './data.js'
 import { createProgressStorage } from './progress-storage.js'
 import { createReadingPlaceStore } from './reader-state.js'
@@ -108,6 +109,7 @@ function refresh() {
         ["Choose today's session", 'docs/handbook/study-session.md'],
         ['Complete beginner? Start here', 'docs/handbook/start-from-zero.md'],
         ['Real-world challenge path', 'challenges'],
+        ['Assignment bank · topic & level', 'assignments'],
     ]) mobileNav.append(link(title, path, 'nav-lesson'))
     for (const stage of catalog.stages) {
         nav.append(node('div', 'nav-stage', stage.title))
@@ -179,6 +181,51 @@ function refreshPractice() {
     if (!matches.length) grid.append(node('p', 'empty-state', 'No matches. Try “SQL”, “permission”, “401”, or a case ID such as “RW-21”.'))
     $('#practice-show-all').hidden = visible.length === matches.length
 }
+function refreshAssignments() {
+    const matches = findAssignments(catalog, {
+        query: $('#assignment-search').value,
+        topic: $('#assignment-topic').value,
+        level: $('#assignment-level').value,
+        environment: $('#assignment-environment').value,
+    })
+    const groups = $('#assignment-groups')
+    groups.replaceChildren()
+    const label = (collection, id) => collection.find(item => item.id === id)?.title ?? id
+    for (const topic of catalog.assignmentTopics ?? []) {
+        const items = matches.filter(item => item.topic === topic.id)
+        if (!items.length) continue
+        const group = node('section', 'assignment-topic')
+        const heading = node('h2', '', topic.title)
+        heading.id = `assignment-topic-${topic.id}`
+        group.setAttribute('aria-labelledby', heading.id)
+        group.append(heading, node('p', 'practice-intro', topic.description))
+        const cards = node('div', 'lesson-grid')
+        for (const item of items) {
+            const card = link('', `${item.path}#${item.anchor}`, 'lesson-card assignment-card')
+            card.append(node('span', 'card-number', `${item.id} · ${label(catalog.assignmentLevels, item.level)}`),
+                node('h3', '', item.title), node('p', '', item.summary))
+            const details = node('dl')
+            for (const [term, description] of [
+                ['Needs', label(catalog.assignmentEnvironments, item.environment)],
+                ['App / fixture', item.app],
+                ['Time', item.duration],
+                ['Before starting', item.prerequisites.join(' · ')],
+                ['Deliver', item.deliverable],
+            ]) details.append(node('dt', '', term), node('dd', '', description))
+            card.append(details, node('span', 'card-footer', 'Open ticket & review guidance ↗'))
+            cards.append(card)
+        }
+        group.append(cards)
+        groups.append(group)
+    }
+    $('#assignment-count').textContent = `${matches.length} of ${catalog.assignments?.length ?? 0} assignments match your filters`
+    if (!matches.length) {
+        const empty = node('div', 'assignment-empty')
+        empty.append(node('h2', '', 'No assignment matches these filters'),
+            node('p', '', 'Try a shorter search, another environment, or Reset filters to see the whole bank.'))
+        groups.append(empty)
+    }
+}
 function safeContent(html, page) {
     const template = document.createElement('template')
     template.innerHTML = html
@@ -240,21 +287,25 @@ async function route(force = false) {
         $('#dashboard').hidden = true
         $('#reader').hidden = true
         $('#challenge-dashboard').hidden = true
+        $('#assignment-dashboard').hidden = true
         $('#error').hidden = false
         $('#error').textContent = 'This course link is malformed. Use the Learning dashboard link to continue.'
         focusDestination($('#error'))
         return
     }
     $('#dashboard').hidden = page !== 'home'
-    $('#reader').hidden = ['home', 'challenges'].includes(page)
+    $('#reader').hidden = ['home', 'challenges', 'assignments'].includes(page)
     $('#challenge-dashboard').hidden = page !== 'challenges'
+    $('#assignment-dashboard').hidden = page !== 'assignments'
     currentLesson = catalog.lessons.find(lesson => lesson.path === page)
     currentChallenge = (catalog.challenges ?? []).find(item => item.path === page)
     refresh()
     refreshChallenges()
     $('#mobile-course-menu').open = false
-    $('#reader-back').href = currentChallenge ? '#challenges' : '#home'
-    $('#reader-back').textContent = currentChallenge ? '← Real-world challenge path' : '← Learning path'
+    const assignmentPage = page.startsWith('docs/assignments/')
+    $('#reader-back').href = assignmentPage ? '#assignments' : currentChallenge ? '#challenges' : '#home'
+    $('#reader-back').textContent = assignmentPage ? '← Assignment bank' : currentChallenge ? '← Real-world challenge path' : '← Learning path'
+    if (page === 'assignments') { document.title = 'Assignment bank · Mobile Automation Lab'; refreshAssignments(); focusDestination($('#assignments-heading')); return }
     if (page === 'challenges') { document.title = 'Real-world challenge path · Mobile Automation Lab'; focusDestination($('#challenges-heading')); return }
     if (page === 'home') { document.title = 'Mobile Automation Lab'; focusDestination($('#dashboard-heading')); return }
     if (!force && renderedPage === page) {
@@ -274,6 +325,7 @@ async function route(force = false) {
         $('#reader-stage').textContent = currentLesson
             ? catalog.stages.find(stage => stage.id === currentLesson.stage).title
             : currentChallenge ? `REAL-WORLD CHALLENGE · ${currentChallenge.id} · ${currentChallenge.requirements}`
+            : assignmentPage ? 'ASSIGNMENT BANK · KEEP EVIDENCE IN YOUR JOURNAL'
             : page.includes('/solutions/') ? 'WORKED SOLUTION · TRY THE EXERCISE FIRST' : 'THE WORKBENCH'
         document.title = `${$('#article h1')?.textContent ?? 'Course reader'} · Mobile Automation Lab`
         const item = currentChallenge ?? currentLesson
@@ -411,6 +463,30 @@ async function init() {
         $('#practice-grid').children[9]?.focus()
     })
     refreshPractice()
+    for (const [selector, entries] of [
+        ['#assignment-topic', catalog.assignmentTopics ?? []],
+        ['#assignment-level', catalog.assignmentLevels ?? []],
+        ['#assignment-environment', catalog.assignmentEnvironments ?? []],
+    ]) {
+        for (const entry of entries) {
+            const option = node('option', '', entry.title)
+            option.value = entry.id
+            $(selector).append(option)
+        }
+        $(selector).addEventListener('change', refreshAssignments)
+    }
+    for (const level of catalog.assignmentLevels ?? []) {
+        const guide = node('div', 'assignment-level')
+        guide.append(node('h2', '', level.title), node('p', '', level.description))
+        $('#assignment-level-guide').append(guide)
+    }
+    $('#assignment-search').addEventListener('input', refreshAssignments)
+    $('#assignment-reset').addEventListener('click', () => {
+        $('#assignment-search').value = ''
+        for (const selector of ['#assignment-topic', '#assignment-level', '#assignment-environment']) $(selector).value = 'all'
+        refreshAssignments()
+        $('#assignment-search').focus()
+    })
     $('#complete-button').addEventListener('click', () => {
         const item = currentChallenge ?? currentLesson
         if (!item || recovering) return
@@ -465,6 +541,7 @@ async function init() {
 }
 init().catch(error => {
     $('#challenge-dashboard').hidden = true
+    $('#assignment-dashboard').hidden = true
     $('#dashboard').hidden = true
     $('#reader').hidden = true
     $('#retry-save').hidden = true

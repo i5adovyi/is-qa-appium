@@ -34,6 +34,14 @@ preserves current notes when the backup text differs. See
 
 ## Four stages, sixteen lessons
 
+Want to practise a particular skill? The [topic assignment bank](assignments/README.md)
+adds **24 workplace tickets across eight topics**, each with a guided L1,
+independent L2 and investigation/handover L3 task. In the reader, choose
+**Assignment bank · topic & level** to filter by topic, difficulty and available tools. Start
+with one ticket; its evidence requirements tell you what to save and explain.
+The [optional app guide](handbook/training-apps.md) adds commerce and Android
+platform fixtures when the default demo is too small for the task.
+
 Prefer learning by taking a ticket? Use the separate
 [real-world challenge path](challenges/README.md): twelve assignments with their
 own saved notes and completion marks. They reuse the existing framework and labs

@@ -21,6 +21,56 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Topic assignments and optional training apps — 23 October 2026
+
+Added the [24-ticket assignment bank](assignments/README.md), eight topics with
+L1/L2/L3 complexity, reader filters, and [two optional Android fixtures](handbook/training-apps.md).
+The new assignment IDs do not change lesson/challenge progress or protocol 2.
+Default mobile specs and dependencies were unchanged. Checks used Node **24.22.0**.
+
+- `npm run check` passed both TypeScript projects, documentation structure/links,
+  **93 reference lab cases** and **32 offline framework checks**. The five new
+  runner checks cover explicit app/spec selection, cross-app/reference paths,
+  symlink escapes, actual files containing wildcard characters, and invalid CLI
+  requests failing before runner launch.
+- `npm run course:test` passed **83 reader/storage/profile checks**. Three new
+  filter checks cover combined search, intersecting filters and independence
+  from progress. HTTP coverage checks all 24 rendered ticket anchors and the
+  unchanged 28 progress IDs; static tests require assignment pages to be staged.
+- `npm run course:build` exported **218 readable files**, 16 lessons, 100 existing
+  indexed practice items and 24 topic assignments. Static HTTP comparisons
+  checked every exported page against local rendering. Source diff checks passed.
+- Both pinned APKs were freshly downloaded from official GitHub releases into
+  disposable directories, verified against published SHA-256 and byte size,
+  inspected with Android Build-Tools 35 `aapt`, then removed. My Demo App 2.3.0
+  matched **18,239,748 bytes**, package `com.saucelabs.mydemoapp.android`, launcher
+  `view.activities.SplashActivity`, version code 27, minimum API 21 and target 31.
+  Its declared MainActivity was checked as the wait target. ApiDemos 6.1.2 matched
+  **6,986,399 bytes**, package `io.appium.android.apis`, launcher `.ApiDemos`,
+  version code 47, minimum API 26 and target 33. Exact hashes and provenance are
+  recorded in `apps/training-apps.json`. No app was installed or launched.
+- The documented offline Node/Chai execution and explicit TypeScript-check
+  commands passed with a small disposable example. This verifies the authoring
+  workflow, not solutions or grades for the new assignments. Content review
+  corrected the cart task to distinguish displayed unit prices from calculated
+  line contributions and aligned written investigations with the tool filter.
+- Local browser QA used a separate temporary database on port 4190. It verified
+  topic/level/environment intersections, assignment-ID search, empty results,
+  reset, retained filters on return, and focus at the selected ticket heading.
+  Keyboard navigation and hint expansion were checked at 390px in dark mode;
+  there was no horizontal page overflow. Assignment pages hid lesson completion
+  controls. Desktop light layout was also inspected.
+- The final static preview on port 4191 opened AS-24 at its heading and loaded
+  the app guide. The three commerce levels were inspected together at 1600px.
+  No learner progress or existing personal attempts were modified by QA.
+
+These are source, artifact, offline and focused browser checks. Android execution,
+optional-app selector/reset compatibility, real backend/payment flows,
+BrowserStack, hosted CI and Site publication were **not run** in this change.
+No new assignment is claimed complete. Existing Android evidence belongs to
+its earlier build/environment; a first optional-app device run remains a learner
+setup/compatibility investigation. This is not a complete accessibility audit.
+
 ### Teacher review and study comfort — 23 October 2026
 
 Implemented the ten items in [the teacher review](teacher-review.md): a shorter

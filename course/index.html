@@ -22,6 +22,7 @@
     <a class="overview-link" href="#docs/handbook/study-session.md">↗ &nbsp; Choose today's session</a>
     <a class="overview-link" href="#docs/handbook/start-from-zero.md">↗ &nbsp; Complete beginner? Start here</a>
     <a class="overview-link challenge-nav" href="#challenges">↗ &nbsp; Real-world challenge path</a>
+    <a class="overview-link assignment-nav" href="#assignments">↗ &nbsp; Assignment bank · topic &amp; level</a>
     <nav id="lesson-nav" aria-label="Course lessons"></nav>
     <div class="sidebar-footer"><span class="status-dot"></span> <span id="storage-description">Your personal learning progress.</span><br><small><a href="#docs/handbook/hosting.md">Localhost &amp; hosted access</a><br>Run tests from your project terminal.</small></div>
   </aside>
@@ -95,6 +96,10 @@
           <p>Write a missing test. Diagnose a flaky run. Fix shared data. Defend a release decision. Each challenge ends with work you can show.</p></div>
           <a class="primary-button" href="#challenges">Open challenge path ↗</a>
         </section>
+        <section class="assignment-callout" aria-labelledby="assignment-intro">
+          <div><p class="eyebrow">PICK A TOPIC · CHOOSE YOUR NEXT STRETCH</p><h2 id="assignment-intro">Train for the workday</h2><p>Practise a focused skill, diagnose an incident, or make a team decision. Filter assignments by topic, complexity and the environment you have today.</p></div>
+          <a class="primary-button" href="#assignments">Browse assignments ↗</a>
+        </section>
         <section class="stats" aria-label="Course overview">
           <div><strong>16</strong><span>guided lessons</span></div>
           <div><strong>48</strong><span>lesson exercises</span></div>
@@ -131,6 +136,29 @@
         <p id="challenge-count" role="status" aria-live="polite"></p>
         <div id="challenge-stages"></div>
         <p class="honesty-note">Checkpoints and evidence notes are saved with your progress. Completion is your assessment, not an automatic grade or proof of device coverage. Run commands in your project terminal.</p>
+      </section>
+      <section id="assignment-dashboard" hidden aria-labelledby="assignments-heading">
+        <div class="reader-top"><a href="#home">← Learning dashboard</a><span>TOPICS / THREE LEVELS OF COMPLEXITY</span></div>
+        <p class="eyebrow">ONE ASSIGNMENT. A REALISTIC CONSTRAINT. YOUR EVIDENCE.</p>
+        <h1 id="assignments-heading">Your assignment<br><em>bank.</em></h1>
+        <p class="hero-copy">Choose a topic you need at work, then a level that stretches you. Every ticket gives you a situation, acceptance criteria, a change of circumstances and review guidance.</p>
+        <div class="assignment-links">
+          <a href="#docs/assignments/README.md">How to use the assignments ↗</a>
+          <a href="#docs/handbook/training-apps.md">Choose a training app ↗</a>
+          <a href="#docs/learning-journal.md">Evidence journal template ↗</a>
+        </div>
+        <div id="assignment-level-guide" class="assignment-level-guide" aria-label="Complexity guide"></div>
+        <p class="practice-intro">Levels describe complexity, not a score or job title. Check each ticket's prerequisites. Time estimates exclude environment setup; stop after one useful experiment and leave a next step.</p>
+        <div class="practice-tools assignment-tools" role="search" aria-label="Find a training assignment">
+          <label for="assignment-search">Search assignments<input id="assignment-search" type="search" placeholder="Try stale, checkout, AS-01…" autocomplete="off" aria-controls="assignment-groups"></label>
+          <label for="assignment-topic">Topic<select id="assignment-topic" aria-controls="assignment-groups"><option value="all">All topics</option></select></label>
+          <label for="assignment-level">Complexity<select id="assignment-level" aria-controls="assignment-groups"><option value="all">All levels</option></select></label>
+          <label for="assignment-environment">Environment<select id="assignment-environment" aria-controls="assignment-groups"><option value="all">All environments</option></select></label>
+          <button id="assignment-reset" class="quiet-button" type="button">Reset filters</button>
+        </div>
+        <p id="assignment-count" class="assignment-count" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div id="assignment-groups"></div>
+        <p class="honesty-note">Keep your attempt and evidence in your own journal, labelled with the assignment ID. These tickets do not add completion marks or notes to reader progress exports. Device tickets need a compatible app and device; reading a ticket is not execution evidence.</p>
       </section>
       <section id="reader" hidden>
         <div class="reader-top"><a id="reader-back" href="#home">← Learning path</a><span id="reader-stage"></span></div>

@@ -10,7 +10,37 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — teacher review and study comfort, 23 October 2026
+## Latest addition — topic assignments and extra training apps, 23 October 2026
+
+The [assignment bank](assignments/README.md) adds **24 tickets in eight topics**,
+each with L1 guided, L2 independent and L3 investigation work. The reader's
+`#assignments` route filters by topic, level, environment and text. Tickets give
+concrete contracts, acceptance criteria, changed conditions, hidden review hints
+and an interview explanation. Offline implementations/tests are learner-owned;
+the bank guide explains how to execute and typecheck them with Node 24.
+
+AS-01–AS-24 identify personal work; they do not join the 16 lesson or 12 challenge
+progress records. Keep attempts/evidence under `.local-data/assignments/` and
+back those files up separately. Reader notes/progress exports do not include
+them. Existing lab starters, mobile references and progress protocol 2 remain
+in place. No assignment has been completed on the learner's behalf.
+
+The [training-app guide](handbook/training-apps.md) adds optional pinned downloads
+for Sauce Labs native My Demo App 2.3.0 and Appium ApiDemos 6.1.2. Use
+`npm run training:apps -- list`, then the guide's download/verify command for the
+chosen app. `npm run test:training -- <app> --spec <learner-file>` requires one
+explicit spec under that app's `test/training/` directory. It starts a local
+Android session only after verifying the APK and selected file. The supplied
+template deliberately fails until the learner writes a meaningful test.
+
+The default seven tests and BrowserStack path still use the WebdriverIO demo.
+Extra apps are local opt-in fixtures; their checkout/login/platform samples do
+not establish real backend behavior. See [validation](validation.md) for the
+maintenance checks and any unexecuted device work. The next smallest study
+action is one L1 ticket in a chosen topic (AS-04 or AS-07 for Node practice), or
+the app guide followed by AS-13 for a new Android commerce investigation.
+
+## Previous addition — teacher review and study comfort, 23 October 2026
 
 The [teacher review](teacher-review.md) defines ten improvements for everyday
 study. Start with [Choose today's session](handbook/study-session.md): it points

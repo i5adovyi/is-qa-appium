@@ -17,7 +17,16 @@ follow-ups. The project remains ready for study and future maintenance.
 
 ## Why this project exists
 
-**Want to learn through work assignments?** Open the new
+**Want more practice by topic and difficulty?** Open the
+[assignment bank](docs/assignments/README.md), or choose **Assignment bank · topic & level**
+in the reader. It adds 24 workplace tickets across eight topics and three levels:
+guided, independent, and investigation/handover. Filter by topic, level and
+available tools; save a prediction, attempt and review evidence for each ticket.
+[Optional training apps](docs/handbook/training-apps.md) add commerce and Android
+platform investigations through a separate runner. Assignment files are personal
+work, backed up separately from lesson/challenge progress.
+
+**Prefer a continuous project handover?** Open the
 [real-world challenge path](docs/challenges/README.md), or choose **Real-world
 challenge path** in the reader. Twelve tickets take you from inheriting the
 project to writing tests, diagnosing failures, fixing shared data and unsafe
@@ -193,6 +202,8 @@ explicit recovery; opening a new tab does not replay another window's edits.
 | **16 lessons across 4 stages** | Learn programming foundations, write tests, make them reliable, then deliver them |
 | **48 lesson exercises + worked answers** | Practise with hints, acceptance criteria and an explanation of the solution |
 | **14 offline TypeScript labs** | Build helpers and repair fixture isolation, unsafe retries, stale observations and scrolling |
+| **24 topic assignments at 3 difficulty levels** | Take realistic tickets in test design, locators, waits, data, commerce, device state, hybrid boundaries and delivery |
+| **2 optional Android training apps** | Transfer skills to My Demo App commerce flows and ApiDemos platform examples |
 | **36 workplace scenario exercises** | Investigate recovery, races, conflicting requirements, misleading results and real-app incidents |
 | **6 incident shifts** | Revise hypotheses from new evidence and hand over incomplete work under constraints |
 | **48 interview questions + 10 practical drills** | Explain tradeoffs, review code, practise SQL and defend your decisions |
@@ -505,6 +516,9 @@ Run from the project root. Device commands require a booted emulator or connecte
 | `npm run test:forms` | Forms reference tests |
 | `npm run test:login` | Valid, invalid, and empty-login reference tests |
 | `npm run test:android` | All seven Android reference tests |
+| `npm run training:apps -- list` | List optional pinned Android fixtures; see the training-app guide |
+| `npm run training:apps -- download saucelabs` | Download and verify the optional My Demo App APK |
+| `npm run test:training -- saucelabs --spec test/training/saucelabs/cart.spec.ts` | Run your own named spec after creating it; separate from reference tests |
 | `npm run test:bs` | Run the same specs on BrowserStack, using your credentials |
 | `npm run course:test` | Check reader routes, SQLite, draft recovery, progress transfers, static builds and Site profiles |
 | `npm run framework:test` | Check preflight and failure diagnostics without a device |
@@ -527,6 +541,7 @@ config/                 Shared, local Android, and BrowserStack runner settings
 docs/lessons/           The sixteen guided lessons
 docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
+docs/assignments/       Twenty-four workplace tickets grouped by topic and level
 exercises/             Fourteen offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
 .openai/hosting.json    Account-neutral static hosting template; no Site identity
@@ -536,8 +551,9 @@ dist/                  Generated static course, ignored by Git
 test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence
 test/specs/            Runnable Android reference tests
+test/training/         Optional app templates and learner-owned device specs
 .github/workflows/     Static checks and a manual BrowserStack workflow
-apps/                  Downloaded demo APK, ignored by Git
+apps/                  Pinned artifact manifests and ignored downloaded APKs
 logs/                  Local test artifacts, ignored by Git
 ```
 

@@ -6,6 +6,7 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { tmpdir } from 'node:os'
 import { headingSlug, findPractice } from '../course/practice.js'
+import { progressIdsForCatalog } from '../course/progress.js'
 import { courseAssets } from './course-content.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
@@ -48,6 +49,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     const pages = [...catalog.lessons.map(lesson => lesson.path),
         ...catalog.lessons.map(lesson => lesson.path.replace('/lessons/', '/solutions/')),
         ...catalog.challenges.map(item => item.path), ...catalog.library.map(item => item.path), 'AGENTS.md', 'CLAUDE.md', 'vendor/README.md']
+    pages.push(...new Set(catalog.assignments.map(item => item.path)))
     for (const path of pages) {
         const page = await fetch(`${origin}/api/page?path=${encodeURIComponent(path)}`)
         assert.equal(page.status, 200, path)
@@ -101,6 +103,23 @@ test('reads approved source as escaped code', async () => {
     const response = await fetch(`${origin}/api/page?path=test/screens/FormsScreen.ts`)
     assert.equal(response.status, 200)
     assert.match((await response.json()).html, /<pre><code>/)
+})
+test('all topic tickets resolve to real headings without becoming progress records', async () => {
+    const catalog = await (await fetch(`${origin}/api/catalog`)).json()
+    assert.equal(catalog.assignments.length, 24)
+    assert.equal(catalog.assignmentTopics.length, 8)
+    const progressIds = progressIdsForCatalog(catalog)
+    assert.equal(progressIds.length, 28)
+    for (const name of new Set(catalog.assignments.map(item => item.path))) {
+        const page = await (await fetch(`${origin}/api/page?path=${encodeURIComponent(name)}`)).json()
+        const entities = { '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&#39;': "'" }
+        const headings = [...page.html.matchAll(/<h2>([\s\S]*?)<\/h2>/g)].map(match =>
+            headingSlug(match[1].replace(/<[^>]*>/g, '').replace(/&amp;|&lt;|&gt;|&quot;|&#39;/g, entity => entities[entity])))
+        for (const ticket of catalog.assignments.filter(item => item.path === name)) {
+            assert.ok(headings.includes(ticket.anchor), `${ticket.id}: missing rendered anchor`)
+            assert.ok(!progressIds.includes(ticket.id), `${ticket.id}: should remain a journal assignment`)
+        }
+    }
 })
 test('refuses secrets, installed dependencies, traversal, and writes', async () => {
     for (const name of ['.env', '.env.example', 'node_modules/chai/package.json', 'docs/../../.zshrc', '/etc/passwd', 'docs/../.env',

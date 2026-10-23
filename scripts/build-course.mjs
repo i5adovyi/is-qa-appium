@@ -27,6 +27,7 @@ export async function buildCourse({ root = projectRoot, destination = path.join(
         ...catalog.lessons.flatMap(lesson => [lesson.path, lesson.path.replace('/lessons/', '/solutions/')]),
         ...catalog.library.map(item => item.path),
         ...(catalog.challenges ?? []).map(item => item.path),
+        ...(catalog.assignments ?? []).map(item => item.path),
         ...catalog.practiceCollections.map(item => item.path),
     ]
     for (const name of required) {
@@ -55,7 +56,7 @@ export async function buildCourse({ root = projectRoot, destination = path.join(
         await writeFile(path.join(staging, marker), '{"format":"mobile-automation-course-v1"}\n')
         if (existing) await rm(destination, { recursive: true })
         await rename(staging, destination)
-        return { destination, pages: pages.length, lessons: catalog.lessons.length, practice: catalog.practice.length }
+        return { destination, pages: pages.length, lessons: catalog.lessons.length, practice: catalog.practice.length, assignments: catalog.assignments?.length ?? 0 }
     } finally {
         await rm(staging, { recursive: true, force: true })
     }
@@ -64,7 +65,7 @@ export async function buildCourse({ root = projectRoot, destination = path.join(
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
     try {
         const result = await buildCourse()
-        console.log(`Static course built in ${result.destination}: ${result.lessons} lessons, ${result.practice} practice items, ${result.pages} readable files.\nPreview with npm run course:preview. Tests still run in your project terminal.`)
+        console.log(`Static course built in ${result.destination}: ${result.lessons} lessons, ${result.practice} practice items, ${result.assignments} topic assignments, ${result.pages} readable files.\nPreview with npm run course:preview. Tests still run in your project terminal.`)
     } catch (error) {
         console.error(`Course build failed: ${error.message}`)
         process.exitCode = 1

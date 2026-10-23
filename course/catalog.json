@@ -84,6 +84,510 @@
     { "title": "Videos, books & reading library", "path": "docs/resources.md" },
     { "title": "Teacher review & study improvements", "path": "docs/teacher-review.md" },
     { "title": "Learning journal", "path": "docs/learning-journal.md" },
-    { "title": "Validation & limitations", "path": "docs/validation.md" }
+    { "title": "Validation & limitations", "path": "docs/validation.md" },
+    {"title": "Assignment bank · topics and levels", "path": "docs/assignments/README.md"},
+    {"title": "Extra training apps · commerce and native widgets", "path": "docs/handbook/training-apps.md"}
+  ],
+  "assignmentTopics": [
+    {
+      "id": "design",
+      "title": "Test design and oracles",
+      "description": "Choose requirements, boundaries and evidence worth trusting."
+    },
+    {
+      "id": "locators",
+      "title": "Locators and screen contracts",
+      "description": "Find the intended control and ask for useful testability."
+    },
+    {
+      "id": "synchronization",
+      "title": "Synchronization and timing",
+      "description": "Distinguish current results, business outcomes and timeout causes."
+    },
+    {
+      "id": "data",
+      "title": "Test data and contracts",
+      "description": "Validate runtime data and plan safe fixture ownership."
+    },
+    {
+      "id": "commerce",
+      "title": "Commerce in another app",
+      "description": "Practise catalog, cart and checkout workflows."
+    },
+    {
+      "id": "device",
+      "title": "Android state and usability",
+      "description": "Observe modal, text-size and lifecycle transitions."
+    },
+    {
+      "id": "hybrid",
+      "title": "Hybrid and integration boundaries",
+      "description": "Separate context, driver and external-content evidence."
+    },
+    {
+      "id": "delivery",
+      "title": "Delivery and team evidence",
+      "description": "Select checks, combine artifacts and explain a decision."
+    }
+  ],
+  "assignmentLevels": [
+    {
+      "id": "L1",
+      "title": "L1 · Guided",
+      "description": "A concrete contract and a small focused result."
+    },
+    {
+      "id": "L2",
+      "title": "L2 · Independent",
+      "description": "Choose your structure and justify the boundary."
+    },
+    {
+      "id": "L3",
+      "title": "L3 · Investigation",
+      "description": "Reconcile evidence and hand over a decision."
+    }
+  ],
+  "assignmentEnvironments": [
+    {
+      "id": "offline",
+      "title": "Offline / Node"
+    },
+    {
+      "id": "android",
+      "title": "Android device"
+    },
+    {
+      "id": "design",
+      "title": "Design / written"
+    }
+  ],
+  "assignments": [
+    {
+      "id": "AS-01",
+      "title": "Turn a delivery rule into examples",
+      "topic": "design",
+      "level": "L1",
+      "environment": "design",
+      "app": "Fictional delivery shop",
+      "duration": "25–40 min",
+      "path": "docs/assignments/01-test-design.md",
+      "anchor": "as-01-turn-a-delivery-rule-into-examples",
+      "summary": "Turn a pricing requirement into boundary examples and a focused coverage choice.",
+      "prerequisites": [
+        "Testing foundations"
+      ],
+      "deliverable": "Versioned decision table"
+    },
+    {
+      "id": "AS-02",
+      "title": "Challenge a weak oracle",
+      "topic": "design",
+      "level": "L2",
+      "environment": "offline",
+      "app": "Synthetic delivery summary",
+      "duration": "45–65 min",
+      "path": "docs/assignments/01-test-design.md",
+      "anchor": "as-02-challenge-a-weak-oracle",
+      "summary": "Implement an exact quote matcher and prove that a weak assertion misses wrong fees.",
+      "prerequisites": [
+        "AS-01",
+        "Node 24",
+        "Assertions"
+      ],
+      "deliverable": "Matcher, tests and mutation evidence"
+    },
+    {
+      "id": "AS-03",
+      "title": "Negotiate a small release scope",
+      "topic": "design",
+      "level": "L3",
+      "environment": "design",
+      "app": "Fictional delivery shop",
+      "duration": "45–60 min",
+      "path": "docs/assignments/01-test-design.md",
+      "anchor": "as-03-negotiate-a-small-release-scope",
+      "summary": "Select useful checks under a device-time budget and revise the plan when the risk changes.",
+      "prerequisites": [
+        "AS-01",
+        "Test design"
+      ],
+      "deliverable": "Revised risk-based selection"
+    },
+    {
+      "id": "AS-04",
+      "title": "Identify a row with repeated labels",
+      "topic": "locators",
+      "level": "L1",
+      "environment": "offline",
+      "app": "Synthetic catalog",
+      "duration": "30–45 min",
+      "path": "docs/assignments/02-locators.md",
+      "anchor": "as-04-identify-a-row-with-repeated-labels",
+      "summary": "Select a unique visible record by identity even when labels and positions repeat.",
+      "prerequisites": [
+        "Node 24",
+        "Arrays",
+        "Selector concepts"
+      ],
+      "deliverable": "Identity helper and counterexamples"
+    },
+    {
+      "id": "AS-05",
+      "title": "Own a native widget test",
+      "topic": "locators",
+      "level": "L2",
+      "environment": "android",
+      "app": "ApiDemos",
+      "duration": "50–80 min",
+      "path": "docs/assignments/02-locators.md",
+      "anchor": "as-05-own-a-native-widget-test",
+      "summary": "Inspect an unfamiliar native widget and automate two meaningful state transitions.",
+      "prerequisites": [
+        "AS-04",
+        "Android",
+        "ApiDemos setup"
+      ],
+      "deliverable": "Isolated widget spec and observed run"
+    },
+    {
+      "id": "AS-06",
+      "title": "Hand over a testability request",
+      "topic": "locators",
+      "level": "L3",
+      "environment": "android",
+      "app": "ApiDemos + WebdriverIO demo",
+      "duration": "55–85 min",
+      "path": "docs/assignments/02-locators.md",
+      "anchor": "as-06-hand-over-a-testability-request",
+      "summary": "Use hierarchy evidence to propose a stable identity contract and an interim selector.",
+      "prerequisites": [
+        "AS-05",
+        "Both app builds",
+        "Inspection"
+      ],
+      "deliverable": "Actionable testability request"
+    },
+    {
+      "id": "AS-07",
+      "title": "Ignore an outdated search response",
+      "topic": "synchronization",
+      "level": "L1",
+      "environment": "offline",
+      "app": "Synthetic search screen",
+      "duration": "35–50 min",
+      "path": "docs/assignments/03-synchronization.md",
+      "anchor": "as-07-ignore-an-outdated-search-response",
+      "summary": "Write an event reducer that preserves the newest request despite out-of-order responses.",
+      "prerequisites": [
+        "Node 24",
+        "Arrays",
+        "Async ordering"
+      ],
+      "deliverable": "Reducer, event trace and tests"
+    },
+    {
+      "id": "AS-08",
+      "title": "Observe a business outcome",
+      "topic": "synchronization",
+      "level": "L2",
+      "environment": "offline",
+      "app": "Synthetic receipt screen",
+      "duration": "45–70 min",
+      "path": "docs/assignments/03-synchronization.md",
+      "anchor": "as-08-observe-a-business-outcome",
+      "summary": "Wait for the right settled receipt rather than treating a vanished spinner as success.",
+      "prerequisites": [
+        "AS-07",
+        "Node 24",
+        "Bounded polling"
+      ],
+      "deliverable": "Bounded observer and call traces"
+    },
+    {
+      "id": "AS-09",
+      "title": "Explain where the time went",
+      "topic": "synchronization",
+      "level": "L3",
+      "environment": "design",
+      "app": "Fictional Android run trace",
+      "duration": "40–60 min",
+      "path": "docs/assignments/03-synchronization.md",
+      "anchor": "as-09-explain-where-the-time-went",
+      "summary": "Separate nested command time, condition time and diagnostic time before changing a timeout.",
+      "prerequisites": [
+        "Waiting and state",
+        "Failure diagnosis"
+      ],
+      "deliverable": "Timeline and discriminating investigation"
+    },
+    {
+      "id": "AS-10",
+      "title": "Validate a price feed",
+      "topic": "data",
+      "level": "L1",
+      "environment": "offline",
+      "app": "Synthetic product feed",
+      "duration": "35–55 min",
+      "path": "docs/assignments/04-data-contracts.md",
+      "anchor": "as-10-validate-a-price-feed",
+      "summary": "Validate unknown catalog records without coercing prices or leaking extra data.",
+      "prerequisites": [
+        "Node 24",
+        "TypeScript narrowing",
+        "Arrays"
+      ],
+      "deliverable": "Boundary validator and tests"
+    },
+    {
+      "id": "AS-11",
+      "title": "Plan cleanup without deleting data",
+      "topic": "data",
+      "level": "L2",
+      "environment": "offline",
+      "app": "Synthetic fixture service",
+      "duration": "50–75 min",
+      "path": "docs/assignments/04-data-contracts.md",
+      "anchor": "as-11-plan-cleanup-without-deleting-data",
+      "summary": "Create a dry-run cleanup plan using exact ownership, state and expiry rules.",
+      "prerequisites": [
+        "AS-10",
+        "Node 24",
+        "Fixture cleanup concepts"
+      ],
+      "deliverable": "Cleanup planner and race analysis"
+    },
+    {
+      "id": "AS-12",
+      "title": "Support a schema rollout",
+      "topic": "data",
+      "level": "L3",
+      "environment": "offline",
+      "app": "Synthetic catalog API",
+      "duration": "60–90 min",
+      "path": "docs/assignments/04-data-contracts.md",
+      "anchor": "as-12-support-a-schema-rollout",
+      "summary": "Normalize two explicit payload versions while rejecting ambiguous fallback behavior.",
+      "prerequisites": [
+        "AS-10",
+        "Node 24",
+        "API contract lab"
+      ],
+      "deliverable": "Compatibility adapter and rollout note"
+    },
+    {
+      "id": "AS-13",
+      "title": "Add and remove the intended product",
+      "topic": "commerce",
+      "level": "L1",
+      "environment": "android",
+      "app": "Sauce Labs My Demo App",
+      "duration": "45–70 min",
+      "path": "docs/assignments/05-commerce.md",
+      "anchor": "as-13-add-and-remove-the-intended-product",
+      "summary": "Transfer your test skills to a second app by proving product identity through cart changes.",
+      "prerequisites": [
+        "Android",
+        "Training-app setup",
+        "First-test and selector lessons"
+      ],
+      "deliverable": "Product/cart spec and failure proof"
+    },
+    {
+      "id": "AS-14",
+      "title": "Check cart arithmetic and isolation",
+      "topic": "commerce",
+      "level": "L2",
+      "environment": "android",
+      "app": "Sauce Labs My Demo App",
+      "duration": "60–90 min",
+      "path": "docs/assignments/05-commerce.md",
+      "anchor": "as-14-check-cart-arithmetic-and-isolation",
+      "summary": "Verify two-product quantities and totals with independent setup and reversed test order.",
+      "prerequisites": [
+        "AS-13",
+        "Test data",
+        "Integer-cent arithmetic"
+      ],
+      "deliverable": "Cart arithmetic specs and isolation evidence"
+    },
+    {
+      "id": "AS-15",
+      "title": "Investigate an interrupted checkout",
+      "topic": "commerce",
+      "level": "L3",
+      "environment": "android",
+      "app": "Sauce Labs My Demo App",
+      "duration": "60–90 min",
+      "path": "docs/assignments/05-commerce.md",
+      "anchor": "as-15-investigate-an-interrupted-checkout",
+      "summary": "Explore checkout back/cancel behavior and explain which apparent success lacks a backend oracle.",
+      "prerequisites": [
+        "AS-14",
+        "State and diagnosis lessons"
+      ],
+      "deliverable": "Checkout state map and investigation packet"
+    },
+    {
+      "id": "AS-16",
+      "title": "Dismiss a modal without losing the screen",
+      "topic": "device",
+      "level": "L1",
+      "environment": "android",
+      "app": "ApiDemos",
+      "duration": "40–60 min",
+      "path": "docs/assignments/06-device-state.md",
+      "anchor": "as-16-dismiss-a-modal-without-losing-the-screen",
+      "summary": "Inspect and test Android Back while a native modal is open.",
+      "prerequisites": [
+        "AS-05",
+        "Android",
+        "State concepts"
+      ],
+      "deliverable": "Modal dismissal spec and state evidence"
+    },
+    {
+      "id": "AS-17",
+      "title": "Test a screen with larger text",
+      "topic": "device",
+      "level": "L2",
+      "environment": "android",
+      "app": "Sauce Labs My Demo App",
+      "duration": "55–85 min",
+      "path": "docs/assignments/06-device-state.md",
+      "anchor": "as-17-test-a-screen-with-larger-text",
+      "summary": "Compare the same journey at baseline and larger text while preserving device settings.",
+      "prerequisites": [
+        "AS-13",
+        "Android settings",
+        "Selector inspection"
+      ],
+      "deliverable": "Two-profile layout and interaction report"
+    },
+    {
+      "id": "AS-18",
+      "title": "Map what a restart really resets",
+      "topic": "device",
+      "level": "L3",
+      "environment": "android",
+      "app": "WebdriverIO demo",
+      "duration": "60–90 min",
+      "path": "docs/assignments/06-device-state.md",
+      "anchor": "as-18-map-what-a-restart-really-resets",
+      "summary": "Compare navigation, backgrounding and process restart without resetting the experiment midway.",
+      "prerequisites": [
+        "State lesson",
+        "Working Android baseline",
+        "Device practice"
+      ],
+      "deliverable": "State matrix and isolated characterization"
+    },
+    {
+      "id": "AS-19",
+      "title": "Classify three WebView failures",
+      "topic": "hybrid",
+      "level": "L1",
+      "environment": "design",
+      "app": "Synthetic WebView packets",
+      "duration": "30–45 min",
+      "path": "docs/assignments/07-hybrid-boundaries.md",
+      "anchor": "as-19-classify-three-webview-failures",
+      "summary": "Distinguish context discovery, driver attachment and page-content failures from supplied evidence.",
+      "prerequisites": [
+        "Hybrid lesson",
+        "Failure diagnosis"
+      ],
+      "deliverable": "Three cause-and-next-action reports"
+    },
+    {
+      "id": "AS-20",
+      "title": "Preserve the original context failure",
+      "topic": "hybrid",
+      "level": "L2",
+      "environment": "offline",
+      "app": "Synthetic context adapter",
+      "duration": "45–70 min",
+      "path": "docs/assignments/07-hybrid-boundaries.md",
+      "anchor": "as-20-preserve-the-original-context-failure",
+      "summary": "Implement cleanup behavior that preserves the original failure and reports a second failure.",
+      "prerequisites": [
+        "Node 24",
+        "Async functions",
+        "Hybrid context concepts"
+      ],
+      "deliverable": "Context guard and rejection matrix"
+    },
+    {
+      "id": "AS-21",
+      "title": "Investigate a real WebView boundary",
+      "topic": "hybrid",
+      "level": "L3",
+      "environment": "android",
+      "app": "WebdriverIO demo",
+      "duration": "60–90 min",
+      "path": "docs/assignments/07-hybrid-boundaries.md",
+      "anchor": "as-21-investigate-a-real-webview-boundary",
+      "summary": "Inspect actual contexts, attempt one DOM observation and hand over execution or a precise blocker.",
+      "prerequisites": [
+        "AS-19",
+        "AS-20",
+        "Android",
+        "Hybrid prerequisites"
+      ],
+      "deliverable": "Context evidence and native-recovery result"
+    },
+    {
+      "id": "AS-22",
+      "title": "Make test selection a contract",
+      "topic": "delivery",
+      "level": "L1",
+      "environment": "offline",
+      "app": "Synthetic CI selection",
+      "duration": "35–55 min",
+      "path": "docs/assignments/08-delivery.md",
+      "anchor": "as-22-make-test-selection-a-contract",
+      "summary": "Select required checks from changed areas and fail visibly when the selection input is unknown.",
+      "prerequisites": [
+        "Node 24",
+        "Arrays",
+        "CI lesson"
+      ],
+      "deliverable": "Selection helper and selection tests"
+    },
+    {
+      "id": "AS-23",
+      "title": "Merge evidence without hiding a missing shard",
+      "topic": "delivery",
+      "level": "L2",
+      "environment": "offline",
+      "app": "Synthetic CI manifests",
+      "duration": "55–80 min",
+      "path": "docs/assignments/08-delivery.md",
+      "anchor": "as-23-merge-evidence-without-hiding-a-missing-shard",
+      "summary": "Validate run identity and expected shards before summarizing reported tests.",
+      "prerequisites": [
+        "AS-22",
+        "Node 24",
+        "Run-summary concepts"
+      ],
+      "deliverable": "Manifest merger and conflict regressions"
+    },
+    {
+      "id": "AS-24",
+      "title": "Hand over a decision under uncertainty",
+      "topic": "delivery",
+      "level": "L3",
+      "environment": "design",
+      "app": "Fictional mobile release",
+      "duration": "60–90 min",
+      "path": "docs/assignments/08-delivery.md",
+      "anchor": "as-24-hand-over-a-decision-under-uncertainty",
+      "summary": "Reconcile cross-app, build and shard evidence into a concise release recommendation.",
+      "prerequisites": [
+        "AS-23",
+        "One earlier assignment attempt",
+        "Test design"
+      ],
+      "deliverable": "Decision packet and spoken handover"
+    }
   ]
 }

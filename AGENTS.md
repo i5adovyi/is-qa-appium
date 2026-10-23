@@ -78,6 +78,7 @@ project fixes unfinished.
 | Area | Role |
 |---|---|
 | `docs/lessons/`, `docs/solutions/`, `docs/handbook/` | Lessons, worked answers, real-work scenarios, interview practice and manuals |
+| `docs/assignments/` | Topic tickets AS-01–AS-24 at L1/L2/L3; learner evidence stays in personal files |
 | `exercises/` | Offline TypeScript starters, separate references and grading tests |
 | `test/specs/`, `test/screens/`, `test/helpers/`, `config/` | Android reference specs, screen objects, lifecycle/wait helpers and local/cloud runner configuration |
 | `test/unit/` | Offline framework regression checks; mocks are not device evidence |
@@ -129,6 +130,15 @@ reuse learner labs and mobile specs without pre-solving the learner's work.
 Hosted progress uses the v2 browser key, preserving the old lesson record during
 migration. Local API writes require progress protocol 2 to prevent old readers
 from silently discarding challenge IDs. Do not bypass that protection.
+
+The separate `#assignments` bank uses `assignmentTopics`, `assignmentLevels`,
+`assignmentEnvironments` and `assignments` in the catalog. AS-01–AS-24 are ticket
+identifiers, not progress IDs. Keep their headings/anchors, filters and static
+export in sync. Attempts and evidence go in personal files such as
+`.local-data/assignments/`; progress exports do not back those files up.
+Optional My Demo App and ApiDemos fixtures use pinned manifests and an explicit
+app/spec runner. Keep them outside the default seven reference tests and never
+treat a checksum check or supplied template as device execution evidence.
 
 ## Preserve personal data and portable ownership
 

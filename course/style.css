@@ -154,3 +154,37 @@ footer{border-top:1px solid var(--line);padding:22px 52px;font-size:11px;color:#
 .reader-top{flex-wrap:wrap;margin-bottom:24px}
 }
 @media print{.reader-tools,.mobile-course-menu{display:none!important}}
+
+/* Assignment browsing remains separate from self-reported lesson progress. */
+.assignment-nav{margin-top:8px}
+.assignment-callout{margin-top:18px;padding:27px;border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;justify-content:space-between;gap:28px}
+.assignment-callout h2,.assignment-topic h2{font-family:Georgia,serif;font-size:29px;font-weight:400;line-height:1.25;margin:0 0 12px}
+.assignment-callout p:not(.eyebrow){font-size:13px;max-width:550px;margin:0;color:var(--muted)}
+.assignment-callout .primary-button{flex-shrink:0}
+.assignment-links{display:flex;gap:12px 24px;flex-wrap:wrap;font-size:13px;margin:24px 0;text-underline-offset:3px}
+.assignment-level-guide{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:28px 0 18px}
+.assignment-level{border:1px solid var(--line);border-radius:8px;padding:17px}
+.assignment-level h2{font-size:15px;line-height:1.5;margin:0 0 7px}
+.assignment-level p{font-size:13px;color:var(--muted);margin:0}
+.assignment-tools{align-items:flex-end;margin-top:30px}
+.assignment-tools label{min-width:0}
+.assignment-tools input,.assignment-tools select{max-width:100%;min-height:44px}
+.assignment-tools .quiet-button{min-height:44px}
+.assignment-count{padding:18px 0;border-bottom:1px solid var(--line);font-size:13px;color:var(--muted)}
+.assignment-topic{margin-top:32px}
+.assignment-topic .practice-intro{margin:0 0 16px}
+.assignment-card{overflow-wrap:anywhere}
+.assignment-card .card-number{font-size:11px;letter-spacing:.5px;color:var(--muted)}
+.assignment-card h3{font-size:23px}
+.assignment-card p{max-width:none;margin-bottom:14px;font-size:13px}
+.assignment-card dl{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:6px 12px;font-size:12px;line-height:1.6;margin:0 0 20px}
+.assignment-card dt{font-weight:600}
+.assignment-card dd{margin:0;color:var(--muted)}
+.assignment-card .card-footer{font-size:12px}
+.assignment-empty{padding:22px;border:1px dashed var(--line);border-radius:8px}
+.assignment-empty h2{font-size:20px;margin:0 0 8px}
+.assignment-empty p{font-size:14px;color:var(--muted);margin:0}
+@media(max-width:1100px){.assignment-level-guide{grid-template-columns:1fr}.assignment-level{padding:14px 17px}}
+@media(max-width:800px){.assignment-callout{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.assignment-tools{gap:14px}.assignment-tools label{width:100%}.assignment-tools input[type=search],.assignment-tools select{width:100%}.assignment-card dl{grid-template-columns:1fr;gap:3px}.assignment-card dd{margin-bottom:8px}}
+@media print{.assignment-tools,.assignment-callout{display:none!important}}
