@@ -10,7 +10,27 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — topic assignments and extra training apps, 23 October 2026
+## Latest validation — optional apps on Android, 23 October 2026
+
+Both optional apps now have observed Appium evidence on `Pixel_8_API_35`,
+Android 15 / API 35, arm64 (`emulator-5554`). My Demo App 2.3.0 passed **2 cart/reset
+checks**; ApiDemos 6.1.2 passed **3 preference/restart/dialog checks**, with zero
+test retries. Runnable maintenance specs live in each app's `test/training/<app>/reference/`
+directory. The [training-app guide](handbook/training-apps.md#check-fixture-compatibility-before-an-assignment)
+gives commands, scope and the session-reset/data-clearing behavior. Detailed
+results and local evidence locations are in [validation](validation.md).
+`npm run check`, all 83 reader/storage/profile checks, and the static build
+(221 readable files) passed. No cloud or hosted deployment was performed.
+
+No install, launch or runner defect was found in these flows. The guide's former
+unexecuted status and unclear reset consequences were corrected. These are
+maintainer checks, not learner assignment completions. Checkout, permission
+denial, WebViews, scrolling, other Android versions, physical devices and optional
+cloud execution remain unvalidated. For study, choose one ticket and write an
+independent attempt; for further fixture coverage, the next small investigation
+is one checkout form validation case on the pinned My Demo App.
+
+## Previous addition — topic assignments and extra training apps, 23 October 2026
 
 The [assignment bank](assignments/README.md) adds **24 tickets in eight topics**,
 each with L1 guided, L2 independent and L3 investigation work. The reader's

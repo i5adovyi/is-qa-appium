@@ -5,4 +5,7 @@ Create your own `*.spec.ts` files here using the shared
 default reference suite. Follow the [training-app guide](../../../docs/handbook/training-apps.md)
 to download the pinned APK and run one explicitly chosen file.
 
-Keep your attempts: these are learner-owned files, not generated reference tests.
+Keep your attempts in separate files. The `reference/` subdirectory contains three
+maintainer compatibility checks for preferences, process/session state and a
+native dialog; running them does not complete your assignment. The guide includes
+their exact command.

@@ -21,6 +21,74 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Optional training apps: live Appium validation — 23 October 2026
+
+Executed both pinned optional fixtures on the existing **Pixel_8_API_35** AVD,
+serial `emulator-5554`, Android **15 / API 35**, `arm64-v8a`, on macOS Apple Silicon.
+Used Node **24.22.0**, Appium **3.8.0**, UiAutomator2 **8.7.0** and the locked
+WebdriverIO **10.1.0** dependencies. `npm run appium:setup` confirmed the installed
+driver. Both APK downloads passed the manifest's SHA-256 and size verification.
+Neither optional package was installed before this session's first run; Appium
+installed and launched them successfully. The existing AVD was started without
+wiping its data or saving a replacement snapshot.
+
+Commands, run sequentially against the explicitly selected emulator:
+
+```bash
+ANDROID_UDID=emulator-5554 npm run test:training -- saucelabs --spec test/training/saucelabs/reference/compatibility.spec.ts
+ANDROID_UDID=emulator-5554 npm run test:training -- apidemos --spec test/training/apidemos/reference/compatibility.spec.ts
+```
+
+| Fixture | Final result | Observed assertions |
+|---|---|---|
+| Sauce Labs native My Demo App 2.3.0, version code 27 | **2/2 passed**, zero test retries | Exact backpack identity; quantity 2, unit price $29.99 and total $59.98; decrease to quantity 1 / $29.99; remove to empty cart; a populated cart is empty after a fresh session |
+| Appium ApiDemos 6.1.2, version code 47 | **3/3 passed**, zero test retries | Scoped preference checkbox false → true → false; saved true state survives terminate/activate but resets to false in a fresh session; an observed native dialog closes with Back and its underlying screen remains visible |
+
+Final suite executions began at **17:02:24 UTC** (My Demo App, 36 seconds) and
+**17:03:01 UTC** (ApiDemos, 45 seconds). These five cases are separate from the
+default seven WebdriverIO demo reference tests and from learner assignments.
+Exploratory launch/hierarchy probes are not counted as additional final cases.
+
+Successful checkpoints saved **9 PNG/XML pairs** locally. The cart and dialog
+screenshots were also visually inspected. Evidence is ignored, not committed or
+published:
+
+- `logs/training-validation/saucelabs-compatibility-2026-10-23.log`
+- `logs/training-validation/apidemos-compatibility-2026-10-23.log`
+- `logs/training-validation/saucelabs/2026-10-23T17-02-24-705Z-4722/`
+- `logs/training-validation/apidemos/2026-10-23T17-03-02-524Z-4941/`
+
+No install/launch/runner defect was found within the tested scope. Added reusable
+maintenance specs using locators inspected from the actual UI. In particular,
+the ApiDemos hierarchy repeats checkbox resource IDs, so the test scopes its
+checkbox to the exact preference title; the cart row shows unit price separately
+from the total. Corrected the guide's unexecuted status and clarified that
+`noReset: false` can clear selected app data/permissions at session start, not
+before every test. The references explicitly reload sessions for isolation and
+verify the resulting UI state; the default runner configuration is unchanged.
+
+Project verification after adding the checks and documentation:
+
+- `npm run check` passed both TypeScript projects, documentation checks,
+  **93 reference lab cases** and **32 offline framework checks**. Its first
+  sandboxed attempt hit `listen EPERM` in the disposable loopback API lab;
+  rerunning with local listener access passed without a source change.
+- `npm run course:test` passed **83 reader/storage/profile checks**, including
+  HTTP comparison of every exported page with the local renderer. It used
+  disposable data; the new reference sources were staged for export.
+- `npm run course:build` exported **221 readable files**, including the two
+  compatibility specs and evidence helper. Source diff checks passed.
+- An independent source review found no actionable test/runner issues. The
+  local Appium service had stopped after the runs (port 4723 had no listener).
+
+This is one emulator/OS baseline with focused native flows, not full app testing.
+Checkout, authentication/payment/backend behavior, permission prompts/denial,
+WebViews, scrolling/gestures, other Android versions, physical devices, iOS,
+BrowserStack, hosted CI and Site publication were **not exercised**. Default
+WDIO-demo mobile tests were not rerun for this change. Learner files, completion
+marks and personal reader data were not changed. Earlier unexecuted-app notes
+below describe their historical implementation checkpoint.
+
 ### Topic assignments and optional training apps — 23 October 2026
 
 Added the [24-ticket assignment bank](assignments/README.md), eight topics with

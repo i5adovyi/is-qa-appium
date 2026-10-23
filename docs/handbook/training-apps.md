@@ -18,12 +18,13 @@ No Sauce Labs subscription or BrowserStack account is required for these local
 assignments. Node 24 and the locked project dependencies are still required.
 Reading/planning needs no Android device. Running a mobile spec does.
 
-These additions have **source-reviewed capabilities, verified download bytes and
-inspected APK package/launcher metadata**.
-They have not yet been executed on this project's Android baseline. Treat the
-first launch, locator inspection and reset behavior as a compatibility check on
-your device; record the app version and Android version. An installation or
-launch failure is a setup investigation, not a completed assignment.
+Both pinned apps passed focused Appium checks on **Pixel_8_API_35, Android 15 /
+API 35, arm64** on 23 October 2026: cart/reset behavior for My Demo App and
+preferences/process restart/dialogs for ApiDemos. See the [validation record](../validation.md)
+for exact scope and evidence. Checkout, permissions, WebViews and other Android
+versions still need their own investigations. On your device, record app/Android
+versions and verify the starting state. An installation or launch failure is a
+setup investigation, not a completed assignment.
 
 ## Download only the app you need
 
@@ -144,17 +145,49 @@ Do not run the optional app through `test:bs`: that workflow uploads the default
 APK. Optional cloud execution is not configured here.
 
 The optional configuration requests an app reset at session start
-(`noReset: false`), not before every test. It leaves automatic permission grants
-off. Define per-test setup and cleanup yourself, verify the resulting state, and
-handle a permission prompt only when it belongs to the scenario. For a
-permission-denial assignment, a previously granted permission is not a fresh
-denial test. Use the [device-practice guide](device-practice.md) to distinguish
+(`noReset: false`), which can clear the selected app's local data and permissions;
+it does not reset before every test. Use a dedicated training device or emulator.
+It leaves automatic permission grants off. Define per-test setup and cleanup
+yourself, verify the resulting state, and handle a permission prompt only when
+it belongs to the scenario. For a permission-denial assignment, a previously
+granted permission is not a fresh denial test. Use the
+[device-practice guide](device-practice.md) to distinguish
 process restart, app data and permission state.
 
 `npm run preflight` remains a check of the shared Android tooling and the WDIO
 demo APK. Use the selected `training:apps -- verify` command as the additional
 artifact check. Neither command proves UI behavior. Failed specs use the shared
 screenshot/XML diagnostics in ignored `logs/`; inspect typed data before sharing.
+
+## Check fixture compatibility before an assignment
+
+After downloading the selected APK and starting your dedicated emulator, you can
+run the supplied maintenance checks. Replace `YOUR_DEVICE_SERIAL` with the serial
+from `adb devices`. On macOS/Linux, run one command at a time:
+
+```bash
+ANDROID_UDID=YOUR_DEVICE_SERIAL npm run test:training -- saucelabs --spec test/training/saucelabs/reference/compatibility.spec.ts
+ANDROID_UDID=YOUR_DEVICE_SERIAL npm run test:training -- apidemos --spec test/training/apidemos/reference/compatibility.spec.ts
+```
+
+On PowerShell, set `$env:ANDROID_UDID = 'YOUR_DEVICE_SERIAL'`, then run each
+`npm run test:training ...` command without the leading environment assignment.
+
+| Reference | What its assertions cover |
+|---|---|
+| [My Demo App: 2 cases](../../test/training/saucelabs/reference/compatibility.spec.ts) | Exact backpack identity, quantity 2 and total $59.98, quantity reduction, removal, empty cart after a new session |
+| [ApiDemos: 3 cases](../../test/training/apidemos/reference/compatibility.spec.ts) | A scoped checkbox in both directions, saved preference surviving process restart but clearing on a new session, Back dismissing an observed modal while retaining its underlying screen |
+
+These specs deliberately create a fresh Appium session before every case and
+again inside reset checks. This is slower and can clear the selected app's data;
+it verifies this configuration's reset behavior. It is not a general prescription
+to restart sessions between all workplace tests. Successful checkpoints save
+PNG screenshots and UI XML under ignored `logs/training-validation/<app>/<run>/`.
+
+The `reference/` subdirectories contain maintainer examples. Keep your assignment
+attempts in separate files and use the ticket's own acceptance criteria. A green
+compatibility run establishes those fixture behaviors on your device; it does
+not complete an assignment or validate every feature of the app.
 
 ## What each app can teach
 
