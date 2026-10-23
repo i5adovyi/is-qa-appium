@@ -1,6 +1,6 @@
 # The offline practice lab
 
-These twelve TypeScript problems isolate skills you will use in mobile tests.
+These fourteen TypeScript problems isolate skills you will use in mobile tests.
 They use Node's test runner and Chai, not Appium. No device, internet service,
 account or real credentials are involved. Lab 10 starts a temporary HTTP server
 on your own computer. They are **not substitutes for device tests**.
@@ -14,7 +14,7 @@ to add a test without supplying your implementation.
 
 1. Read the exercise's README and write down its input, output and edge cases.
 2. Run `npm run practice -- 01` from the project root.
-3. Read the failure. Labs 01–10 have unfinished starters; labs 11–12 have plausible
+3. Read the failure. Labs 01–10 have unfinished starters; labs 11–14 have plausible
    faulty implementations that already pass some checks. Diagnose before editing.
 4. Edit only that exercise's `starter.ts`. Keep its exported name and types.
 5. Rerun. Implement the smallest correct behaviour that satisfies the written contract.
@@ -38,11 +38,16 @@ write down your reasoning and change the contract and tests together as a separa
 | 10 | [API contract](10-api-contract/README.md) | HTTP status, unknown JSON, identity and business state | [Lesson 08](../docs/lessons/08-test-data.md) |
 | 11 | [Repair fixture isolation](11-fixture-isolation/README.md) | Nested shared state and order-dependent failures | [Incident shift S2](../docs/handbook/incident-shifts.md) |
 | 12 | [Repair uncertain submission](12-uncertain-submit/README.md) | Lost responses, duplicate writes and unknown outcomes | [Incident shift S3](../docs/handbook/incident-shifts.md) |
+| 13 | [Repair stale observations](13-stale-observation/README.md) | Fresh element handles, bounded reads and narrow error recovery | [Lesson 09](../docs/lessons/09-waits-and-state.md) |
+| 14 | [Repair bounded scrolling](14-bounded-scroll/README.md) | Logical identity, visibility, fresh snapshots and stop conditions | [Lesson 11](../docs/lessons/11-gestures-and-contexts.md) |
 
 Labs 01–06 build foundations. Labs 07–10 extend them into workplace and interview
-problems; labs 11–12 practise repairing inherited code. Read the prerequisites
+problems; labs 11–14 practise repairing inherited code. Read the prerequisites
 first. They do not enable parallel cloud
 sessions, delete real records or change the mobile runner's retry settings.
+Labs 13–14 model mobile observation and list-search decisions with fakes; they
+do not establish device compatibility. Continue with the
+[small device practice route](../docs/handbook/device-practice.md) when ready.
 
 ## Commands
 

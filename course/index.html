@@ -13,8 +13,13 @@
   <a class="skip-link" href="#main">Skip to content</a>
   <aside class="sidebar">
     <a class="brand" href="#home"><span class="brand-icon">M<span>·</span></span><span>Mobile<br>Automation Lab</span></a>
+    <details id="mobile-course-menu" class="mobile-course-menu">
+      <summary>Browse course</summary>
+      <nav id="mobile-nav" aria-label="Course navigation on small screens"></nav>
+    </details>
     <div class="sidebar-caption">YOUR FIELD GUIDE</div>
     <a class="overview-link" href="#home">↗ &nbsp; Learning dashboard</a>
+    <a class="overview-link" href="#docs/handbook/study-session.md">↗ &nbsp; Choose today's session</a>
     <a class="overview-link" href="#docs/handbook/start-from-zero.md">↗ &nbsp; Complete beginner? Start here</a>
     <a class="overview-link challenge-nav" href="#challenges">↗ &nbsp; Real-world challenge path</a>
     <nav id="lesson-nav" aria-label="Course lessons"></nav>
@@ -30,6 +35,13 @@
             <option value="system">System</option>
             <option value="light">Light</option>
             <option value="dark">Dark</option>
+          </select>
+        </label>
+        <label id="reading-size-control" class="theme-control" for="reading-size-select" hidden>
+          <span>Text size</span>
+          <select id="reading-size-select" title="Reading text size, saved in this browser.">
+            <option value="standard">Standard</option>
+            <option value="larger">Larger</option>
           </select>
         </label>
         <button id="import-progress" class="quiet-button">Import progress</button>
@@ -53,9 +65,14 @@
         <section class="hero">
           <div>
             <p class="eyebrow">FROM FIRST COMMAND TO FIRST PORTFOLIO</p>
-            <h1>Build the skill.<br><em>Prove it on a device.</em></h1>
+            <h1 id="dashboard-heading">Build the skill.<br><em>Prove it on a device.</em></h1>
             <p class="hero-copy">A hands-on field guide to mobile test automation. Small lessons, deliberate practice, and evidence that your tests work.</p>
-            <a id="continue-link" class="primary-button" href="#docs/lessons/00-orientation.md">Start learning <span>↗</span></a>
+            <a class="primary-button" href="#docs/handbook/study-session.md">Choose today's session ↗</a>
+            <div id="resume-reading" class="resume-reading" hidden>
+              <a id="resume-link" href="#home"></a>
+              <small>Last opened page or selected section in this browser. Reading does not mark work complete.</small>
+            </div>
+            <a id="continue-link" class="course-start-link" href="#docs/lessons/00-orientation.md">First unchecked lesson: 00 ↗</a>
           </div>
           <div class="hero-terminal" aria-label="The learning loop">
             <div class="terminal-top"><i></i><i></i><i></i><span>your next breakthrough</span></div>
@@ -81,7 +98,7 @@
         <section class="stats" aria-label="Course overview">
           <div><strong>16</strong><span>guided lessons</span></div>
           <div><strong>48</strong><span>lesson exercises</span></div>
-          <div><strong>12</strong><span>offline code labs</span></div>
+          <div><strong>14</strong><span>offline code labs</span></div>
           <div><strong id="progress-number">0/16</strong><span>lessons you completed</span></div>
         </section>
         <section class="path-section">
@@ -117,6 +134,13 @@
       </section>
       <section id="reader" hidden>
         <div class="reader-top"><a id="reader-back" href="#home">← Learning path</a><span id="reader-stage"></span></div>
+        <div class="reader-tools">
+          <details id="page-contents" class="page-contents" hidden>
+            <summary>On this page</summary>
+            <nav aria-label="On this page"><ul id="page-sections"></ul></nav>
+          </details>
+          <a id="evidence-jump" href="#home" hidden>Your evidence &amp; questions ↓</a>
+        </div>
         <article id="article" class="prose"></article>
         <section id="lesson-actions" hidden>
           <div class="completion-panel"><div><strong>Can you explain the result?</strong><p id="completion-help">Finish the exercises and checkpoint before marking this lesson complete.</p></div><button id="complete-button" class="primary-button">Mark complete ✓</button></div>

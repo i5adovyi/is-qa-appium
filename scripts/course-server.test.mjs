@@ -6,6 +6,7 @@ import { mkdtemp, rm } from 'node:fs/promises'
 import path from 'node:path'
 import { tmpdir } from 'node:os'
 import { headingSlug, findPractice } from '../course/practice.js'
+import { courseAssets } from './course-content.mjs'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const port = 24000 + Math.floor(Math.random() * 10000)
@@ -54,7 +55,7 @@ test('serves the dashboard, every lesson, matching solutions, and the whole libr
     }
 })
 test('serves every reader module as JavaScript', async () => {
-    for (const asset of ['theme.js', 'app.js', 'data.js', 'progress.js', 'progress-storage.js', 'practice.js']) {
+    for (const asset of courseAssets.filter(name => name.endsWith('.js'))) {
         const response = await fetch(`${origin}/${asset}`)
         assert.equal(response.status, 200, asset)
         assert.match(response.headers.get('content-type'), /text\/javascript/)

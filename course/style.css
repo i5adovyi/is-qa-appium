@@ -114,3 +114,43 @@ footer{border-top:1px solid var(--line);padding:22px 52px;font-size:11px;color:#
 :root[data-theme=dark] #error{background:#38251f;color:#f0c5ae;border-color:#976a53}
 :root[data-theme=dark] #toast{background:#2c4031;color:#e7efdc;border:1px solid #718761}
 }
+
+/* Reading controls are browser preferences, independent of saved learning evidence. */
+.mobile-course-menu{display:none}
+.course-start-link{display:block;margin-top:18px;font-size:13px;color:var(--ink);text-underline-offset:3px}
+.resume-reading{margin-top:22px;max-width:480px;overflow-wrap:anywhere}
+.resume-reading a{display:block;font-size:14px;font-weight:600;text-underline-offset:3px}
+.resume-reading small{display:block;margin-top:5px;font-size:12px;color:var(--muted);line-height:1.6}
+.reader-tools{margin:0 auto 24px;max-width:850px;display:flex;align-items:flex-start;flex-wrap:wrap;gap:14px}
+.page-contents{border:1px solid var(--line);border-radius:7px;padding:10px 14px;flex:1 1 260px}
+.page-contents summary{cursor:pointer;font-weight:600;font-size:14px}
+.page-contents nav{max-height:20rem;overflow:auto;margin-top:10px;overscroll-behavior:contain}
+.page-contents ul{list-style:none;padding:0;margin:0}
+.page-contents li{margin:0}
+.page-contents a{display:block;padding:7px 4px;font-size:14px;line-height:1.45;text-underline-offset:3px;overflow-wrap:anywhere}
+.page-contents .contents-subsection{padding-left:18px}
+#evidence-jump{font-size:13px;display:block;padding:11px 0;text-underline-offset:3px}
+#lesson-notes{scroll-margin-top:95px}
+@media screen{
+:root{--reading-font-size:16px}
+:root[data-reading-size=larger]{--reading-font-size:18px}
+.prose{font-size:var(--reading-font-size);max-width:76ch;line-height:1.8}
+.prose pre code{font-size:.85em}
+.prose table{font-size:.875em}
+.prose summary{font-size:.9em}
+.reader-tools,#lesson-actions{font-size:var(--reading-font-size);max-width:76ch}
+.prose h1{overflow-wrap:anywhere}
+}
+@media(max-width:800px){
+.mobile-course-menu{display:block;margin-top:18px;border-top:1px solid #395044;padding-top:12px}
+.mobile-course-menu summary{cursor:pointer;padding:8px 10px;font-size:14px;font-weight:600}
+.mobile-course-menu nav{max-height:60vh;overflow:auto;overscroll-behavior:contain}
+.mobile-course-menu .nav-lesson{padding:12px 10px;font-size:14px}
+.mobile-course-menu .nav-stage{margin-top:17px}
+.sidebar>.overview-link{display:none}
+.progress-actions{justify-content:flex-start}
+.theme-control select{min-height:40px}
+.page-contents{flex-basis:100%}
+.reader-top{flex-wrap:wrap;margin-bottom:24px}
+}
+@media print{.reader-tools,.mobile-course-menu{display:none!important}}

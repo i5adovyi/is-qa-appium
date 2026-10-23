@@ -1,6 +1,34 @@
 # Reusable working templates
 
-Copy a template into your own `notes/` folder. Replace placeholders with observations. Do not fill missing evidence with guesses.
+Copy a template into the relevant reader notes or your private notebook. If you
+use a `notes/` folder in the project, it is not automatically excluded from Git;
+review what you share. Replace placeholders with observations. Do not fill
+missing evidence with guesses.
+
+## Session bookmark and partial handover
+
+Use this when stopping, even if the exercise is unfinished. Keep design,
+implementation and execution separate. A clear blocked handover is useful work;
+it does not satisfy the missing execution criterion.
+
+```text
+Date / lesson or challenge / exercise ID:
+Current page or section:
+Attempt file and last saved change:
+Prediction before the last run:
+Last command and observed result (or no command run):
+Evidence location:
+Design: complete / in progress / not started
+Implementation: complete / in progress / not started / not required
+Required execution: passed / failed / blocked / not run
+What I can explain unaided / where I needed a hint:
+Pending prerequisite and who or what can resolve it:
+Next smallest action, including file and command if relevant:
+One question or changed input to revisit next session:
+```
+
+In a browser, wait for the save confirmation. Export notes before moving reader
+addresses; save source changes separately. See [local data](local-data.md).
 
 ## Learning log
 
@@ -128,4 +156,4 @@ Mobile risk status: permissions / interruption / offline / accessibility
 Next improvement and why:
 ```
 
-[Debugging](../lessons/10-debugging.md) · [Capstone](../lessons/15-capstone.md)
+[Choose a study session](study-session.md) · [Debugging](../lessons/10-debugging.md) · [Capstone](../lessons/15-capstone.md)

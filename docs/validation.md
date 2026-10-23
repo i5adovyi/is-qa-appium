@@ -21,6 +21,54 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Teacher review and study comfort — 23 October 2026
+
+Implemented the ten items in [the teacher review](teacher-review.md): a shorter
+study route, early testing vocabulary, clearer evidence gates, reader comfort,
+two mobile-focused offline repair labs, a device-practice guide and a curated
+resource route. Node **24.22.0** was used. Dependencies and default mobile
+specs/configuration were unchanged; existing learner starters were preserved.
+
+- `npm run check` passed both TypeScript projects, course structure/local links,
+  **93 reference lab cases** across 14 labs and **27 framework checks**.
+- `npm run course:test` passed **79 reader/storage/profile checks**, including
+  six new bookmark/preference checks. These cover invalid bookmark refusal,
+  blocked storage, selected section persistence, independence from progress,
+  reading-size fallback and preference changes across tabs/system appearance.
+  Local/static module-serving checks include the new reader-state module.
+- `npm run course:build` exported **201 readable files**, including the new
+  guides, labs and review. Static HTTP checks compare all exported pages with
+  the local renderer; new files were staged for the builder's tracked-file rule.
+- Lab 13's new faulty starter passed 7 and failed 3 checks; lab 14's passed 4
+  and failed 7. Their separate references passed 10/10 and 11/11. Three
+  disposable mutants were rejected: broad retry of unrelated errors, accepting
+  hidden rows, and skipping the final permitted viewport. These are intentional
+  teaching failures, not unfixed project regressions.
+- The intentionally unfinished device-study scaffold was extracted and
+  typechecked in a disposable directory. It was not run on a device or installed
+  over a learner file. New hint/review markup and section links were inspected.
+- Focused browser QA used a disposable local database at port 4187 and static
+  browser storage at port 4188. It checked the course menu with keyboard input,
+  article heading focus, section links used twice, the evidence-note jump,
+  Standard/Larger text, light/dark layouts, and bookmark/text persistence after
+  reload. Layouts were inspected at desktop and narrow widths, including 390px.
+- A synthetic progress import showed the new note/completion state after a
+  cached lesson visit; the original database was never used. Reader integration
+  fixes invalidate the article cache before forced home/challenge refreshes
+  and handle repeated clicks on the current section URL. Static QA also opened
+  labs 13/14 and expanded a hint; reading alone left completion at 0/16.
+- Selected new resource links/content were checked on provider/author/official
+  pages. This does not validate an entire external video course or every older
+  library link. Documentation clearly labels older Java/Appium setup examples.
+
+This was an expert review with focused browser checks, not a novice-user study,
+full accessibility audit or cross-browser certification. Print output and live
+assistive-technology use were not manually tested. Android, BrowserStack, real
+backend flows, hosted CI and Site publication were **not executed** for this
+change. Synthetic offline behavior and a compiled scaffold are not mobile
+execution evidence. Existing lesson/challenge progress IDs and protocol 2 remain
+unchanged; no learner completion is inferred.
+
 ### Study themes — 22 October 2026
 
 Added a System/Light/Dark selector, an early theme script and dark screen styles.

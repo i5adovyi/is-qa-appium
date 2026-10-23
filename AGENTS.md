@@ -61,7 +61,7 @@ additional practice, not new tracked lessons or proof of learner completion.
   code and reasoning. Give full solutions when requested; do not silently solve
   the learner's exercise to make checks green.
 - Offline `exercises/*/starter.ts` files intentionally start unfinished (01–10)
-  or faulty (11–12). Preserve learner edits and keep `solution.ts` separate.
+  or faulty (11–14). Preserve learner edits and keep `solution.ts` separate.
   An expected starter failure is teaching material, not automatically a bug.
 - Use a controlled defect or changed premise to check understanding. Ask what
   the test proves, what it misses and which observation would distinguish

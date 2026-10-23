@@ -138,6 +138,11 @@ For a mutating retry that appears to succeed, try
 [lab 12's lost-response recovery](../../exercises/12-uncertain-submit/README.md).
 Explain why neither is repaired by restarting the Android app.
 
+Repair a cached element lifetime in
+[lab 13](../../exercises/13-stale-observation/README.md), then transfer the
+observation discipline to one [small device practice task](../handbook/device-practice.md).
+The offline fake does not reproduce every client/driver stale-element behavior.
+
 ## Checkpoint
 
 - What is the difference between waiting for existence and waiting for correct text?

@@ -1,8 +1,61 @@
-# Reading library: read with a purpose
+# Learning library: watch, read, then practise
 
 This course's lessons, manuals, exercises, and solutions are original project material. The links below lead to official documentation, original reference material, and author/publisher book pages. Linked books are **recommendations**, not bundled copies. Purchase or borrow them legally if useful; no purchase is required to complete the core course.
 
 Links were checked during preparation on **20 October 2026**. Documentation, device catalogs, and commercial availability can change. Match examples to this repository's installed versions rather than blindly copying the newest snippet.
+
+**23 October update:** the short video shelf and selected study pairings below
+were checked against provider, author and official project pages. This is a
+focused link/content review, not a claim that every older link or full video
+course was revalidated. No purchase or extra subscription is needed for the
+project's core path.
+
+## Choose one resource for today's task
+
+Set a 10–20-minute reading/viewing budget, then spend the rest of the session
+making or explaining something. Times below are suggested study slices, not
+provider course durations. Use [today's session guide](handbook/study-session.md)
+if the choice itself feels like work.
+
+| Need right now | One resource / suggested slice | Follow with this project task | Stop when you can show |
+|---|---|---|---|
+| “I cannot read a function yet” | JavaScript introduction below; one chapter | [Programming first steps](handbook/programming-first-steps.md), one exercise | Your prediction, output and a changed input |
+| “What do team members mean by test layers?” | [Team testing foundations](handbook/testing-foundations.md#f1-name-the-check-precisely); 15 minutes | Its scope-versus-purpose exercise | Four scope/purpose classifications and the limits of their evidence |
+| “How does Appium reach the app?” | Appium Java course overview below; focus on architecture | [00-A](lessons/00-orientation.md#00-a-trace-one-command) in lesson 00 | Explain the client/server/driver/device path without copying the slide |
+| “My element changes while I wait” | [WebdriverIO retry guidance](https://webdriver.io/docs/retry); distinguish test retries from observation | [Lab 13](../exercises/13-stale-observation/README.md) | A bounded repair that preserves unrelated errors |
+| “Scrolling finds the wrong row” | [Android gesture reference](https://github.com/appium/appium-uiautomator2-driver/blob/master/docs/android-mobile-gestures.md); one relevant gesture | [Lab 14](../exercises/14-bounded-scroll/README.md), then [device practice](handbook/device-practice.md) when ready | Logical identity, an end condition and an honest simulation/device boundary |
+| “I have a failure but no diagnosis” | [Google SRE troubleshooting chapter](https://sre.google/sre-book/effective-troubleshooting/); hypothesis section | [Incident shift S1](handbook/incident-shifts.md#s1-the-requirement-changes-after-you-wrote-the-test) or one chosen shift | Two competing explanations and a distinguishing observation |
+| “I need stronger test design for interviews” | *Effective Software Testing* below; one relevant section, or free [lesson 14](lessons/14-test-design.md) | [Practical drill D9](handbook/interview-drills.md#d9-design-tests-from-a-small-checkout-requirement) | A risk-ranked test table and a defensible oracle |
+
+## Short video and course shelf
+
+The two Test Automation University courses are part of its
+[free learning programme](https://testautomationu.applitools.com/demo-course/chapter1.html).
+Public chapter pages include written material; use it if video is inconvenient.
+Provider sign-in and playback options can vary. Do not install a second stack
+just to follow an optional video.
+
+| Video/course and primary provider | Level, access and fit | Watch with this question / practical output |
+|---|---|---|
+| [Introduction to JavaScript — Test Automation University](https://testautomationu.applitools.com/javascript-tutorial/) | Beginner; free. Uses JavaScript in a browser, rather than this project's TypeScript/Node runner. | How do values travel into and out of a function? Recreate one small example in the programming workbook and explain which TypeScript annotation you added. |
+| [Mobile Automation with Appium in Java — Moataz Nabil / Test Automation University](https://testautomationu.applitools.com/appium-java-tutorial/) | After basic programming; free. Java/Maven examples and older installation instructions (including Appium Desktop) differ from the pinned Appium 3/WDIO 10 project. Use selected concept chapters; follow this repository's setup for execution. | What belongs to the client, driver and app? Draw the command path, then inspect one locator using lesson 05. Do not copy Java imports or legacy capabilities into the TypeScript suite. |
+| [Appium conference archives — official resource index](https://appium.io/docs/en/latest/resources/#conference-archives) | Intermediate elective; publicly linked recordings, mixed dates/languages. The index links the [AppiumConf 2024 playlist](https://www.youtube.com/playlist?list=PL9Z-JgiTsOYQaU5i5LJtAWlh5WVZPi3If). | Pick one talk about a problem you have encountered. Record its date/stack, one hypothesis to try, and the smallest check in this project. A conference talk is not an end-to-end setup course. |
+
+The [official Appium resource list](https://appium.io/docs/en/latest/resources/)
+also links other courses, including commercial providers. These are optional
+discovery links; payment/access and whole-course compatibility were not assessed.
+Start with the free shelf and the existing labs before buying another course.
+
+Use this small note after any resource:
+
+```text
+Question I brought:
+Resource + chapter/section + version/date:
+Idea in my own words:
+One experiment in this repository:
+Actual result, or why execution remains pending:
+One point I would explain to a teammate:
+```
 
 ## Start with these six references
 

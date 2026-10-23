@@ -126,6 +126,11 @@ If cleanup also fails, retain both pieces of evidence rather than replacing the 
 
 ## Checkpoint
 
+Before writing a scrolling loop, repair
+[lab 14's recycled-list search](../../exercises/14-bounded-scroll/README.md)
+offline. Then use [DP-3](../handbook/device-practice.md) for a smaller inspected
+gesture assignment with an explicit failure experiment and restoration step.
+
 - Why can native text and a WebView DOM require different locators?
 - What extra evidence is needed after a successful gesture command?
 - What must be reconsidered before moving this Android experiment to iOS?

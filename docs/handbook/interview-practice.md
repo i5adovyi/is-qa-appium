@@ -106,7 +106,9 @@ transition. Re-finding must preserve the intended target.
 
 **Follow-up:** a recycled list uses the same row index for a different order.
 **Trap:** retrying every exception and tapping whatever now occupies that index.
-Use workplace cases RW-01 and RW-13.
+Use workplace cases RW-01 and RW-13, then repair
+[lab 13](../../exercises/13-stale-observation/README.md) and explain its narrow
+error policy. Its explicit fake error class is not a universal driver adapter.
 
 </details>
 

@@ -13,6 +13,10 @@ the backup manually before editing it. See [local data and recovery](handbook/lo
 Progress backups do not include source-code changes or this journal file:
 save those separately in Git or a personal file backup.
 
+For a quick stop or return after a break, use the
+[session bookmark and partial handover](handbook/templates.md#session-bookmark-and-partial-handover).
+Keep the next step small enough to start without rereading the whole course.
+
 ## Session record
 
 - **Date / lesson / exercise ID:**
@@ -40,12 +44,22 @@ save those separately in Git or a personal file backup.
 
 ## Completion gate
 
-- [ ] I completed all exercises or recorded an explicit prerequisite blocker.
+Finishing a study session and completing a lesson are different decisions. You
+can finish a design, record what you learned and stop comfortably while Android
+execution remains blocked. Keep the lesson pending if its required evidence is
+missing. Optional extensions are judged separately from its required outcomes.
+
+- [ ] I completed the required exercises and can demonstrate the lesson's outcomes.
 - [ ] I can explain every new line I added.
 - [ ] I caused a meaningful failure and recognised it.
 - [ ] I tested both the relevant individual case and its surrounding suite when needed.
 - [ ] I reviewed the solution and can explain any differences.
 - [ ] I wrote a next step, rather than only ticking a box.
+
+For partial work, record **design complete / implementation in progress /
+device execution blocked**, as applicable, together with the missing
+prerequisite and next action. “Not run” is a valid status; it is not a pass.
+The reader's completion mark is your own assessment, not an automatic grade.
 
 ## Example of useful evidence
 

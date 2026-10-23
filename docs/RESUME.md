@@ -10,7 +10,36 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — study themes, 22 October 2026
+## Latest addition — teacher review and study comfort, 23 October 2026
+
+The [teacher review](teacher-review.md) defines ten improvements for everyday
+study. Start with [Choose today's session](handbook/study-session.md): it points
+to one existing task, offers 20/45/90-minute sessions and gives a return/recall
+routine. [Testing foundations](handbook/testing-foundations.md) adds three written
+tasks for team vocabulary, test boundaries, oracles and honest evidence updates.
+Blocked execution remains pending in the journal and handover templates.
+
+The reader adds a separate last-opened page/section bookmark, page contents,
+an evidence-note jump, a small-screen course menu and Standard/Larger text.
+Reading preferences are browser/address-specific and do not join progress
+exports or change the v2 progress protocol. Resume means a reading location,
+not demonstrated proficiency or automatic completion.
+
+There are now **14 offline labs**. New repair labs
+[13: fresh-element observation](../exercises/13-stale-observation/README.md) and
+[14: bounded scrolling](../exercises/14-bounded-scroll/README.md) use synthetic
+elements/pages. Their faulty starters are learner work; supplied references
+remain separate. [Device practice](handbook/device-practice.md) bridges these
+ideas to scoped Android investigations and includes a fictional artifact
+privacy exercise. The [learning library](resources.md) pairs selected videos,
+articles and books with practical outputs and explains version/language gaps.
+
+See the dated [validation entry](validation.md) for observed checks and limits.
+This change does not establish learner completion, new Android/cloud evidence
+or a new hosted deployment. The next smallest study action is to choose one
+row in the session guide and record a prediction before attempting it.
+
+## Previous addition — study themes, 22 October 2026
 
 The reader now has a top-bar Theme control: System (default), Light and Dark.
 `course/theme.js` applies the preference before rendering and stores it in the

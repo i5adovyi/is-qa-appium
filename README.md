@@ -4,6 +4,12 @@
 
 An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
+**Here to study today?** Open [Choose today's session](docs/handbook/study-session.md)
+for one task that fits 20, 45 or 90 minutes. New learners can start without Android.
+Run `npm run course` after [setup](#setup-on-a-new-machine), then use the reader's
+**Resume reading**, **On this page**, and **Text size** controls to pick up comfortably.
+The [teacher review](docs/teacher-review.md) explains the 23 October improvements.
+
 **Build status:** the initial training-project build is complete as of
 20 October 2026. See the [closeout and retrospective](docs/PROJECT-CLOSEOUT.md)
 for the historical checkpoint, verification, backup locations and explicit
@@ -102,6 +108,13 @@ is saved in this browser for the current site address, independently of study
 progress, and works on localhost and the hosted Site. Printed lessons use the
 light palette. If browser storage is blocked, the choice lasts for this visit.
 
+**Text size → Larger** increases reading text and code. The reader remembers the
+last successfully opened page/section separately from completion marks; **Resume
+reading** is a bookmark, while **First unchecked lesson** reflects your checklist.
+These reading preferences belong to this browser/address and are not included
+in progress exports. On a small screen, open **Browse course** for lessons
+and study routes. Long pages have an **On this page** menu.
+
 ## Localhost and OpenAI Sites
 
 **Hosting status checked 21 October 2026:** the original Site currently has
@@ -179,14 +192,15 @@ explicit recovery; opening a new tab does not replay another window's edits.
 |---|---|
 | **16 lessons across 4 stages** | Learn programming foundations, write tests, make them reliable, then deliver them |
 | **48 lesson exercises + worked answers** | Practise with hints, acceptance criteria and an explanation of the solution |
-| **12 offline TypeScript labs** | Build helpers and repair inherited bugs in fixture isolation and unsafe retries |
+| **14 offline TypeScript labs** | Build helpers and repair fixture isolation, unsafe retries, stale observations and scrolling |
 | **36 workplace scenario exercises** | Investigate recovery, races, conflicting requirements, misleading results and real-app incidents |
 | **6 incident shifts** | Revise hypotheses from new evidence and hand over incomplete work under constraints |
 | **48 interview questions + 10 practical drills** | Explain tradeoffs, review code, practise SQL and defend your decisions |
 | **7 Android reference tests** | Study working examples for launch, Forms, login and empty-field validation |
 | **Setup and debugging manuals** | Diagnose failures from evidence rather than guessing |
 | **Permissions and app-lifecycle field guide** | Distinguish app restart, background/resume, stored data and permission state |
-| **Reading library** | Find official documentation, selected articles and legitimate book recommendations |
+| **Learning library** | Choose a video, article or book section, then apply it to a specific exercise |
+| **Short study sessions + testing foundations** | Choose a manageable task, learn team vocabulary and return after a break |
 | **Capstone + assessment rubric** | Build a reviewable portfolio and assess its quality |
 | **CI templates** | Separate quick offline checks from manual cloud-device runs |
 
@@ -303,13 +317,13 @@ npm run practice
 npm run practice -- 01
 ```
 
-The first command lists the twelve labs. The second checks your work in lab 01.
+The first command lists the fourteen labs. The second checks your work in lab 01.
 Read [the lab instructions](exercises/01-typed-data/README.md), open
 [`starter.ts`](exercises/01-typed-data/starter.ts) in your editor, complete the
 task and save it. Run `npm run practice -- 01` again to check your changes.
 
 **An unfinished exercise failing is expected.** Labs 01–10 need implementation;
-labs 11–12 contain deliberate bugs to repair. `npm run check` and
+labs 11–14 contain deliberate bugs to repair. `npm run check` and
 `npm run practice:solutions` validate the supplied reference solutions, not
 completion of your exercises.
 
@@ -483,7 +497,7 @@ Run from the project root. Device commands require a booted emulator or connecte
 | `npm run course:site-profile -- status second-account` | Inspect the selected profile and its recorded Site ID |
 | `npm run course:sites -- --profile second-account` | Build and prepare a registered Site profile; does not publish |
 | `npm run check` | TypeScript, documentation links, reference lab tests, offline framework regression checks |
-| `npm run practice` | List the twelve offline labs |
+| `npm run practice` | List the fourteen offline labs |
 | `npm run practice -- 03` | Test your work on one lab; initial failure is expected |
 | `npm run practice:solutions` | Test the supplied offline solutions |
 | `npm run preflight` | Check local prerequisites without running a UI test |
@@ -513,7 +527,7 @@ config/                 Shared, local Android, and BrowserStack runner settings
 docs/lessons/           The sixteen guided lessons
 docs/solutions/         Worked answers — try the exercise first
 docs/handbook/          Setup, debugging, glossary, review and study guides
-exercises/             Twelve offline TypeScript labs, tests and reference solutions
+exercises/             Fourteen offline TypeScript labs, tests and reference solutions
 scripts/               Preflight, course server, validation and practice runners
 .openai/hosting.json    Account-neutral static hosting template; no Site identity
 .sites/<profile>/      Separate registered Site checkout/identity, ignored by Git

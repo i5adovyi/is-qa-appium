@@ -2,6 +2,7 @@ import { parseProgress, mergeProgress, progressIdsForCatalog } from './progress.
 import { headingSlug, findPractice } from './practice.js'
 import { createCourseClient } from './data.js'
 import { createProgressStorage } from './progress-storage.js'
+import { createReadingPlaceStore } from './reader-state.js'
 
 const $ = selector => document.querySelector(selector)
 const mode = document.querySelector('meta[name="course-data-mode"]')?.content ?? 'local'
@@ -12,6 +13,11 @@ const client = createCourseClient({
 let catalog, currentLesson, currentChallenge, progressStorage, activeStage = 'all', renderId = 0
 let progress = { completed: [], notes: {} }
 let showAllPractice = false
+let renderedPage = null
+const readingPlace = createReadingPlaceStore({
+    getItem: key => localStorage.getItem(key),
+    setItem: (key, value) => localStorage.setItem(key, value),
+})
 function toast(message) {
     $('#toast').textContent = message
     $('#toast').hidden = false
@@ -40,17 +46,72 @@ function link(text, page, className) {
     element.href = `#${page}`
     return element
 }
+function refreshResume() {
+    const place = readingPlace.get()
+    $('#resume-reading').hidden = !place
+    if (!place) return
+    $('#resume-link').href = `#${place.path}${place.section ? `#${encodeURIComponent(place.section)}` : ''}`
+    $('#resume-link').textContent = `Resume reading: ${place.title} ↗`
+}
+function focusDestination(target, scrollToSection = false) {
+    if (target) {
+        if (!target.matches('input,textarea,select,button,a[href]')) target.tabIndex = -1
+        // A deep link may target review guidance inside an expandable hint.
+        for (let parent = target.parentElement; parent; parent = parent.parentElement) {
+            if (parent.tagName === 'DETAILS') parent.open = true
+        }
+        target.focus({ preventScroll: true })
+    }
+    if (scrollToSection && target) target.scrollIntoView({ block: 'start' })
+    else window.scrollTo({ top: 0 })
+}
+function showReadingSection(page, section) {
+    const heading = [...$('#article').querySelectorAll('h1,h2,h3,h4')].find(item => item.id === section)
+    const evidence = section === 'study-evidence' && (currentChallenge || currentLesson) ? $('#lesson-notes') : null
+    const target = evidence || heading || $('#article h1')
+    focusDestination(target, Boolean(section && (heading || evidence)))
+    readingPlace.remember({
+        path: page,
+        title: $('#article h1')?.textContent ?? 'Course page',
+        section: heading || evidence ? section : '',
+    })
+    refreshResume()
+}
+function refreshContents(page, hasNotes) {
+    const headings = [...$('#article').querySelectorAll('h2,h3')]
+    const sections = $('#page-sections')
+    sections.replaceChildren()
+    for (const heading of headings) {
+        const item = node('li', heading.tagName === 'H3' ? 'contents-subsection' : '')
+        item.append(link(heading.textContent, `${page}#${encodeURIComponent(heading.id)}`))
+        sections.append(item)
+    }
+    $('#page-contents').hidden = !headings.length
+    $('#page-contents').open = false
+    $('#evidence-jump').hidden = !hasNotes
+    $('#evidence-jump').href = `#${page}#study-evidence`
+}
 function refresh() {
     const done = catalog.lessons.filter(lesson => progress.completed.includes(lesson.id)).length
     $('#progress-number').textContent = `${done}/16`
     $('#progress-fill').style.width = `${done / 16 * 100}%`
     const next = catalog.lessons.find(lesson => !progress.completed.includes(lesson.id)) ?? catalog.lessons[0]
     $('#continue-link').href = `#${next.path}`
-    $('#continue-link').textContent = done === 16 ? 'Revisit the course ↗' : done ? `Continue with lesson ${next.id} ↗` : 'Start learning ↗'
+    $('#continue-link').textContent = done === 16 ? 'Revisit the lesson path ↗' : `First unchecked lesson: ${next.id} · ${next.title} ↗`
+    refreshResume()
     const nav = $('#lesson-nav')
+    const mobileNav = $('#mobile-nav')
     nav.replaceChildren()
+    mobileNav.replaceChildren()
+    for (const [title, path] of [
+        ['Learning dashboard', 'home'],
+        ["Choose today's session", 'docs/handbook/study-session.md'],
+        ['Complete beginner? Start here', 'docs/handbook/start-from-zero.md'],
+        ['Real-world challenge path', 'challenges'],
+    ]) mobileNav.append(link(title, path, 'nav-lesson'))
     for (const stage of catalog.stages) {
         nav.append(node('div', 'nav-stage', stage.title))
+        mobileNav.append(node('div', 'nav-stage', stage.title))
         for (const lesson of catalog.lessons.filter(item => item.stage === stage.id)) {
             const item = link('', lesson.path, 'nav-lesson')
             item.append(node('span', 'nav-number', progress.completed.includes(lesson.id) ? '✓' : lesson.id), node('span', '', lesson.title))
@@ -59,6 +120,7 @@ function refresh() {
                 item.setAttribute('aria-current', 'page')
             }
             nav.append(item)
+            mobileNav.append(item.cloneNode(true))
         }
     }
     const query = $('#search').value.toLowerCase().trim()
@@ -163,8 +225,11 @@ function safeContent(html, page) {
     })
     return template.content
 }
-async function route() {
+async function route(force = false) {
     const requestId = ++renderId
+    // Imports/recovery can change notes while a dashboard is visible. Never reuse
+    // the previously rendered lesson after such a whole-record replacement.
+    if (force) renderedPage = null
     let page, section
     $('#error').hidden = true
     try {
@@ -177,6 +242,7 @@ async function route() {
         $('#challenge-dashboard').hidden = true
         $('#error').hidden = false
         $('#error').textContent = 'This course link is malformed. Use the Learning dashboard link to continue.'
+        focusDestination($('#error'))
         return
     }
     $('#dashboard').hidden = page !== 'home'
@@ -186,11 +252,20 @@ async function route() {
     currentChallenge = (catalog.challenges ?? []).find(item => item.path === page)
     refresh()
     refreshChallenges()
+    $('#mobile-course-menu').open = false
     $('#reader-back').href = currentChallenge ? '#challenges' : '#home'
     $('#reader-back').textContent = currentChallenge ? '← Real-world challenge path' : '← Learning path'
-    if (page === 'challenges') { document.title = 'Real-world challenge path · Mobile Automation Lab'; window.scrollTo({ top: 0 }); return }
-    if (page === 'home') { document.title = 'Mobile Automation Lab'; window.scrollTo({ top: 0 }); return }
+    if (page === 'challenges') { document.title = 'Real-world challenge path · Mobile Automation Lab'; focusDestination($('#challenges-heading')); return }
+    if (page === 'home') { document.title = 'Mobile Automation Lab'; focusDestination($('#dashboard-heading')); return }
+    if (!force && renderedPage === page) {
+        document.title = `${$('#article h1')?.textContent ?? 'Course reader'} · Mobile Automation Lab`
+        showReadingSection(page, section)
+        return
+    }
+    renderedPage = null
     $('#article').replaceChildren(node('p', '', 'Loading your lesson…'))
+    $('#page-contents').hidden = true
+    $('#evidence-jump').hidden = true
     $('#lesson-actions').hidden = true
     try {
         const data = await client.getPage(page)
@@ -202,6 +277,7 @@ async function route() {
             : page.includes('/solutions/') ? 'WORKED SOLUTION · TRY THE EXERCISE FIRST' : 'THE WORKBENCH'
         document.title = `${$('#article h1')?.textContent ?? 'Course reader'} · Mobile Automation Lab`
         const item = currentChallenge ?? currentLesson
+        refreshContents(page, Boolean(item))
         $('#lesson-actions').hidden = !item
         if (item) {
             const sequence = currentChallenge ? catalog.challenges : catalog.lessons
@@ -218,18 +294,14 @@ async function route() {
             $('#solution-link').hidden = Boolean(currentChallenge)
             $('#solution-link').href = `#${page.replace('/lessons/', '/solutions/')}`
         }
-        const heading = (section && document.getElementById(section)) || $('#article h1')
-        if (heading) {
-            heading.tabIndex = -1
-            heading.focus({ preventScroll: true })
-        }
-        if (section && heading) heading.scrollIntoView()
-        else window.scrollTo({ top: 0 })
+        renderedPage = page
+        showReadingSection(page, section)
     } catch (error) {
         if (requestId !== renderId) return
         $('#article').replaceChildren()
         $('#error').hidden = false
         $('#error').textContent = `Could not load this page: ${error.message}`
+        focusDestination($('#error'))
     }
 }
 async function init() {
@@ -295,12 +367,12 @@ async function init() {
         // Preserve the exact visible draft before the learner chooses DB state.
         downloadProgress(progress)
         progress = await progressStorage.useSaved()
-        await route()
+        await route(true)
     }))
     $('#recover-draft').addEventListener('click', () => recoveryAction(async () => {
         downloadProgress(progress)
         progress = await progressStorage.recover($('#recovery-draft').value)
-        await route()
+        await route(true)
     }))
     window.addEventListener('storage', refreshRecoveries)
     refreshRecoveries()
@@ -368,7 +440,7 @@ async function init() {
                 progress = merged.progress
                 save()
                 const saved = await progressStorage.flush()
-                await route()
+                await route(true)
                 toast(!saved ? 'Imported into this draft. Check the save status and export it before leaving.'
                     : merged.conflicts
                     ? `Progress merged. Kept ${merged.conflicts} existing note(s) that differed from the backup.`
@@ -378,7 +450,17 @@ async function init() {
             } finally { event.target.value = '' }
         })
     })
-    window.addEventListener('hashchange', route)
+    window.addEventListener('hashchange', () => route())
+    document.addEventListener('click', event => {
+        if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
+        const anchor = event.target.closest?.('a[href]')
+        if (anchor?.getAttribute('href').startsWith('#') && anchor.hash === location.hash) {
+            // Clicking the selected section again must still move focus/scroll
+            // after the reader has scrolled elsewhere; hashchange will not fire.
+            event.preventDefault()
+            void route()
+        }
+    })
     await route()
 }
 init().catch(error => {

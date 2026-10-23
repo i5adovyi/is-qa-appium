@@ -16,6 +16,8 @@ const lessons = [
     ['10', 'api-contract', 'API contracts: validate HTTP status, identity and unknown JSON'],
     ['11', 'fixture-isolation', 'Repair a shared nested fixture that passes alone and fails in a suite'],
     ['12', 'uncertain-submit', 'Repair a retry that duplicates an order after a lost response'],
+    ['13', 'stale-observation', 'Repair stale observations by reacquiring the intended element'],
+    ['14', 'bounded-scroll', 'Repair a bounded search through recycled list rows'],
 ]
 const args = process.argv.slice(2)
 const solutions = args.includes('--solutions')
@@ -24,12 +26,12 @@ if (selection === 'help' || selection === '--help') {
     console.log('Offline TypeScript practice — no emulator or account needed.\n')
     lessons.forEach(([id, , title]) => console.log(`${id}  ${title}`))
     console.log('\nRun: npm run practice -- 01\nEdit the selected starter.ts, read its README, and rerun.')
-    console.log('Labs 01–10 start unfinished; 11–12 contain deliberate bugs. Reference tests: npm run practice:solutions')
+    console.log('Labs 01–10 start unfinished; 11–14 contain deliberate bugs. Reference tests: npm run practice:solutions')
     process.exit(0)
 }
 const chosen = selection === 'all' ? lessons : lessons.filter(([id]) => id === selection.padStart(2, '0'))
 if (!chosen.length || args.filter(arg => arg !== '--solutions').length > 1) {
-    console.error('Choose 01–12 or all. Example: npm run practice -- 03')
+    console.error('Choose 01–14 or all. Example: npm run practice -- 03')
     process.exit(2)
 }
 const testFiles = chosen.map(([id, name]) => path.join(root, 'exercises', `${id}-${name}`, 'exercise.test.ts'))

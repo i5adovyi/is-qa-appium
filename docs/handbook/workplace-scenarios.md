@@ -274,6 +274,9 @@ journey signal. See [Android Macrobenchmark](https://developer.android.com/topic
 
 ## RW-12 · Useful diagnostics leak sensitive data
 
+Start with the [fictional failure packet in DP-4](device-practice.md) for a
+concrete offline review; no real credentials or personal logs are needed.
+
 **After lesson 13. Mode: offline artifact review plus design.** Failure evidence
 contains a user's address and a bearer token. The UI test otherwise passed.
 
@@ -293,6 +296,10 @@ Review each artifact type; masking one logger does not sanitize a screenshot.
 </details>
 
 ## RW-13 · A recycled list defeats a scroll helper
+
+First repair [offline lab 14](../../exercises/14-bounded-scroll/README.md) to
+practise fresh snapshots, logical identity and deterministic stop conditions.
+Transfer to a device only after inspecting its real container and settling behavior.
 
 **After lesson 11. Mode: inspected demo gesture or feature environment.** A long
 list renders only nearby items; the desired record may be absent entirely.

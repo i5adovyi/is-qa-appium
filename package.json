@@ -15,7 +15,7 @@
     "course:preview": "node scripts/course-preview.mjs",
     "course:sites": "npm run course:build && node scripts/prepare-site.mjs",
     "course:check": "node scripts/check-course.mjs",
-    "course:test": "node --test scripts/course-server.test.mjs scripts/course-progress.test.mjs scripts/course-practice.test.mjs scripts/course-static.test.mjs scripts/course-storage.test.mjs scripts/progress-store.test.mjs scripts/progress-api.test.mjs scripts/site-profile.test.mjs",
+    "course:test": "node --test scripts/course-server.test.mjs scripts/course-reader.test.mjs scripts/course-progress.test.mjs scripts/course-practice.test.mjs scripts/course-static.test.mjs scripts/course-storage.test.mjs scripts/progress-store.test.mjs scripts/progress-api.test.mjs scripts/site-profile.test.mjs",
     "practice": "node scripts/practice.mjs",
     "practice:solutions": "node scripts/practice.mjs --solutions",
     "typecheck:practice": "tsc -p tsconfig.practice.json",

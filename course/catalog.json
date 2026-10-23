@@ -51,6 +51,9 @@
     { "category": "shift", "label": "Incident shift", "prefix": "S", "count": 6, "path": "docs/handbook/incident-shifts.md" }
   ],
   "library": [
+    { "title": "Choose today's session · 20, 45 or 90 minutes", "path": "docs/handbook/study-session.md" },
+    { "title": "Team testing foundations · three practice tasks", "path": "docs/handbook/testing-foundations.md" },
+    { "title": "Mobile device practice & artifact review", "path": "docs/handbook/device-practice.md" },
     {"title": "Real-world challenge path · 12 work assignments", "path": "docs/challenges/README.md"},
     { "title": "Complete beginner: start from zero", "path": "docs/handbook/start-from-zero.md" },
     { "title": "Computer, editor & terminal basics", "path": "docs/handbook/computer-basics.md" },
@@ -68,7 +71,7 @@
     { "title": "Interview practice · 48 questions", "path": "docs/handbook/interview-practice.md" },
     { "title": "Practical interview drills · code, SQL & review", "path": "docs/handbook/interview-drills.md" },
     { "title": "Real-world & interview coverage review", "path": "docs/coverage-review.md" },
-    { "title": "Offline TypeScript labs", "path": "exercises/README.md" },
+    { "title": "Offline TypeScript labs · 14 runnable tasks", "path": "exercises/README.md" },
     { "title": "Setup manual", "path": "docs/handbook/setup.md" },
     { "title": "Localhost & OpenAI Sites", "path": "docs/handbook/hosting.md" },
     { "title": "Dependencies & APK integrity", "path": "docs/handbook/dependency-maintenance.md" },
@@ -78,7 +81,8 @@
     { "title": "Review checklist", "path": "docs/handbook/review-checklist.md" },
     { "title": "Study plans", "path": "docs/handbook/study-plans.md" },
     { "title": "Capstone rubric", "path": "docs/handbook/capstone-rubric.md" },
-    { "title": "Books & reading library", "path": "docs/resources.md" },
+    { "title": "Videos, books & reading library", "path": "docs/resources.md" },
+    { "title": "Teacher review & study improvements", "path": "docs/teacher-review.md" },
     { "title": "Learning journal", "path": "docs/learning-journal.md" },
     { "title": "Validation & limitations", "path": "docs/validation.md" }
   ]

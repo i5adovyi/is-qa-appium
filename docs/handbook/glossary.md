@@ -1,5 +1,9 @@
 # Mobile automation glossary
 
+Use [Testing foundations](testing-foundations.md) to practise these terms in
+team conversations. Describe the real boundary as well as its label: teams
+may use “component” or “end-to-end” with different scopes.
+
 | Term | Meaning in this project | Common confusion |
 |---|---|---|
 | Appium | Automation server that delegates device work to a platform driver | It is not the assertion library |
@@ -10,6 +14,14 @@
 | Chai | Assertion library imported as `expect` | Its equality assertions do not automatically poll UI state |
 | Assertion | Check comparing observed state to an expectation | An action without an assertion proves little behavior |
 | Oracle | Basis for deciding the expected result | Current behavior is not always intended behavior |
+| Unit / component test | Check of a named small function/module with controlled dependencies | State which parts the component includes |
+| Integration test | Check of collaborating parts and their boundary | A replaced dependency limits the integration exercised |
+| API test | Check through a programmatic interface | The interface alone does not identify scope or prove UI behavior |
+| UI test | Check through visible controls and observations | It can serve smoke or regression purposes |
+| End-to-end test | Check of a named journey across its required parts | List real and replaced parts before claiming coverage |
+| Test double | Replacement dependency used for a test | Simulated driver behavior is not device evidence |
+| Stub / fake | Chosen responses / simplified working behavior | Neither proves the real dependency works |
+| Spy / mock | Recorded calls / checked expected interactions | Libraries sometimes use “mock” for several kinds of double |
 | Spec | File containing test scenarios | A file may contain many independently reported tests |
 | Suite | Related tests or a configured selection of specs | “Full suite” is limited to configured files/environments |
 | Hook | Setup or cleanup executed at a lifecycle point | `beforeEach` should establish an intentional state |
@@ -46,6 +58,7 @@
 | Equivalence class | Inputs expected to behave similarly for a rule | Many values from one class may add little coverage |
 | Smoke test | Small check of essential functioning | It is not exhaustive regression |
 | Regression test | Check guarding behavior against unintended change | A passing suite proves only its asserted coverage |
+| Retest / confirmation | Rerun of the specific previously failing case after a repair | It does not replace wider regression checks |
 | CI | Automated checks on an integration platform | Static CI is not necessarily a device test |
 | Artifact | Saved evidence such as PNG, XML, or logs | It may contain entered text and needs review before sharing |
 | Concurrency | Simultaneous work | It differs from total session count |

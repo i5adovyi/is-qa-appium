@@ -6,14 +6,21 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 ## Pick up here
 
+**Choose one task for today:** use [a comfortable study session](handbook/study-session.md)
+for a route matched to your experience, tools and 20/45/90-minute timebox. It also
+helps you return after a break without restarting the course.
+
 **Never used a terminal or written code?** Begin with the additional
 [Start from zero route](handbook/start-from-zero.md). It gives you smaller
 steps before lesson 00, a first-test workbook and help attempting lab 01.
 The original lesson sequence below remains available. Preparation does not
 add completion marks to the sixteen-lesson tracker.
 
-**New to programming?** Start at lesson 00. **Already running the starter tests?**
-Read 02–03, then work through 06–07 before expanding coverage.
+**Comfortable with files and basic functions?** Start at lesson 00, then the
+device-free parts of 02–03. Prepare Android through lesson 01 when ready for 04.
+**Already running the reference tests?** Check that you can explain 02–03,
+then work through 06–07 before expanding coverage. For early testing vocabulary,
+use [testing foundations and its three exercises](handbook/testing-foundations.md).
 
 Open the local reader with `npm run course`, then visit `http://127.0.0.1:4173`.
 The same lessons work in any Markdown editor. Reader completion and notes are saved
@@ -77,7 +84,8 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 - [Resume this project](RESUME.md): account changes, GitHub recovery, progress backups and a prompt for your next chat.
 - [Open in Codex under another account](handbook/account-handover.md): reopen or clone the project, restore progress and publish a separate private Site.
 - [Local data and backups](handbook/local-data.md): SQLite persistence, interrupted drafts, conflicting edits, imports and recovery.
-- [Twelve offline TypeScript labs](../exercises/README.md): foundations, workplace helpers and two repairs of inherited faulty code.
+- [Fourteen offline TypeScript labs](../exercises/README.md): foundations, workplace helpers and four repairs of inherited faulty code.
+- [Device practice route](handbook/device-practice.md): keyboard/back, background/return, inspected scrolling and a fictional artifact-privacy exercise.
 - [36 workplace scenarios](handbook/workplace-scenarios.md): real-app situations, prerequisites, evidence and review guides.
 - [Six incident shifts](handbook/incident-shifts.md): incomplete evidence, changing requirements, red-to-green repairs and decisions under time pressure.
 - [48 interview questions](handbook/interview-practice.md): answer criteria, follow-ups and timed mock interviews.
@@ -95,6 +103,7 @@ Use the [study plans](handbook/study-plans.md) to adjust for your starting exper
 - [Learning journal](learning-journal.md): a reusable evidence template.
 - [Validation record](validation.md): tested scope, remaining risks and unverified environments.
 - [Second-review findings](review-notes.md): gaps fixed, evidence, and useful next extensions.
+- [Teacher review](teacher-review.md): the 23 October study-comfort review, selected improvements and verification boundaries.
 
 ## What this course does and does not prove
 

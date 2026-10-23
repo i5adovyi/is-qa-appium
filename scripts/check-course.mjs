@@ -78,7 +78,7 @@ for (const file of files) {
 }
 const labs = ['01-typed-data', '02-validation', '03-async-order', '04-selectors', '05-polling',
     '06-diagnosis', '07-session-plan', '08-fixture-cleanup', '09-run-summary', '10-api-contract',
-    '11-fixture-isolation', '12-uncertain-submit']
+    '11-fixture-isolation', '12-uncertain-submit', '13-stale-observation', '14-bounded-scroll']
 for (const id of labs) {
     for (const filename of ['README.md', 'starter.ts', 'solution.ts', 'exercise.test.ts']) {
         check(await exists(`exercises/${id}/${filename}`), `Missing practice file ${id}/${filename}`)

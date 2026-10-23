@@ -2,6 +2,17 @@
 
 Course time is an estimate, not a promise. If programming is new, budget additional time for TypeScript and command-line practice. The capstone benefits from several separate sessions because next-day recall exposes gaps.
 
+## A session that fits today
+
+Start with [Choose one comfortable study session](study-session.md) for a single
+task matched to your experience and available tools. It includes 20-, 45- and
+90-minute patterns, a return-after-a-break routine and next-day/one-week recall.
+An unfinished exercise can span several sessions. Save one clear next action
+instead of trying to finish a whole lesson after work.
+
+The longer plans below are optional ways to group those sessions. The weekly
+estimates assume their stated hours; using shorter sessions extends the calendar.
+
 ## Every session
 
 For your first programming experience, use [Start from zero](start-from-zero.md)
@@ -9,13 +20,21 @@ before the timed plans below. Its 20–40-minute sessions separate setup, coding
 and testing. Repeat a session as needed; the four-week plan assumes you can
 already save/run files and read basic functions, and is not a deadline.
 
-1. **Recall, 5 minutes:** explain yesterday's concept without notes.
+For a longer session, use this loop; use the shorter guide above when time or
+concentration is limited.
+
+1. **Recall, 5 minutes:** explain your last session's concept without notes.
 2. **Read, 10–20 minutes:** one worked example and its rationale.
 3. **Build, 25–60 minutes:** attempt the exercise before opening hints.
 4. **Break and repair, 10–20 minutes:** introduce one controlled defect and interpret it.
 5. **Record, 5 minutes:** what you proved, what remains uncertain, next smallest step.
 
 Use [templates](templates.md) for a learning log. Mark a lesson complete when you can demonstrate its outcomes, not when you have scrolled to the bottom.
+
+At the next session, attempt one small prediction before rereading. About a week
+later, reconstruct a small part separately from your saved work and change one
+input or premise. See the session guide's [recall prompts](study-session.md#recall-without-restarting-the-whole-course).
+Needing a hint identifies the next practice task; it does not erase earlier work.
 
 ## Four-week beginner plan
 
@@ -126,6 +145,12 @@ when you cannot independently explain and reproduce your last repair.
 ## Getting unstuck
 
 Try for 15–20 focused minutes. Then open the first hint, not the solution. Write your current hypothesis and the observation needed to test it. After seeing a solution, close it and reconstruct the essential code from memory in a fresh practice attempt.
+
+For a 20-minute session, stop earlier if you keep making the same guess without
+new evidence. Save the command, first useful error, your hypothesis and one
+question in the [partial handover](templates.md#session-bookmark-and-partial-handover).
+If a prerequisite is missing, choose an independent offline task and leave that
+execution pending. Do not overwrite a working starter to practise recall.
 
 ## Skill checkpoints
 
