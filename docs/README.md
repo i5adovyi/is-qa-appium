@@ -6,6 +6,9 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 ## Pick up here
 
+**First visit?** [How to use this project](handbook/how-to-use.md) walks through
+opening the reader, choosing a route, making an attempt and saving your work.
+
 **Choose one task for today:** use [a comfortable study session](handbook/study-session.md)
 for a route matched to your experience, tools and 20/45/90-minute timebox. It also
 helps you return after a break without restarting the course.

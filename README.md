@@ -4,6 +4,9 @@
 
 An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
+**New to this project?** Read [How to use this project](docs/handbook/how-to-use.md)
+for the browser/editor/terminal workflow, choosing tasks, running tests and saving work.
+
 **Here to study today?** Open [Choose today's session](docs/handbook/study-session.md)
 for one task that fits 20, 45 or 90 minutes. New learners can start without Android.
 Run `npm run course` after [setup](#setup-on-a-new-machine), then use the reader's

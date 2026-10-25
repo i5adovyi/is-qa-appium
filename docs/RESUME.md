@@ -10,7 +10,24 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest validation — optional apps on Android, 23 October 2026
+## Latest addition — project usage guide, 25 October 2026
+
+[How to use this project](handbook/how-to-use.md) brings the daily workflow into
+one guide: open the reader, work in an editor and second terminal, choose among
+lessons/labs/challenges/assignments, run a selected test, and save evidence.
+It distinguishes learner attempts from supplied references and explains which
+data needs a separate backup. Find it near the top of the README/course map,
+in the reader's workbench and in the small-screen Browse course menu.
+
+This is a documentation/navigation update; existing exercise files and progress
+IDs remain unchanged. The next study action is to open the guide and choose one
+route matching your current prerequisites. Documentation checks, all 83 reader/
+storage/profile checks and the static build (222 readable files) passed; the
+guide and navigation were inspected in a separate local static preview. No
+device/cloud tests or publication were performed for this update. Details are
+in [the validation record](validation.md).
+
+## Previous validation — optional apps on Android, 23 October 2026
 
 Both optional apps now have observed Appium evidence on `Pixel_8_API_35`,
 Android 15 / API 35, arm64 (`emulator-5554`). My Demo App 2.3.0 passed **2 cart/reset

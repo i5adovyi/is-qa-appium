@@ -4,6 +4,9 @@ You only need one useful task today. Choose it from the table, set a stopping
 point and keep the result for your next visit. These routes reuse the course;
 they do not add another checklist or change your completion marks.
 
+For the everyday browser, editor and terminal workflow, start with
+[How to use this project](how-to-use.md).
+
 **Needed:** a browser or editor for written work; Node 24 and installed project
 dependencies for offline coding. Android and BrowserStack are needed only for
 the tasks that name them. The hosted reader cannot execute your test files.

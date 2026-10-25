@@ -21,6 +21,33 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Project usage guide — 25 October 2026
+
+Added [How to use this project](handbook/how-to-use.md) with the reader/editor/
+terminal workflow, route selection, an offline lab walkthrough, assignment and
+Android execution guidance, and save/backup instructions. Linked it from the
+README, course map, study-session guide, reader workbench and small-screen
+navigation. Existing task IDs, learner files and progress storage are unchanged.
+
+- `npm run course:check` passed documentation structure and local-link checks.
+- `npm run course:test` passed **83 reader/storage/profile checks** with
+  disposable data, including local/static page loading and HTTP comparison of
+  every exported page. The new guide was staged for the tracked-file export.
+- `npm run course:build` exported **222 readable files**. Node **24.22.0** was
+  used; source diff checks passed.
+- Focused browser inspection on a separate static-preview origin, port 4193,
+  verified the guide title/content, code blocks and the new **Browse course**
+  entry. Selecting that entry closed the menu and focused the guide heading.
+- Independent source review checked command meanings, reader labels and the
+  distinction between learner work and references. Corrected the extra-test
+  advice: the lab runner selects `exercise.test.ts`, so adding a separate test
+  file does not automatically include it in `npm run practice -- 01`.
+
+This verifies documentation and reader integration. Installation commands,
+learner attempts, Android tests, BrowserStack and Site publication were not
+executed for this change. No personal progress was edited or marked complete.
+The Android evidence below retains its original date and scope.
+
 ### Optional training apps: live Appium validation — 23 October 2026
 
 Executed both pinned optional fixtures on the existing **Pixel_8_API_35** AVD,

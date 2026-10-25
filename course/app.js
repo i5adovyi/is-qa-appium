@@ -106,6 +106,7 @@ function refresh() {
     mobileNav.replaceChildren()
     for (const [title, path] of [
         ['Learning dashboard', 'home'],
+        ['How to use this project', 'docs/handbook/how-to-use.md'],
         ["Choose today's session", 'docs/handbook/study-session.md'],
         ['Complete beginner? Start here', 'docs/handbook/start-from-zero.md'],
         ['Real-world challenge path', 'challenges'],
