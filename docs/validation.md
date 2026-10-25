@@ -21,6 +21,31 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### VS Code workflow guide — 25 October 2026
+
+Added [Work with this project in VS Code](handbook/vscode.md), linked from the
+README, course map, computer-basics workbook, usage guide and reader library.
+The guide covers Markdown preview beside code, integrated-terminal execution,
+offline/default/optional-app command selection, typechecking and personal notes.
+The general usage guide now explicitly identifies the browser as optional.
+
+- `npm run course:check` passed documentation structure and local-link checks.
+- `npm run course:test` passed **83 reader/storage/profile checks** using
+  disposable data, including local/static loading and HTTP comparison of all
+  exported pages. The new guide was staged for export.
+- `npm run course:build` exported **223 readable files**. The exported catalog
+  lists the new guide and its page payload has the expected title/path. Source
+  diff checks passed.
+- VS Code preview, terminal and TypeScript selection instructions were checked
+  against the linked official documentation. Repository-specific commands and
+  configuration boundaries received an independent source review. Clarified
+  that preflight verifies the default demo APK and optional apps require their
+  selected artifact verification command.
+
+This was documentation and reader verification, not a live VS Code GUI test.
+No extensions/settings were installed or changed, no learner attempt or mobile/
+cloud test was run, and no personal progress or hosted deployment was changed.
+
 ### Project usage guide — 25 October 2026
 
 Added [How to use this project](handbook/how-to-use.md) with the reader/editor/

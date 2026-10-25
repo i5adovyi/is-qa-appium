@@ -1,8 +1,13 @@
 # How to use this project
 
 Use this project to learn one idea, try it in code or on a device, and explain
-the result. Start with the reader and one small task. Android and a cloud account
-can wait while you learn the foundations.
+the result. Choose one small task. Android and a cloud account can wait while
+you learn the foundations.
+
+**The browser reader is optional.** You can read the guides, edit code and run
+tests entirely from desktop VS Code. Follow [Work with this project in VS Code](vscode.md)
+for Markdown preview beside your test files and commands in the integrated
+terminal. Use the browser when you want its navigation, notes and progress controls.
 
 ## Open the project and reader
 
@@ -21,7 +26,7 @@ node --version
 It should start with `v24.`. Run `npm ci` after cloning to install the locked
 dependencies; you do not need to reinstall them every study session.
 
-In **terminal A**, start the reader:
+If you want the browser reader, start it in **terminal A**:
 
 ```bash
 npm run course

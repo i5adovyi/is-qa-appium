@@ -7,6 +7,9 @@ An Android-first training project using **Appium 3 · TypeScript · Chai · Webd
 **New to this project?** Read [How to use this project](docs/handbook/how-to-use.md)
 for the browser/editor/terminal workflow, choosing tasks, running tests and saving work.
 
+**Prefer VS Code?** [Read and write tests in VS Code](docs/handbook/vscode.md)
+with Markdown preview and the integrated terminal. The browser reader is optional.
+
 **Here to study today?** Open [Choose today's session](docs/handbook/study-session.md)
 for one task that fits 20, 45 or 90 minutes. New learners can start without Android.
 Run `npm run course` after [setup](#setup-on-a-new-machine), then use the reader's

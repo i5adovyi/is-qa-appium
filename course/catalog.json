@@ -52,6 +52,7 @@
   ],
   "library": [
     { "title": "How to use this project", "path": "docs/handbook/how-to-use.md" },
+    { "title": "Work in VS Code · read, write and run tests", "path": "docs/handbook/vscode.md" },
     { "title": "Choose today's session · 20, 45 or 90 minutes", "path": "docs/handbook/study-session.md" },
     { "title": "Team testing foundations · three practice tasks", "path": "docs/handbook/testing-foundations.md" },
     { "title": "Mobile device practice & artifact review", "path": "docs/handbook/device-practice.md" },

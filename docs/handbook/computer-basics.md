@@ -5,6 +5,9 @@
 **Limits:** B1 can be read before installing anything. B2–B3 require Node 24,
 the cloned project and installed dependencies. No emulator or cloud account.
 
+For a step-by-step layout with lesson preview, code and terminal in one window,
+use [the VS Code walkthrough](vscode.md). The browser reader is optional.
+
 ## Three places with three jobs
 
 | Place | What you do there | What it does not do |

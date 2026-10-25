@@ -8,6 +8,8 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 **First visit?** [How to use this project](handbook/how-to-use.md) walks through
 opening the reader, choosing a route, making an attempt and saving your work.
+You can also [study and write tests entirely in VS Code](handbook/vscode.md);
+the browser reader adds optional navigation and progress tools.
 
 **Choose one task for today:** use [a comfortable study session](handbook/study-session.md)
 for a route matched to your experience, tools and 20/45/90-minute timebox. It also

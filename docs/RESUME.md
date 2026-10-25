@@ -10,7 +10,24 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — project usage guide, 25 October 2026
+## Latest addition — VS Code workflow, 25 October 2026
+
+[Work with this project in VS Code](handbook/vscode.md) explains the editor-only
+route: open the repository, preview Markdown beside code, save an attempt and
+run the appropriate command in the integrated terminal. It covers offline labs,
+default/optional Android specs, typechecking and file-based evidence. The usage
+guide now states explicitly that the browser reader is optional; it supplies
+navigation, saved lesson/challenge notes and completion controls.
+
+The guide is linked from the README, course map, computer-basics workbook,
+usage guide and reader library. No editor settings, extensions, learner files
+or progress records were changed. The next smallest action is the guide's lab
+01 preview/edit/run walkthrough. Documentation checks, all 83 reader/storage/
+profile checks and the static build (223 readable files) passed. Editor menus
+were checked against official documentation; a live VS Code GUI session was
+not exercised. Verification scope is in [validation](validation.md).
+
+## Previous addition — project usage guide, 25 October 2026
 
 [How to use this project](handbook/how-to-use.md) brings the daily workflow into
 one guide: open the reader, work in an editor and second terminal, choose among
