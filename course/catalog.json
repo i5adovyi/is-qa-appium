@@ -50,7 +50,159 @@
     { "category": "drill", "label": "Practical drill", "prefix": "D", "count": 10, "path": "docs/handbook/interview-drills.md" },
     { "category": "shift", "label": "Incident shift", "prefix": "S", "count": 6, "path": "docs/handbook/incident-shifts.md" }
   ],
+  "browserstackStages": [
+    {
+      "id": "ready",
+      "title": "01 · Get ready",
+      "description": "Choose a route, create an account and prepare the project."
+    },
+    {
+      "id": "execute",
+      "title": "02 · Run automation",
+      "description": "Run a first cloud test, write your own case and choose devices."
+    },
+    {
+      "id": "report",
+      "title": "03 · Read and report",
+      "description": "Round 2: correlate commands, dashboard evidence and trustworthy reports."
+    },
+    {
+      "id": "team",
+      "title": "04 · Work with a team",
+      "description": "Use CI, plan parallel sessions and investigate private networks."
+    },
+    {
+      "id": "own",
+      "title": "05 · Own the result",
+      "description": "Maintain the setup, deliver a capstone and explain your decisions."
+    }
+  ],
+  "browserstackLessons": [
+    {
+      "id": "BS-00",
+      "stage": "ready",
+      "title": "Know what runs where",
+      "subtitle": "Choose offline, cloud-only or local-first study.",
+      "path": "docs/browserstack/00-start.md",
+      "requirements": "READ / OFFLINE"
+    },
+    {
+      "id": "BS-01",
+      "stage": "ready",
+      "title": "Create an account",
+      "subtitle": "App Automate access, credentials and device readiness.",
+      "path": "docs/browserstack/01-account.md",
+      "requirements": "BROWSER / ACCOUNT"
+    },
+    {
+      "id": "BS-02",
+      "stage": "ready",
+      "title": "Prepare the project",
+      "subtitle": "Node, verified APK, local secrets and cloud preflight.",
+      "path": "docs/browserstack/02-project.md",
+      "requirements": "NODE + ACCOUNT"
+    },
+    {
+      "id": "BS-03",
+      "stage": "execute",
+      "title": "Run one login smoke",
+      "subtitle": "A precise command and your first real session record.",
+      "path": "docs/browserstack/03-first-run.md",
+      "requirements": "LIVE CLOUD"
+    },
+    {
+      "id": "BS-04",
+      "stage": "execute",
+      "title": "Write and select tests",
+      "subtitle": "Your own Forms and Login cases with meaningful assertions.",
+      "path": "docs/browserstack/04-automation.md",
+      "requirements": "CODE + LIVE CLOUD"
+    },
+    {
+      "id": "BS-05",
+      "stage": "execute",
+      "title": "Choose devices and versions",
+      "subtitle": "Capabilities, app identity and risk-based coverage.",
+      "path": "docs/browserstack/05-devices.md",
+      "requirements": "PLAN / OPTIONAL CLOUD"
+    },
+    {
+      "id": "BS-06",
+      "stage": "report",
+      "title": "Read the dashboard",
+      "subtitle": "Find the exact session and follow commands into evidence.",
+      "path": "docs/browserstack/06-dashboard.md",
+      "requirements": "RUN EVIDENCE"
+    },
+    {
+      "id": "BS-07",
+      "stage": "report",
+      "title": "Build a useful report",
+      "subtitle": "Counts, retries, JUnit, Allure and analytics extensions.",
+      "path": "docs/browserstack/07-reporting.md",
+      "requirements": "OFFLINE / OPTIONAL CLOUD"
+    },
+    {
+      "id": "BS-08",
+      "stage": "report",
+      "title": "Investigate a failure",
+      "subtitle": "Controlled defects and evidence before repairs.",
+      "path": "docs/browserstack/08-failures.md",
+      "requirements": "OFFLINE / LIVE CLOUD"
+    },
+    {
+      "id": "BS-09",
+      "stage": "team",
+      "title": "Run from GitHub Actions",
+      "subtitle": "Secrets, bounded smoke selection and artifact review.",
+      "path": "docs/browserstack/09-ci.md",
+      "requirements": "GITHUB + CLOUD"
+    },
+    {
+      "id": "BS-10",
+      "stage": "team",
+      "title": "Plan parallel work",
+      "subtitle": "Capacity, isolation and worker-owned evidence.",
+      "path": "docs/browserstack/10-parallel.md",
+      "requirements": "PLAN / OPTIONAL CLOUD"
+    },
+    {
+      "id": "BS-11",
+      "stage": "team",
+      "title": "Reach a private backend",
+      "subtitle": "Tunnel ownership, DNS, routing and TLS.",
+      "path": "docs/browserstack/11-local-tunnel.md",
+      "requirements": "EXTRA APP / BACKEND"
+    },
+    {
+      "id": "BS-12",
+      "stage": "own",
+      "title": "Maintain the setup",
+      "subtitle": "Credentials, versions, artifact identity and safe reporting.",
+      "path": "docs/browserstack/12-maintenance.md",
+      "requirements": "OFFLINE / TEAM ACCESS"
+    },
+    {
+      "id": "BS-13",
+      "stage": "own",
+      "title": "Deliver a cloud capstone",
+      "subtitle": "One reviewable automation and evidence packet.",
+      "path": "docs/browserstack/13-capstone.md",
+      "requirements": "CODE + LIVE CLOUD"
+    },
+    {
+      "id": "BS-14",
+      "stage": "own",
+      "title": "Explain it in interviews",
+      "subtitle": "Defend your choices with facts and useful limits.",
+      "path": "docs/browserstack/14-interviews.md",
+      "requirements": "OFFLINE / YOUR EVIDENCE"
+    }
+  ],
   "library": [
+    { "title": "BrowserStack academy · independent A-to-Z path", "path": "docs/browserstack/README.md" },
+    { "title": "BrowserStack · workplace incident bank", "path": "docs/browserstack/incidents.md" },
+    { "title": "BrowserStack · evidence templates", "path": "docs/browserstack/templates.md" },
     { "title": "How to use this project", "path": "docs/handbook/how-to-use.md" },
     { "title": "Work in VS Code · read, write and run tests", "path": "docs/handbook/vscode.md" },
     { "title": "Choose today's session · 20, 45 or 90 minutes", "path": "docs/handbook/study-session.md" },

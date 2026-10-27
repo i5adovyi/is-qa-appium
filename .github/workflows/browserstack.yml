@@ -7,6 +7,24 @@ on:
         description: 'Type RUN to authorize using BrowserStack device minutes'
         required: true
         type: string
+      scope:
+        description: 'Choose one login smoke or consciously run every matching spec'
+        required: true
+        default: login-smoke
+        type: choice
+        options:
+          - login-smoke
+          - all-specs
+      device:
+        description: 'Exact Android device available in your App Automate account'
+        required: true
+        default: Samsung Galaxy S24
+        type: string
+      os_version:
+        description: 'Exact supported Android version for that device'
+        required: true
+        default: '14.0'
+        type: string
 
 permissions:
   contents: read
@@ -24,6 +42,8 @@ jobs:
       BROWSERSTACK_USERNAME: ${{ secrets.BROWSERSTACK_USERNAME }}
       BROWSERSTACK_ACCESS_KEY: ${{ secrets.BROWSERSTACK_ACCESS_KEY }}
       BROWSERSTACK_BUILD_NAME: training-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      BROWSERSTACK_DEVICE_NAME: ${{ inputs.device }}
+      BROWSERSTACK_PLATFORM_VERSION: ${{ inputs.os_version }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -41,7 +61,15 @@ jobs:
       - run: npm run typecheck
       - run: npm run app:download
       - run: npm run preflight -- --cloud
-      - run: npm run test:bs
+      - name: Run selected cloud scope
+        env:
+          TEST_SCOPE: ${{ inputs.scope }}
+        run: |
+          case "$TEST_SCOPE" in
+            login-smoke) npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke ;;
+            all-specs) npm run test:bs ;;
+            *) echo "::error::Unknown test scope"; exit 1 ;;
+          esac
       - name: Save failure artifacts
         if: failure()
         uses: actions/upload-artifact@v4

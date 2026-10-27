@@ -101,6 +101,16 @@ lessons are separate from the learner's demonstrated progress.
 
 ## Start the course
 
+**BrowserStack from A to Z:** open the independent
+[BrowserStack academy](docs/browserstack/README.md), or **BrowserStack academy**
+in the reader navigation (`#browserstack`). Five stages contain 15 lessons,
+30 exercises and 12 workplace incident cards: account setup, a first real-device
+run, writing/selecting tests, dashboard/reporting, CI, parallelism, private
+backends, maintenance and interviews. Round 2 focuses on execution and reports,
+including optional JUnit, Allure and analytics integration. Cloud-only setup
+does not require a local emulator. Keep this path's evidence in personal files;
+it does not change the original lesson/challenge progress records.
+
 **Completely new to coding or testing?** Use [Start from zero](docs/handbook/start-from-zero.md)
 for a slower eight-session route. It adds computer/terminal basics, eight tiny
 programming exercises, a first-test workbook and a first-lab coach. These
@@ -469,6 +479,12 @@ not prove account access or run a device session. `test:bs` uploads the
 verified APK and starts cloud tests. See [lesson 12](docs/lessons/12-browserstack.md)
 for the full walkthrough.
 
+For the smallest first run, follow the new [step-by-step cloud guide](docs/browserstack/03-first-run.md)
+and use `npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke`.
+The unfiltered command above runs all matching specs. The
+[reporting lesson](docs/browserstack/07-reporting.md) explains how to interpret
+counts and collect useful evidence.
+
 ### 9. Bring your progress to the new computer
 
 Before leaving the old computer:
@@ -565,6 +581,10 @@ logs/                  Local test artifacts, ignored by Git
 
 ## BrowserStack comes after local confidence
 
+Local confidence is useful preparation; a local emulator pass is optional for
+the [cloud-only route](docs/browserstack/00-start.md). The independent academy
+starts with account creation and reaches reporting/CI in five stages.
+
 Read [lesson 12](docs/lessons/12-browserstack.md). Create `.env` from `.env.example` only if it does not exist, then add your BrowserStack username and access key locally. Never commit credentials. The cloud preflight does not start a paid session:
 
 ```bash
@@ -572,6 +592,11 @@ npm run preflight -- --cloud
 ```
 
 `npm run test:bs` uploads the demo APK and creates a cloud session. Your account needs App Automate access and an available configured device. The manual GitHub Actions workflow additionally requires repository secrets and an explicit `RUN` input. No cloud run was performed while building this course.
+
+The manual workflow now defaults to one `login-smoke` selection, with device/OS
+inputs. Select `all-specs` deliberately for the original full-suite behavior.
+Default build labels are generated once in the launcher so all workers share
+one invocation label. [CI walkthrough](docs/browserstack/09-ci.md).
 
 ## Quality and scope
 

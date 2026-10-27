@@ -111,6 +111,7 @@ function refresh() {
         ['Complete beginner? Start here', 'docs/handbook/start-from-zero.md'],
         ['Real-world challenge path', 'challenges'],
         ['Assignment bank · topic & level', 'assignments'],
+        ['BrowserStack academy', 'browserstack'],
     ]) mobileNav.append(link(title, path, 'nav-lesson'))
     for (const stage of catalog.stages) {
         nav.append(node('div', 'nav-stage', stage.title))
@@ -157,6 +158,24 @@ function refreshChallenges() {
             card.append(node('span', 'card-number', `${item.id} · ${done ? 'COMPLETED ✓' : item.requirements}`),
                 node('h3', '', item.title), node('p', '', item.subtitle),
                 node('span', 'card-footer', `DELIVER: ${item.deliverable} ↗`))
+            cards.append(card)
+        }
+        section.append(cards)
+        grid.append(section)
+    }
+}
+function refreshBrowserStack() {
+    const grid = $('#browserstack-stages')
+    grid.replaceChildren()
+    for (const stage of catalog.browserstackStages ?? []) {
+        const section = node('section', 'challenge-stage')
+        section.append(node('h2', '', stage.title), node('p', 'practice-intro', stage.description))
+        const cards = node('div', 'lesson-grid')
+        for (const item of (catalog.browserstackLessons ?? []).filter(item => item.stage === stage.id)) {
+            const card = link('', item.path, 'lesson-card')
+            card.append(node('span', 'card-number', `${item.id} · ${item.requirements}`),
+                node('h3', '', item.title), node('p', '', item.subtitle),
+                node('span', 'card-footer', 'Steps · exercises · review ↗'))
             cards.append(card)
         }
         section.append(cards)
@@ -289,23 +308,37 @@ async function route(force = false) {
         $('#reader').hidden = true
         $('#challenge-dashboard').hidden = true
         $('#assignment-dashboard').hidden = true
+        $('#browserstack-dashboard').hidden = true
         $('#error').hidden = false
         $('#error').textContent = 'This course link is malformed. Use the Learning dashboard link to continue.'
         focusDestination($('#error'))
         return
     }
     $('#dashboard').hidden = page !== 'home'
-    $('#reader').hidden = ['home', 'challenges', 'assignments'].includes(page)
+    $('#reader').hidden = ['home', 'challenges', 'assignments', 'browserstack'].includes(page)
     $('#challenge-dashboard').hidden = page !== 'challenges'
     $('#assignment-dashboard').hidden = page !== 'assignments'
+    $('#browserstack-dashboard').hidden = page !== 'browserstack'
+    $('#browserstack-navigation').hidden = true
     currentLesson = catalog.lessons.find(lesson => lesson.path === page)
     currentChallenge = (catalog.challenges ?? []).find(item => item.path === page)
     refresh()
     refreshChallenges()
     $('#mobile-course-menu').open = false
     const assignmentPage = page.startsWith('docs/assignments/')
-    $('#reader-back').href = assignmentPage ? '#assignments' : currentChallenge ? '#challenges' : '#home'
-    $('#reader-back').textContent = assignmentPage ? '← Assignment bank' : currentChallenge ? '← Real-world challenge path' : '← Learning path'
+    const browserstackPage = page.startsWith('docs/browserstack/')
+    const cloudLesson = (catalog.browserstackLessons ?? []).find(item => item.path === page)
+    if (cloudLesson) {
+        const sequence = catalog.browserstackLessons
+        const index = sequence.indexOf(cloudLesson)
+        $('#browserstack-navigation').hidden = false
+        $('#browserstack-previous').href = `#${sequence[index - 1]?.path ?? 'browserstack'}`
+        $('#browserstack-next').href = `#${sequence[index + 1]?.path ?? 'browserstack'}`
+        $('#browserstack-next').textContent = index === sequence.length - 1 ? 'Back to the path →' : 'Next lesson →'
+    }
+    $('#reader-back').href = browserstackPage ? '#browserstack' : assignmentPage ? '#assignments' : currentChallenge ? '#challenges' : '#home'
+    $('#reader-back').textContent = browserstackPage ? '← BrowserStack academy' : assignmentPage ? '← Assignment bank' : currentChallenge ? '← Real-world challenge path' : '← Learning path'
+    if (page === 'browserstack') { document.title = 'BrowserStack academy · Mobile Automation Lab'; refreshBrowserStack(); focusDestination($('#browserstack-heading')); return }
     if (page === 'assignments') { document.title = 'Assignment bank · Mobile Automation Lab'; refreshAssignments(); focusDestination($('#assignments-heading')); return }
     if (page === 'challenges') { document.title = 'Real-world challenge path · Mobile Automation Lab'; focusDestination($('#challenges-heading')); return }
     if (page === 'home') { document.title = 'Mobile Automation Lab'; focusDestination($('#dashboard-heading')); return }
@@ -326,6 +359,7 @@ async function route(force = false) {
         $('#reader-stage').textContent = currentLesson
             ? catalog.stages.find(stage => stage.id === currentLesson.stage).title
             : currentChallenge ? `REAL-WORLD CHALLENGE · ${currentChallenge.id} · ${currentChallenge.requirements}`
+            : browserstackPage ? `BROWSERSTACK ACADEMY${cloudLesson ? ` · ${cloudLesson.id}` : ''}`
             : assignmentPage ? 'ASSIGNMENT BANK · KEEP EVIDENCE IN YOUR JOURNAL'
             : page.includes('/solutions/') ? 'WORKED SOLUTION · TRY THE EXERCISE FIRST' : 'THE WORKBENCH'
         document.title = `${$('#article h1')?.textContent ?? 'Course reader'} · Mobile Automation Lab`

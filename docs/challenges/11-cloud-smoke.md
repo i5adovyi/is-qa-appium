@@ -12,6 +12,11 @@ local Node dependencies and verified APK. Put credentials only in local
 Follow [BrowserStack lesson](../lessons/12-browserstack.md). Allow a separate
 setup session if you do not have an account. Cloud sessions may consume quota.
 
+For signup through dashboard evidence, follow the independent
+[BrowserStack academy](../browserstack/README.md), especially BS-01–03 and
+BS-06–07. Its cloud-only route does not need a local emulator. This challenge
+still requires an actual passing cloud case for completion.
+
 ## Assignment
 
 Read [the cloud runner](../../scripts/run-browserstack.mjs) and

@@ -28,6 +28,7 @@ export async function buildCourse({ root = projectRoot, destination = path.join(
         ...catalog.library.map(item => item.path),
         ...(catalog.challenges ?? []).map(item => item.path),
         ...(catalog.assignments ?? []).map(item => item.path),
+        ...(catalog.browserstackLessons ?? []).map(item => item.path),
         ...catalog.practiceCollections.map(item => item.path),
     ]
     for (const name of required) {

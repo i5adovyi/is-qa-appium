@@ -16,7 +16,11 @@ This repository separates its default CI checks from a manually dispatched Brows
 
 The manual cloud workflow avoids consuming account sessions merely because someone pushes a commit. Running it requires a hosted repository, configured secrets, and authorized App Automate access. The existence of a YAML file does not mean GitHub has executed it.
 
-The default workflow runs `audit`, `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, `framework:test`, and `course:test`. These check known package advisories, TypeScript, course structure, offline reference solutions, mocked framework regressions, and the local reader/server and progress-backup behavior. The mocked framework checks do not launch Appium or prove a device interaction. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the Android suite remotely. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
+The default workflow runs `audit`, `typecheck`, `typecheck:practice`, `course:check`, `practice:solutions`, `framework:test`, and `course:test`. These check known package advisories, TypeScript, course structure, offline reference solutions, mocked framework regressions, and the local reader/server and progress-backup behavior. The mocked framework checks do not launch Appium or prove a device interaction. The cloud workflow requires the dispatch input `confirm` to be `RUN`, then runs the chosen Android scope remotely: `login-smoke` by default, or `all-specs` for the original full suite. Device/OS inputs must match your account. Its failure artifact is named `mobile-failures-<run_id>-<attempt>` and retained for seven days.
+
+For a separate walkthrough, use [BrowserStack CI](../browserstack/09-ci.md)
+and [reporting](../browserstack/07-reporting.md). They add exact first-run steps,
+case/session count reconciliation and optional JUnit/Allure/analytics exercises.
 
 ## Worked example: evidence belongs to a run
 

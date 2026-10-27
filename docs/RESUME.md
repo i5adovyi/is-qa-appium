@@ -10,7 +10,39 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest maintenance — branch consolidation and audit repair, 27 October 2026
+## Latest addition — BrowserStack academy, 27 October 2026
+
+The independent [BrowserStack academy](browserstack/README.md) is available at
+`#browserstack`: five stages, 15 lessons (BS-00–BS-14), 30 exercises and 12
+synthetic workplace incident cards. It adds account/product onboarding,
+cloud-only setup, a precise first login run, test writing/selection, device and
+remote-version choices, dashboard navigation, reporting, CI, parallelism,
+private networks, maintenance, capstone and interview practice. A second review
+expanded the execution/reporting route with concrete optional JUnit and Allure 3
+recipes and post-ingestion analytics steps. Sources were checked against
+official documentation on this date, including the provider's WDIO 7–9 examples
+versus this repository's direct WDIO 10 integration.
+
+The original lessons/exercises remain. BS IDs are navigation labels, not saved
+progress IDs; keep evidence in ignored `.local-data/browserstack/` and back it
+up separately. Local SQLite/browser progress, personal data and learner starters
+were not changed. The launcher now creates one default build label per invocation
+for all child workers. The manual BrowserStack workflow defaults to one Login
+smoke and accepts device/OS inputs; `all-specs` preserves full-suite execution.
+
+Offline verification passed: both typecheck projects, course/link checks,
+93 reference cases, 33 framework checks, 83 reader/storage/profile checks and
+a 242-page static export. The new dashboard, lesson sequence and exercise deep
+link/disclosure were inspected in a separate static preview. See
+[validation](validation.md) for limits and the review findings resolved.
+
+The next learner step is BS-00/BS-01 account readiness, then BS-02 and a selected
+BS-03 run. No live BrowserStack, optional reporting integration, tunnel or cloud
+workflow was executed in this change; the first real session still requires the
+learner's account. GitHub CI and Site publication require their separate observed
+results, not an inference from these checks.
+
+## Previous maintenance — branch consolidation and audit repair, 27 October 2026
 
 The original checkout is now the only active worktree, on `main`. Its history
 includes the five maintenance commits through `da1df1f`: teacher/study improvements,

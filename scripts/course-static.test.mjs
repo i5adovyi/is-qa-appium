@@ -44,7 +44,7 @@ test('static client loads every exported page over HTTP with the same content as
     for (const name of Object.keys(pageFiles)) {
         assert.deepEqual(await client.getPage(name), await loadPage(root, name), name)
     }
-    for (const item of [...catalog.lessons, ...catalog.challenges, ...catalog.assignments, ...catalog.library, ...catalog.practice]) {
+    for (const item of [...catalog.lessons, ...catalog.challenges, ...catalog.assignments, ...catalog.browserstackLessons, ...catalog.library, ...catalog.practice]) {
         assert.ok(Object.hasOwn(pageFiles, item.path), item.path)
     }
     assert.equal(requests.filter(name => name === '/data/catalog.json').length, 1)

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { spawnSync } from 'node:child_process'
+import { randomUUID } from 'node:crypto'
 import { fileURLToPath, pathToFileURL } from 'node:url'
 import { credential, uploadApp } from '../config/browserstack-api.ts'
 import { appPath } from './lib/demo-app.ts'
@@ -8,6 +9,9 @@ export async function runBrowserStack(args, upload = uploadApp, launch = spawnSy
     const user = credential('BROWSERSTACK_USERNAME')
     const key = credential('BROWSERSTACK_ACCESS_KEY')
     const appUrl = await upload(appPath, user, key)
+    // Resolve once in the parent so all worker/spec imports share one build.
+    const buildName = process.env.BROWSERSTACK_BUILD_NAME?.trim()
+        || `training-${new Date().toISOString()}-${randomUUID().slice(0, 8)}`
     console.log('Verified demo APK uploaded. Starting BrowserStack tests.')
     const result = launch(process.execPath, [
         fileURLToPath(new URL('../node_modules/@wdio/cli/bin/wdio.js', import.meta.url)),
@@ -15,7 +19,7 @@ export async function runBrowserStack(args, upload = uploadApp, launch = spawnSy
     ], {
         cwd: fileURLToPath(new URL('..', import.meta.url)),
         stdio: 'inherit',
-        env: { ...process.env, BROWSERSTACK_APP_URL: appUrl },
+        env: { ...process.env, BROWSERSTACK_APP_URL: appUrl, BROWSERSTACK_BUILD_NAME: buildName },
     })
     return result.status ?? 1
 }

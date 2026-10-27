@@ -84,6 +84,26 @@ test('placeholder credentials fail before upload and their values remain hidden'
         return true
     })
 })
+test('launcher resolves one build label for all child workers and preserves a custom label', async t => {
+    setEnv(t, 'BROWSERSTACK_USERNAME', 'test-user')
+    setEnv(t, 'BROWSERSTACK_ACCESS_KEY', 'test-key')
+    setEnv(t, 'BROWSERSTACK_BUILD_NAME', '  ')
+    t.mock.method(console, 'log', () => {})
+    const labels = []
+    const launch = (_node, _args, { env }) => {
+        labels.push(env.BROWSERSTACK_BUILD_NAME)
+        assert.equal(env.BROWSERSTACK_APP_URL, 'bs://123abc')
+        return { status: 0 }
+    }
+    await runBrowserStack([], async () => 'bs://123abc', launch)
+    await runBrowserStack([], async () => 'bs://123abc', launch)
+    assert.match(labels[0], /^training-.*-[a-f0-9]{8}$/)
+    assert.notEqual(labels[0], labels[1], 'Separate attempts must not be mixed into one default build')
+    assert.equal(process.env.BROWSERSTACK_BUILD_NAME, '  ', 'Do not mutate the parent environment')
+    process.env.BROWSERSTACK_BUILD_NAME = 'my-reviewed-build'
+    await runBrowserStack([], async () => 'bs://123abc', launch)
+    assert.equal(labels[2], 'my-reviewed-build')
+})
 test('session status reflects the full session result', () => {
     for (const [result, expected] of [[0, 'passed'], [1, 'failed'], [5, 'failed']]) {
         const payload = JSON.parse(sessionStatusCommand(result).replace('browserstack_executor: ', ''))

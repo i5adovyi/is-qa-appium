@@ -6,6 +6,13 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 ## Pick up here
 
+**BrowserStack from the beginning:** the separate
+[BrowserStack academy](browserstack/README.md) has five stages, 15 lessons,
+30 exercises and 12 workplace incident cards. It covers account setup through
+first automation, reports, CI and troubleshooting, with a cloud-only route
+that does not need a local emulator. Find it under **BrowserStack academy**
+in the reader. Its personal evidence files are separate from lesson progress.
+
 **First visit?** [How to use this project](handbook/how-to-use.md) walks through
 opening the reader, choosing a route, making an attempt and saving your work.
 You can also [study and write tests entirely in VS Code](handbook/vscode.md);

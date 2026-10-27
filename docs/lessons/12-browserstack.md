@@ -2,10 +2,16 @@
 
 **Stage:** Deliver credible results\
 **Estimated time:** 75–120 minutes; account setup time varies\
-**Prerequisites:** Passing local smoke suite; Lesson 10; BrowserStack App Automate access for execution.\
+**Prerequisites:** Lesson 10; Node/project dependencies and verified APK; BrowserStack App Automate access for execution. A local smoke pass is recommended when available, not required for cloud-only execution.\
 **Outcome:** Explain configuration differences, protect credentials, and interpret one real cloud session.
 
 > Cloud execution is optional and credential gated. This repository prepares the integration; it does not supply an account, promise trial availability, or claim that a cloud run has happened. Completing the design exercises without access is useful, but record execution as **not run**.
+
+**Want the complete beginner walkthrough?** The independent
+[BrowserStack academy](../browserstack/README.md) adds account onboarding,
+step-by-step setup, test writing/selection, dashboard/reporting, CI, parallelism,
+private-network investigations and workplace incidents. This original lesson
+and its three exercises remain your compact course introduction.
 
 ## What changes in the cloud
 
@@ -51,7 +57,9 @@ Edit it locally and keep credentials out of terminal history. The username and a
 
 ## Guided lab
 
-1. Run `npm run typecheck` and `npm run test:smoke` locally.
+1. Run `npm run typecheck`. If you have a local Android environment, also run
+   `npm run test:smoke` as a useful baseline. For cloud-only study, follow
+   [BS-02](../browserstack/02-project.md); no local SDK/emulator is needed.
 2. Read `.env.example`, the BrowserStack config, `scripts/run-browserstack.mjs`, and `config/browserstack-api.ts`.
 3. If you have authorized account access, enter credentials locally. Check the inputs, then select only the Login spec's smoke case for the first remote run:
 

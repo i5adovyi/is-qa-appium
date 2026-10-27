@@ -21,6 +21,55 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### BrowserStack academy and second reporting review — 27 October 2026
+
+Added a separate five-stage path with 15 lessons, 30 exercises, 12 synthetic
+incident cards, evidence templates and a primary-source register. The original
+16 lessons, 12 challenges, 24 topic assignments and 14 labs remain in place.
+BS lesson identifiers do not join the completion/notes storage protocol. New
+reader navigation and static export include the academy and its supporting pages.
+
+Related execution improvements generate a build label once in the parent cloud
+launcher and pass it to every worker; a regression checks propagation, separate
+default attempts and preserved custom labels. The manual cloud workflow now
+defaults to the selected Login smoke, with device/OS inputs and a retained
+explicit all-specs option. Inputs enter the shell through environment variables
+and a fixed scope dispatch, not interpolated command text.
+
+Observed on Node **24.22.0** / macOS:
+
+- `npm run check` passed both TypeScript projects, course/link checks,
+  **93 supplied reference cases** and **33 offline framework checks**.
+- `npm run course:test` passed **83 reader/storage/profile checks**, including
+  disposable local/static HTTP loading and content comparison for every exported
+  page. Catalog coverage includes all 15 new academy lessons.
+- `npm run course:build` exported **242 readable files**; docs/link checks and
+  `node --check course/app.js` passed. The manual workflow YAML parsed and its
+  default smoke/device-input wiring was checked without dispatching it.
+- Static-preview browser inspection verified the five-stage dashboard in the
+  existing dark palette, a lesson-card route, next-lesson navigation, the
+  reporting content, exercise deep-link focus and expandable review guidance.
+  This was desktop inspection, not a complete accessibility/mobile-browser audit.
+- The first sandboxed `npm run check` stopped at the existing disposable HTTP
+  test with `listen EPERM`. With listener permission, the complete check passed;
+  no learner starter was changed to repair that environment restriction.
+
+Two research/review passes used primary BrowserStack, WDIO, Allure and GitHub
+documentation. Corrected the cloud-only prerequisite contradiction, made the
+reporter edit location and commands explicit, moved `.env` ignore checking
+before credential entry, and corrected the CI exercise because GitHub expression
+string equality is case-insensitive. Reviewed package metadata for optional
+reporters; those packages were **not installed** into this baseline. The native
+Local sample config was not readable through the research client, so the guide
+links the official sample and explicitly avoids inventing its schema.
+
+These are course/framework/reader checks, not cloud-device evidence. No Android
+or BrowserStack session, optional JUnit/Allure/analytics ingestion, Local tunnel,
+paid workflow or learner exercise was executed. No personal progress was marked,
+credentials printed or learning data modified. First real BrowserStack execution
+remains pending account access. GitHub CI and deployment results must be matched
+to their pushed revision/saved version separately.
+
 ### Dependency audit repair during finalization — 27 October 2026
 
 The first consolidation push, `56b1db5`, failed its

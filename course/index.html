@@ -23,6 +23,7 @@
     <a class="overview-link" href="#docs/handbook/start-from-zero.md">↗ &nbsp; Complete beginner? Start here</a>
     <a class="overview-link challenge-nav" href="#challenges">↗ &nbsp; Real-world challenge path</a>
     <a class="overview-link assignment-nav" href="#assignments">↗ &nbsp; Assignment bank · topic &amp; level</a>
+    <a class="overview-link" href="#browserstack">↗ &nbsp; BrowserStack academy</a>
     <nav id="lesson-nav" aria-label="Course lessons"></nav>
     <div class="sidebar-footer"><span class="status-dot"></span> <span id="storage-description">Your personal learning progress.</span><br><small><a href="#docs/handbook/hosting.md">Localhost &amp; hosted access</a><br>Run tests from your project terminal.</small></div>
   </aside>
@@ -100,6 +101,10 @@
           <div><p class="eyebrow">PICK A TOPIC · CHOOSE YOUR NEXT STRETCH</p><h2 id="assignment-intro">Train for the workday</h2><p>Practise a focused skill, diagnose an incident, or make a team decision. Filter assignments by topic, complexity and the environment you have today.</p></div>
           <a class="primary-button" href="#assignments">Browse assignments ↗</a>
         </section>
+        <section class="assignment-callout" aria-labelledby="browserstack-intro">
+          <div><p class="eyebrow">AN INDEPENDENT PATH · ACCOUNT TO RELEASE REPORT</p><h2 id="browserstack-intro">Take your tests to real devices</h2><p>Set up BrowserStack, run your first automation, read reports and investigate workplace failures. Five stages with beginner steps and practical exercises.</p></div>
+          <a class="primary-button" href="#browserstack">Open BrowserStack academy ↗</a>
+        </section>
         <section class="stats" aria-label="Course overview">
           <div><strong>16</strong><span>guided lessons</span></div>
           <div><strong>48</strong><span>lesson exercises</span></div>
@@ -160,6 +165,20 @@
         <div id="assignment-groups"></div>
         <p class="honesty-note">Keep your attempt and evidence in your own journal, labelled with the assignment ID. These tickets do not add completion marks or notes to reader progress exports. Device tickets need a compatible app and device; reading a ticket is not execution evidence.</p>
       </section>
+      <section id="browserstack-dashboard" hidden aria-labelledby="browserstack-heading">
+        <div class="reader-top"><a href="#home">← Learning dashboard</a><span>BROWSERSTACK / FIVE STAGES</span></div>
+        <p class="eyebrow">SET UP. RUN. INVESTIGATE. REPORT.</p>
+        <h1 id="browserstack-heading">BrowserStack<br><em>from the beginning.</em></h1>
+        <p class="hero-copy">Fifteen lessons, thirty exercises and twelve incident cards. Follow one test from your computer to a real Android device, then turn its result into useful evidence.</p>
+        <div class="assignment-links">
+          <a href="#docs/browserstack/README.md">Choose your route ↗</a>
+          <a href="#docs/browserstack/incidents.md">Workplace incident bank ↗</a>
+          <a href="#docs/browserstack/templates.md">Evidence templates ↗</a>
+        </div>
+        <p class="practice-intro">Begin with stages 1–2, then use stage 3 for a second round on execution and reporting. Cloud-only execution needs Node and your App Automate access; no local emulator is required. Offline exercises are available without an account.</p>
+        <div id="browserstack-stages"></div>
+        <p class="honesty-note">Run commands in your project terminal. Keep your attempts and evidence in personal files; this path does not change existing lesson or challenge progress. Extra reporters, tunnels and parallel labs have their own prerequisites.</p>
+      </section>
       <section id="reader" hidden>
         <div class="reader-top"><a id="reader-back" href="#home">← Learning path</a><span id="reader-stage"></span></div>
         <div class="reader-tools">
@@ -170,6 +189,11 @@
           <a id="evidence-jump" href="#home" hidden>Your evidence &amp; questions ↓</a>
         </div>
         <article id="article" class="prose"></article>
+        <nav id="browserstack-navigation" class="reader-navigation" aria-label="BrowserStack lesson navigation" hidden>
+          <a id="browserstack-previous" href="#browserstack">← Previous</a>
+          <a href="#docs/browserstack/templates.md">Evidence templates</a>
+          <a id="browserstack-next" href="#browserstack">Next →</a>
+        </nav>
         <section id="lesson-actions" hidden>
           <div class="completion-panel"><div><strong>Can you explain the result?</strong><p id="completion-help">Finish the exercises and checkpoint before marking this lesson complete.</p></div><button id="complete-button" class="primary-button">Mark complete ✓</button></div>
           <label class="notes-label" for="lesson-notes">Your evidence & questions <span id="notes-storage">saved with your progress</span></label>

@@ -142,6 +142,18 @@ treat a checksum check or supplied template as device execution evidence.
 
 ## Preserve personal data and portable ownership
 
+The independent `#browserstack` academy uses `browserstackStages` and
+`browserstackLessons` in the catalog, with BS-00–BS-14 and `docs/browserstack/`.
+These are navigation/exercise identifiers, not progress IDs. Preserve the
+existing 16 lessons, 12 challenges and storage protocol. Personal evidence goes
+in `.local-data/browserstack/` and requires separate backup. The academy covers
+cloud-only setup without a local emulator and a second round on automation and
+reporting. Optional reporters, analytics ingestion, parallel runs and private
+backend/tunnel labs have extra prerequisites and are not validated baseline
+features. The actual cloud integration remains direct WDIO/upload/status, not
+a BrowserStack SDK. Preserve one build label per launcher invocation and the
+manual workflow's default login-smoke scope plus explicit all-specs option.
+
 - Preserve `.env`, learner code, notes, databases and unsaved browser drafts.
   Never reset a database or wipe ignored directories to repair an error.
   Keep credentials, logs, APKs, personal progress exports and databases out of

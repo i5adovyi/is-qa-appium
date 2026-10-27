@@ -49,6 +49,25 @@ for (const [index, challenge] of (catalog.challenges ?? []).entries()) {
     }
 }
 for (const item of catalog.library) check(await exists(item.path), `Missing library page ${item.path}`)
+const cloudLessons = catalog.browserstackLessons ?? []
+const cloudStages = catalog.browserstackStages ?? []
+check(cloudLessons.length === 15, 'Expected 15 BrowserStack academy lessons')
+check(cloudStages.length === 5 && new Set(cloudStages.map(item => item.id)).size === 5, 'Expected five unique BrowserStack stages')
+for (const [index, item] of cloudLessons.entries()) {
+    check(item.id === `BS-${String(index).padStart(2, '0')}`, 'BrowserStack lesson IDs must be sequential')
+    check(!allProgressIds.includes(item.id), `${item.id}: must not reuse a progress ID`)
+    check(cloudStages.some(stage => stage.id === item.stage), `${item.id}: unknown BrowserStack stage`)
+    check(Boolean(item.title && item.subtitle && item.requirements), `${item.id}: missing learner guidance`)
+    if (!await exists(item.path)) { errors.push(`Missing ${item.path}`); continue }
+    const source = await readFile(path.join(root, item.path), 'utf8')
+    for (const section of ['Prerequisites', 'Step by step', 'Exercises', 'Checkpoint']) {
+        check(new RegExp(`^## ${section}\\b`, 'm').test(source), `${item.id}: missing ${section}`)
+    }
+    for (const letter of ['A', 'B']) {
+        check(source.includes(`### ${item.id}-${letter} · `), `${item.id}: missing exercise ${letter}`)
+    }
+    check(source.includes('**Acceptance:**') && source.includes('<details>'), `${item.id}: missing acceptance/review`)
+}
 const assignments = catalog.assignments ?? []
 const topics = catalog.assignmentTopics ?? []
 const levels = catalog.assignmentLevels ?? []
@@ -131,5 +150,6 @@ if (errors.length) {
     console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, ${labs.length} offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
     console.log(`${catalog.challenges.length} real-world challenges; ${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
     console.log(`${assignments.length} topic assignments across ${topics.length} topics and ${levels.length} difficulty levels; ticket anchors and required sections checked.`)
+    console.log(`${cloudLessons.length} BrowserStack lessons in ${cloudStages.length} independent stages; 30 exercise headings checked.`)
     console.log('This checks repository structure and local links, not external site availability or mobile behaviour.')
 }
