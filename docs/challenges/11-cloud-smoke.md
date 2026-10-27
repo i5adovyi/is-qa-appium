@@ -27,7 +27,7 @@ the source of truth rather than a remembered catalog.
 
 ```bash
 npm run app:verify
-npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"
 ```
 
 If the APK is absent or fails verification, follow `npm run app:download`

@@ -9,44 +9,78 @@ verified APK and a device/OS your account supports. This is a real cloud exercis
 it consumes account resources. No local emulator is required. Read the selected
 [login reference](../../test/specs/app.login.spec.ts) before running.
 
+Use the project terminal in the folder verified in BS-02. The command below
+runs on your computer and controls a remote phone; you will not see a local
+emulator launch. Check its progress in terminal output, then use the dashboard
+for the remote device's evidence. Stop here if account access is still blocked.
+
 ## Step by step
 
 1. Find `should log in with valid credentials @smoke` in the Login spec.
    Predict its actions and two assertions: alert title `Success`, message
    `You are logged in!`. It then dismisses the alert and waits for it to close.
 2. In `.env`, choose a recognizable build label, for example
-   `bs-login-2026-10-27-attempt-01`. Use a new label on your next attempt.
+   `bs-login-2026-10-27-attempt-01`, and save the file. Use today's date and a
+   new attempt number for your own run, then a new label on your next attempt.
 3. Record the source version and confirm inputs:
 
    ```bash
    git rev-parse HEAD
+   ```
+
+   ```bash
    git status --short
+   ```
+
+   ```bash
    npm run typecheck
+   ```
+
+   ```bash
    npm run preflight -- --cloud
    ```
 
    An uncommitted test change must be noted alongside the commit; a commit ID
    alone would not describe the code you ran.
+   Run these lines one at a time. Continue only after typecheck and cloud
+   preflight finish successfully; a Git status with no lines means a clean tree.
 4. Run exactly the Login smoke selection:
 
    ```bash
-   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep '@smoke'
    ```
 
    The first `--` forwards options through npm. `--spec` chooses the file;
    `--mochaOpts.grep` chooses matching full test titles within it. No fixed sleep
    or separate Appium server is needed.
+   Keep the quotes around `'@smoke'`: they pass literal text in macOS/Linux
+   shells and PowerShell, where a bare initial `@` has special meaning.
+   [PowerShell parsing reference](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_parsing).
 5. Expect upload, worker/session startup, the named case, then a summary and
    process exit. Wording varies by runner version. Confirm **one intended case
    actually executed**. A successful upload message is only the first milestone.
-6. Immediately check the exit status: macOS/Linux `echo $?`; PowerShell
-   `$LASTEXITCODE`. Zero is necessary but not sufficient: verify a nonzero
+6. Wait until the command finishes and the terminal prompt returns. Immediately
+   check its exit status in that **same terminal**, before running another
+   command: macOS/Linux `echo $?`; PowerShell `$LASTEXITCODE`.
+   Zero is necessary but not sufficient: verify a nonzero
    intended executed-test count and the assertion outcome.
 7. Open [App Automate](https://app-automate.browserstack.com/). Find your build
    label and its session, matching time/device. Follow [BS-06](06-dashboard.md)
    for both old and new dashboard navigation.
 8. Fill the [run record](templates.md#run-record). Keep the session link private
    unless its sharing permissions and evidence have been reviewed.
+
+Use this small result checklist before choosing your next action:
+
+| What you see | What it means | Next step |
+| --- | --- | --- |
+| `Verified demo APK uploaded. Starting BrowserStack tests.` | Upload succeeded; app behavior is still untested | Wait for the worker/test result |
+| The exact Login smoke title and one passing case, exit 0 | The runner observed the expected result for this selection | Match the session and save evidence in BS-06 |
+| Zero matching cases | Your intended behavior did not execute | Check the file/title filter before a new attempt |
+| An error or nonzero exit | This attempt is incomplete or failed | Preserve the first useful error and classify it below |
+
+The table describes expected signals, not a fabricated transcript from your
+account. A spinner or an upload message is not your completion criterion.
 
 ## If it fails
 

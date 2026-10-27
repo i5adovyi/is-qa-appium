@@ -8,6 +8,11 @@ A trustworthy serial run and [BS-07 reporting](07-reporting.md). Planning is
 offline. Real parallel execution additionally needs account capacity and
 isolated app/backend data. The project baseline remains one device at a time.
 
+For a first study pass, finish BS-10-A and BS-10-B on paper without changing the
+runner. The live experiment is optional: continue only after you can select
+one known-good case, identify your account's available capacity and retain
+separate reports for each attempt.
+
 ## Step by step
 
 1. Count work before changing a setting. Under the usual separate spec/device
@@ -22,17 +27,38 @@ isolated app/backend data. The project baseline remains one device at a time.
 3. Complete [offline worker-isolation lab 07](../../exercises/07-session-plan/README.md)
    using `npm run practice -- 07`. Allocate unique users/data and report paths
    before scheduling simultaneous workers. Its starter is intentionally unfinished.
-4. For an optional live experiment, make a branch and edit the `devices` array
-   in the existing cloud config to contain two exact pairs you verified. Keep
-   the same spec, APK and build label. Start with `maxInstances: 1` and the
-   explicit Login smoke selection; record both devices' results serially.
-5. Only if the account permits it, change the cloud `maxInstances` to `2`,
-   typecheck and repeat the identical selection with a fresh build label. Verify
+4. For an optional live experiment, use the
+   [branch preparation and return steps](07-reporting.md#prepare-and-return-from-an-optional-experiment).
+   Edit the `devices` array in **`config/wdio.browserstack.conf.ts`** to contain
+   two exact Android device/OS pairs you verified in your account. The `.env`
+   fields currently supply one pair. When adding a second array entry, give it
+   its own verified `deviceName` and `platformVersion` strings; duplicating the
+   same environment-variable reads would select the same pair twice.
+   Keep the same spec and APK. Start with `maxInstances: 1`, save and run
+   `npm run typecheck`. Stop if that fails. Then use the explicit Login smoke
+   selection below and record both devices' results serially.
+5. Only if the account permits it, change `maxInstances` in that same config to
+   `2`, typecheck and repeat the identical selection with a fresh build label.
+   Stop if the typecheck fails. Verify
    timestamps/worker IDs show what actually ran simultaneously. Do not expand
    to a third device in the same experiment.
 6. Compare total duration, session counts, actual executed cases, failures and
    data isolation. Restore your experimental config when finished, preserving
    unrelated changes. Capacity planning is not permission to monopolize a team pool.
+
+Use this selection once for each deliberate experiment:
+
+```bash
+npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"
+```
+
+With two devices, the unchanged baseline selection targets one case on each,
+so expect two case executions and two device sessions, not one case total.
+The launcher assigns one shared build label **within** an invocation and a
+new label for the next invocation. If you set `BROWSERSTACK_BUILD_NAME` yourself,
+change it between the serial and parallel attempts. A shared label within a run
+helps correlation; reusing it across both experiments mixes their evidence.
+Keep reporter output directories fresh too if you added BS-07's reporter lab.
 
 ## Isolation that survives real work
 

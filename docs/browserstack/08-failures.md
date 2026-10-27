@@ -8,6 +8,10 @@
 analyzed entirely offline. A deliberate live failure uses your own practice
 spec and account resources; it must never alter supplied reference expectations.
 
+If BS-03 failed before a session existed, you can come here immediately. BS-06
+helps only with evidence that was actually produced; account/setup failures do
+not require a successful cloud run before you investigate them.
+
 ## Step by step
 
 1. Preserve the first attempt's command, time, versions and earliest meaningful

@@ -21,6 +21,38 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### BrowserStack beginner review — 27 October 2026
+
+Reviewed onboarding, reporting/advanced labs and workplace practice separately,
+then cross-reviewed the beginner instructions against the actual runner/specs.
+Added a short first-session guide and BI-13–BI-18, bringing the incident bank to
+18 cards. The 15 academy lessons/30 lesson exercises remain, along with all
+original course paths, starters and progress identifiers.
+
+Resolved missing working-folder/file-saving instructions, ambiguous command
+sequences, literal test-filter quoting, expected output/stop conditions,
+credential-free preparation, baseline-versus-optional reporting choices and
+returning safely from optional experiments. The course checker now verifies
+all 18 sequential incident IDs, tasks, acceptance criteria and hidden reviews.
+
+Observed on Node **24.22.0** / macOS:
+
+- `npm run check` passed both TypeScript projects, course/link checks,
+  **93 supplied reference cases** and **33 offline framework checks**.
+- `npm run course:test` passed **83 reader/storage/profile checks**, including
+  temporary local/static content checks. No personal progress was changed.
+- `npm run course:build` exported **243 readable files**, including the new
+  first-session page. `git diff --check` passed.
+- Browser preview confirmed the academy's first-session link, the route guide
+  and its readable desktop layout. This is a focused reader inspection, not
+  a complete accessibility or mobile-device audit.
+
+The added incidents are synthetic investigations. No paid cloud session, Android
+run, optional reporter installation, analytics ingestion, tunnel or cloud workflow
+was executed. Learner credentials, notes, database and starter code were preserved.
+Deployment and CI for the new commit are separate checks; their current results
+must be read from the actual version/run, not inferred from this local record.
+
 ### BrowserStack academy and second reporting review — 27 October 2026
 
 Added a separate five-stage path with 15 lessons, 30 exercises, 12 synthetic

@@ -65,7 +65,7 @@ Edit it locally and keep credentials out of terminal history. The username and a
 
    ```bash
    npm run preflight -- --cloud
-   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"
    ```
 
    `--spec` limits the files scheduled; `--mochaOpts.grep` limits tests within those files. Grep alone may still let the runner create workers/sessions for files with no matching tests. A preflight checks local inputs, not whether the account or requested device will be accepted by the provider.

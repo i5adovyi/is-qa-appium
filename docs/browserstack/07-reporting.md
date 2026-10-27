@@ -8,6 +8,11 @@
 reporting needs no new package. JUnit, Allure and Test Reporting & Analytics
 ingestion are optional extensions, not installed or validated default features.
 
+Choose **baseline reporting first**: complete the next section and BS-07-A with
+your real record or the fictional data provided. You can then continue to BS-08.
+JUnit, Allure and analytics are separate experiments; you do not need to install
+all three to finish this lesson or to explain a test failure.
+
 ## Step by step: the report you can produce today
 
 1. Start with the [run record and daily summary](templates.md). Record source,
@@ -36,11 +41,58 @@ Decision: login coverage incomplete. Investigate action readiness; no release si
 Not covered: real authentication, other devices, offline mode, permission denial.
 ```
 
+For a completed attempt, executed cases normally split into passed and failed.
+List skipped, excluded and never-started cases separately: none is evidence of
+passing behavior. A setup/hook error can fail a session without a failed test
+assertion; record that error as well as the case counts.
+
+## Prepare and return from an optional experiment
+
+Use these steps for either reporter lab, and for the later optional parallel
+configuration exercise. A Git branch saves a version of tracked source; it does
+not isolate installed `node_modules`, `.env`, or ignored personal evidence.
+
+1. In the project terminal, save editor files and run `git status --short`.
+   If it lists earlier work, review and save that work first. Do not reset or
+   discard it to make this lab easier. Keep credentials/evidence out of commits.
+2. Run `git branch --show-current` and write down your starting branch. From a
+   clean working tree, create a new experimental branch:
+
+   ```bash
+   git switch -c codex/browserstack-reporting
+   ```
+
+   If that name already exists, choose a new name rather than replacing it.
+   See [Git's branch switching guide](https://git-scm.com/docs/git-switch).
+3. Complete **one** optional recipe below. Run commands one at a time. If an
+   install, audit or typecheck fails, **stop before running a cloud test**.
+   Preserve the error, investigate compatibility and use the baseline report
+   while the extension is blocked. The examples are not permission to ignore
+   audit findings or continue after an unsuccessful install.
+4. To keep your experiment and return to the baseline, inspect `git diff` and
+   save a commit on this experimental branch containing only your reviewed
+   experiment changes (for reporters, `package.json`, `package-lock.json` and
+   the cloud config; for the parallel lab, the cloud config).
+   Use your editor's Source Control view to select those files; do not stage
+   `.env`, generated reports or unrelated work. Then switch to the starting
+   branch you recorded. For example, **only if it was `main`**:
+
+   ```bash
+   git switch main
+   ```
+
+5. On the starting branch, run `npm ci`, then `npm run typecheck`, stopping if
+   either fails. This reinstalls that branch's locked packages; switching Git
+   branches alone does not restore dependencies. Your experiment stays on its
+   own branch, and your private evidence stays in ignored files. If you prefer
+   to undo unsaved experimental edits instead, reverse only your own reviewed
+   changes in the editor; do not use a blanket reset/restore on existing work.
+
 ## Optional lab: add a JUnit report deliberately
 
 JUnit XML is a machine-readable test report; it is unrelated to this project's
-failure **page-source XML**. Work on your own branch, preserve unrelated edits
-and inspect package compatibility before installing anything:
+failure **page-source XML**. Complete the experiment preparation above and
+inspect package compatibility before installing anything:
 
 ```bash
 npm ls @wdio/cli @wdio/spec-reporter
@@ -52,7 +104,17 @@ on 27 October 2026. For that baseline:
 
 ```bash
 npm install --save-dev --save-exact @wdio/junit-reporter@10.1.0
+```
+
+Only if installation succeeds, audit the updated dependency tree:
+
+```bash
 npm run audit
+```
+
+Only if the audit passes, check the project's types:
+
+```bash
 npm run typecheck
 ```
 
@@ -77,27 +139,44 @@ reporters: [
 ],
 ```
 
-Use the normal wrapper with that saved config edit:
+Save the config and run `npm run typecheck` again. Only after it passes, use the
+normal wrapper with that saved config edit:
 
 ```bash
-npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"
 ```
 
-Confirm XML exists, matches the expected cases and records a deliberately
-failed assertion. Worker-specific filenames prevent workers overwriting each
+Open the resulting file under `logs/junit/bs-report-attempt-01/` in your editor.
+For the baseline Login smoke selection, expect one selected case; compare its
+name and outcome with the terminal. An error before test execution may produce
+no test-result file, so missing XML is not evidence of an app assertion failure.
+For BS-07-B, confirm the XML also records your controlled failed assertion.
+Worker-specific filenames prevent workers overwriting each
 other; changing the directory between attempts prevents stale result mixing.
 Review the [WDIO JUnit configuration](https://webdriver.io/docs/junit-reporter).
-Revert only your experimental changes if you do not keep the extension.
+Use the return steps above when you finish this extension.
 
 ## Optional lab: Allure and analytics
 
-Allure has two steps: its WDIO reporter writes **raw results**, then the CLI
+Start from your baseline branch with the experiment preparation above if you
+want to try Allure independently of JUnit. Allure has two steps: its WDIO
+reporter writes **raw results**, then the CLI
 generates/views a report. For the WDIO 10.1.0 / Node 24 baseline, this optional
 recipe uses the verified published **Allure 3** packages:
 
 ```bash
 npm install --save-dev --save-exact @wdio/allure-reporter@10.1.0 allure@3.22.1
+```
+
+Only if installation succeeds:
+
+```bash
 npm run audit
+```
+
+Only if the audit passes:
+
+```bash
 npm run typecheck
 ```
 
@@ -119,13 +198,30 @@ reporters: [
 ],
 ```
 
-Run a selected case, then generate/open its report as separate commands:
+Save the config and run `npm run typecheck` again; stop if it fails. Then run a
+selected case:
 
 ```bash
-npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"
+```
+
+After the runner finishes, confirm that `logs/allure/bs-report-attempt-01/`
+contains this attempt's results. Generate the HTML report from that directory:
+
+```bash
 npx allure generate logs/allure/bs-report-attempt-01 --output logs/allure-report/bs-report-attempt-01
+```
+
+If generation succeeds, open the generated report:
+
+```bash
 npx allure open logs/allure-report/bs-report-attempt-01
 ```
+
+If `npx` asks to download a package, stop and check the installation step rather
+than accepting a different version. For attempt 02, change the config's raw
+results directory **and both command paths** to `bs-report-attempt-02`. A report
+from attempt 01 cannot describe attempt 02.
 
 Report generation is useful after a failed test too; don't join these commands
 with `&&` if you need to inspect that failure. It reads existing results and

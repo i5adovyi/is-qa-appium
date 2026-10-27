@@ -18,32 +18,56 @@ reading and test design are possible without cloud access. Use fictional inputs.
 2. Trace its setup: restart the demo, open Login, wait for it, select the Login
    tab. The restart helper resets this demo's in-memory state; it does not reset
    a real backend or delete persistent storage.
-3. Choose a scope deliberately. These commands use the cloud launcher:
+3. Choose **one** scope deliberately. Each block below is an alternative cloud
+   run, not a sequence to paste together. Run it in your project terminal.
+
+   One successful Login case:
 
    ```bash
-   # One successful login case
-   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke
+   npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep '@smoke'
+   ```
 
-   # All three supplied Login cases
+   All three supplied Login cases:
+
+   ```bash
    npm run test:bs -- --spec test/specs/app.login.spec.ts
+   ```
 
-   # Just the empty-fields case
+   Just the empty-fields case:
+
+   ```bash
    npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "empty fields are submitted"
+   ```
 
-   # Just the supplied clear-input case
+   Just the supplied clear-input case:
+
+   ```bash
    npm run test:bs -- --spec test/specs/app.forms.spec.ts --mochaOpts.grep "should clear the result when the input is cleared"
    ```
 
-   Run one selected command, not the entire block as a batch. The unfiltered
-   `npm run test:bs` discovers every matching spec, including learner additions.
+   The unfiltered `npm run test:bs` discovers every matching spec, including
+   learner additions.
    The original three files contain seven cases; additions can change that count.
+   Before each chosen invocation, save a fresh build label in `.env`, or remove
+   that optional value to let the launcher generate one. A label saved in BS-03
+   persists until you change it; separate attempts should remain identifiable.
 4. For your own test, create `test/specs/app.cloud-practice.spec.ts` in the editor.
-   Use the structure from lesson 04, importing the existing screen objects and
-   restart helper. Write one scenario with a title you can filter exactly.
-5. Save, typecheck and execute only your new file:
+   If that file already contains your work, preserve it and continue there or
+   choose a new name and use that name in the run command too. Use the scaffold
+   below if the file structure is unfamiliar.
+   Its setup opens Forms; implement BS-04-A yourself inside `it`.
+5. Save the file and check types:
 
    ```bash
    npm run typecheck
+   ```
+
+   Stop if typecheck reports an error. Even a successful typecheck cannot prove
+   the test does anything useful: implement the actions, waits and assertions
+   and remove the scaffold's intentional error **before paying for a cloud run**.
+   Then execute only your new file:
+
+   ```bash
    npm run test:bs -- --spec test/specs/app.cloud-practice.spec.ts
    ```
 
@@ -52,6 +76,38 @@ reading and test design are possible without cloud access. Use fictional inputs.
    passing or move unfinished work outside `test/specs/` deliberately.
 6. Verify the runner lists the intended case. Inspect the dashboard and save
    evidence, including both failed and successful attempts when applicable.
+
+## A file scaffold, with the exercise left for you
+
+Paste this into your new `.ts` file, not the terminal. The `.js` suffixes in
+imports follow this project's TypeScript module convention; the source files
+you edit still end in `.ts`.
+
+```typescript
+import { expect } from 'chai'
+import TabBar from '../screens/TabBar.js'
+import FormsScreen from '../screens/FormsScreen.js'
+import { restartDemoApp } from '../helpers/restartApp.js'
+import { waitForText } from '../helpers/waitForText.js'
+
+describe('My cloud Forms practice', () => {
+    beforeEach(async () => {
+        await restartDemoApp()
+        await TabBar.openForms()
+        await FormsScreen.waitForIsShown()
+    })
+
+    it('BS-04-A should clear a populated result', async () => {
+        throw new Error('BS-04-A: implement the actions and assertions before a cloud run')
+    })
+})
+```
+
+`describe` names the group; `beforeEach` gives every case the same starting
+screen; `it` is the case you implement. The deliberate error prevents an empty
+case from appearing green. Removing it alone is not a solution. `waitForText`
+waits for an observable UI value; Chai's `expect` compares the value you read.
+The supplied Forms spec remains a separate worked reference.
 
 ## Exercises
 
@@ -82,6 +138,10 @@ existing “both empty” test does not cover this boundary by itself.
 
 <details><summary>Hint and review</summary>
 Use the Login helpers; inspect actual methods before inventing a selector.
+Put the Login case in its own `describe` group with setup that opens Login,
+not inside the Forms group above. Add the `LoginScreen` import and follow
+the existing Login spec's setup. Define a new `it` beside other cases, never
+inside another `it`. Filter on its unique title when running it alone.
 Do not mistake the demo's email/length rules for real authentication. If you add
 an absence assertion, establish that validation has finished before checking.
 </details>

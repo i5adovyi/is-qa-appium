@@ -68,6 +68,16 @@ for (const [index, item] of cloudLessons.entries()) {
     }
     check(source.includes('**Acceptance:**') && source.includes('<details>'), `${item.id}: missing acceptance/review`)
 }
+const incidentSource = await readFile(path.join(root, 'docs/browserstack/incidents.md'), 'utf8')
+const cloudIncidents = [...incidentSource.matchAll(/^## (BI-\d{2}) · .+\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)]
+check(cloudIncidents.length === 18, 'Expected 18 BrowserStack workplace incidents')
+for (const [index, [, id, body]] of cloudIncidents.entries()) {
+    check(id === `BI-${String(index + 1).padStart(2, '0')}`, 'BrowserStack incident IDs must be sequential')
+    for (const section of ['Task', 'Acceptance']) {
+        check(body.includes(`**${section}:**`), `${id}: missing ${section}`)
+    }
+    check(body.includes('<details>') && body.includes('</details>'), `${id}: missing hidden review`)
+}
 const assignments = catalog.assignments ?? []
 const topics = catalog.assignmentTopics ?? []
 const levels = catalog.assignmentLevels ?? []
@@ -150,6 +160,6 @@ if (errors.length) {
     console.log(`Course check passed: 16 lessons, 48 exercise/solution pairs, ${labs.length} offline labs, ${files.length} Markdown files, ${localLinks} local links.`)
     console.log(`${catalog.challenges.length} real-world challenges; ${indexedItems} workplace/interview items indexed with unique, sequential IDs.`)
     console.log(`${assignments.length} topic assignments across ${topics.length} topics and ${levels.length} difficulty levels; ticket anchors and required sections checked.`)
-    console.log(`${cloudLessons.length} BrowserStack lessons in ${cloudStages.length} independent stages; 30 exercise headings checked.`)
+    console.log(`${cloudLessons.length} BrowserStack lessons in ${cloudStages.length} independent stages; 30 exercise headings and ${cloudIncidents.length} incident cards checked.`)
     console.log('This checks repository structure and local links, not external site availability or mobile behaviour.')
 }

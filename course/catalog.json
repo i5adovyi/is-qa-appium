@@ -200,6 +200,7 @@
     }
   ],
   "library": [
+    { "title": "BrowserStack · your first study session", "path": "docs/browserstack/first-session.md" },
     { "title": "BrowserStack academy · independent A-to-Z path", "path": "docs/browserstack/README.md" },
     { "title": "BrowserStack · workplace incident bank", "path": "docs/browserstack/incidents.md" },
     { "title": "BrowserStack · evidence templates", "path": "docs/browserstack/templates.md" },

@@ -11,17 +11,46 @@ Git/Node and cloning. Commands below run at the repository root, where
 
 ## Step by step
 
-1. Open the clone in your editor. Open its terminal and check:
+1. Open the **existing project folder** in your editor, then its terminal.
+   This is the folder containing `package.json`, `README.md`, `course/` and
+   `test/`. If you only have the course website, first follow the linked
+   new-machine guide to clone the repository. Check Node, then npm:
 
    ```bash
    node --version
+   ```
+
+   ```bash
    npm --version
+   ```
+
+   Check the terminal's folder and project name:
+
+   ```bash
+   node -p "process.cwd()"
+   ```
+
+   ```bash
+   node -p "require('./package.json').name"
+   ```
+
+   Install the locked packages, then check project types:
+
+   ```bash
    npm ci
+   ```
+
+   ```bash
    npm run typecheck
    ```
 
    Node must report `v24...`. `npm ci` installs the lockfile's packages; it does
    not create a cloud account. Do not replace the lockfile with a provider sample.
+   The package-name command should print **`is-qa-appium`**. A missing
+   `package.json` means the terminal is in the wrong folder; open a terminal in
+   the clone before installing. If Node/npm is not found or any command fails,
+   fix that step before continuing. Typecheck may print no errors and simply
+   return to the prompt; that is expected, and it runs no device tests.
 2. Create `.env` only if absent. In macOS/Linux:
 
    ```bash
@@ -34,6 +63,11 @@ Git/Node and cloning. Commands below run at the repository root, where
    if (!(Test-Path .env)) { Copy-Item .env.example .env }
    ```
 
+   Use only the block for your shell. These copy commands normally produce no
+   output. Open `.env` in your editor's file list/quick-open: the leading dot
+   is part of the name, and some file managers hide dotfiles. Its exact name is
+   **`.env`**, not `.env.txt`; keep it beside `package.json`, not inside `config/`.
+
 3. Verify the file is ignored **before adding credentials**, without printing
    its contents:
 
@@ -43,7 +77,8 @@ Git/Node and cloning. Commands below run at the repository root, where
 
    Expected: `.env`. If it is already tracked or the result is unexpected, stop
    and inspect the Git state before adding credentials. Never use `git add -f`.
-4. Edit the file locally. Copy the username/key from your own account. These
+4. Edit `.env` locally, replacing only the relevant values and preserving any
+   other settings you already have. Copy the username/key from your own account. These
    example values are placeholders and deliberately fail validation:
 
    ```dotenv
@@ -57,17 +92,35 @@ Git/Node and cloning. Commands below run at the repository root, where
    Verify the device/OS in your account; change the example if necessary. Choose
    a fresh build label for each intended run so you can find its sessions.
    Omitting the build label makes the wrapper generate one once per invocation.
+   The `dotenv` block is **file content, not a terminal command**. Save the file
+   with Ctrl+S (Windows/Linux) or Cmd+S (macOS). A value in an unsaved editor tab
+   is not available to the next command. Do not edit `.env.example` to store keys.
 5. Download the pinned app and check cloud inputs:
 
    ```bash
    npm run app:download
+   ```
+
+   After download finishes, verify the local APK:
+
+   ```bash
    npm run app:verify
+   ```
+
+   If verification succeeds, check cloud inputs:
+
+   ```bash
    npm run preflight -- --cloud
    ```
 
    A failed checksum must be resolved before upload. Do not edit the expected
    checksum to accept unexplained bytes. A green preflight checks local input
    readiness; it cannot check provider entitlement, capacity or real behavior.
+   Expect `Demo APK SHA-256 and size verified.` from the app check and
+   `All preflight checks passed.` from a successful cloud preflight. If it
+   instead says `check(s) need attention`, resolve those checks before BS-03.
+   These preparation commands do not create a cloud session. Without account
+   credentials, the cloud preflight is expected to remain blocked; save that fact.
 
 ## What the project already does
 

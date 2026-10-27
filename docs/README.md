@@ -8,10 +8,12 @@ write it clearly, diagnose it when it fails, and explain the evidence.
 
 **BrowserStack from the beginning:** the separate
 [BrowserStack academy](browserstack/README.md) has five stages, 15 lessons,
-30 exercises and 12 workplace incident cards. It covers account setup through
+30 exercises and 18 workplace incident cards. It covers account setup through
 first automation, reports, CI and troubleshooting, with a cloud-only route
 that does not need a local emulator. Find it under **BrowserStack academy**
 in the reader. Its personal evidence files are separate from lesson progress.
+Use [your first study session](browserstack/first-session.md) to choose one
+small task before working through the stages.
 
 **First visit?** [How to use this project](handbook/how-to-use.md) walks through
 opening the reader, choosing a route, making an attempt and saving your work.

@@ -144,7 +144,7 @@ This is an intentional bad expectation, not an application bug. Do not change th
 Tag just your Forms navigation test with `@smoke`. Explain whether it adds useful coverage beyond the supplied app-launch smoke test, and what it still does not prove. Run your practice file with the smoke filter:
 
 ```bash
-npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practice.spec.ts --mochaOpts.grep @smoke
+npx wdio run config/wdio.android.conf.ts --spec test/specs/app.navigation-practice.spec.ts --mochaOpts.grep "@smoke"
 ```
 
 Then remove the tag if you judge it redundant. This is a design decision, not a rule that every passing test belongs in smoke.

@@ -30,6 +30,13 @@ exercise remains available without registration.
 6. An empty builds list is normal before a first automated run. Do not start an
    App Live session merely to make this page nonempty.
 
+**Ready to continue:** you know which team has App Automate access, where its
+automation credentials are, and which device/OS pair you intend to request.
+Write only nonsecret facts in the readiness note. If the account cannot run a
+session or its allowance is unclear, record that blocker rather than purchasing
+anything just to finish the lesson. You can still prepare Node/project files in
+BS-02 and analyze the [offline incident cards](incidents.md).
+
 | Product | Purpose | This project |
 | --- | --- | --- |
 | App Live | Manually interact with a mobile app on a remote device | Optional investigation; manual taps do not execute a spec |
@@ -50,6 +57,9 @@ not a secret store. [BS-12](12-maintenance.md) covers rotation and accidental ex
 The account page and product menus may differ by account or dashboard migration.
 Record the product and resource you found, not a memorized sequence of clicks.
 An account registration is not proof that App Automate execution is enabled.
+If a setup wizard offers generated sample code, keep it as a reference. This
+course already has a launcher and configuration; replacing them with a sample
+would change the project you are learning. Follow BS-02 for this repository.
 
 ## Exercises
 

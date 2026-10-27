@@ -10,7 +10,26 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — BrowserStack academy, 27 October 2026
+## Latest review — BrowserStack beginner walkthrough, 27 October 2026
+
+The [first study session](browserstack/first-session.md) now gives four short
+routes: no account, local preparation, one cloud attempt and a baseline report.
+The academy explains terminal/editor/dashboard roles, exact project and `.env`
+locations, saved files, expected output, stop conditions and quoted test filters.
+Optional reporter/parallel/tunnel lessons now make prerequisites, edit locations,
+attempt isolation and returning to the baseline explicit.
+
+The [incident bank](browserstack/incidents.md) has **18** cards. BI-13–BI-18 add
+corporate network trust, stale CI revisions, crashes hidden by timeouts, partial
+coverage after exhausted usage, interrupted sessions and first-install state.
+All prior lessons and exercises remain; personal data and progress IDs are
+unchanged. These are synthetic investigations, not claims of live execution.
+
+See [validation](validation.md) for this revision's observed checks. The smallest
+learner next step is to choose one route in the first-session guide and save a
+personal attempt. A real cloud run still needs the learner's account and access.
+
+## Previous addition — BrowserStack academy, 27 October 2026
 
 The independent [BrowserStack academy](browserstack/README.md) is available at
 `#browserstack`: five stages, 15 lessons (BS-00–BS-14), 30 exercises and 12

@@ -25,6 +25,9 @@ course's exercises and synthetic incidents are original training material.
 
 ## Team execution
 
+- [PowerShell splatting](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_splatting): quote the literal `"@smoke"` argument in cross-platform terminal examples; the unquoted at-sign has shell meaning.
+- [Node 24 environment loading](https://nodejs.org/docs/latest-v24.x/api/process.html#processloadenvfilepath): the project's Node scripts load `.env`; independent tools do not automatically inherit its file contents.
+
 - [Parallel WDIO execution](https://www.browserstack.com/docs/app-automate/appium/getting-started/nodejs/webdriverio/parallelize-tests): account limits and runner concurrency are separate.
 - [Internal-network testing](https://www.browserstack.com/docs/app-automate/appium/test-on-internal-network), [Local binary options](https://www.browserstack.com/docs/local-testing/binary-params), [connection identifiers](https://www.browserstack.com/docs/app-automate/appium/test-on-internal-network/manage-multiple-connections): optional tunnel lifecycle.
 - [Android network security](https://developer.android.com/privacy-and-security/security-config): transport reachability does not establish trust.

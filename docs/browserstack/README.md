@@ -5,6 +5,10 @@ an account and one supplied test; finish with your own test, a diagnosis, CI
 evidence and a report another person can review. The original sixteen lessons,
 challenge path and assignments remain available.
 
+**First visit?** [Choose one first study session](first-session.md): an offline
+investigation, environment preparation, one real smoke run, or a useful report.
+Each route has a clear stopping point and a small result to save.
+
 **Start here:** [BS-00 · Choose your route](00-start.md). Complete beginners can
 pause for [terminal basics](../handbook/computer-basics.md) and
 [testing foundations](../handbook/testing-foundations.md). You do not need to
@@ -21,7 +25,7 @@ finish every original lesson before reading this path.
 | 5 · Own the result | [12 · Maintenance](12-maintenance.md), [13 · Capstone](13-capstone.md), [14 · Interview practice](14-interviews.md) | A reviewable portfolio and defensible decisions |
 
 Every lesson has two exercises: **30 exercises** in this path. Additional
-[incident cards](incidents.md) provide twelve workplace situations, with
+[incident cards](incidents.md) provide eighteen workplace situations, with
 hidden review guidance. [Templates](templates.md) provide a run record, bug
 report, daily summary, device matrix and readiness checklist.
 
@@ -37,6 +41,10 @@ report, daily summary, device matrix and readiness checklist.
 
 Times in lessons assume prerequisites work. Stop after one useful exercise; a
 cloud error is material for investigation, not a reason to run all commands again.
+
+For your first pass, the baseline terminal and session report are enough. Mark
+optional reporter, parallel and private-backend labs for later; read their
+prerequisites before changing packages, capabilities or account resources.
 
 ## Keep your evidence
 

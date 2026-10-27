@@ -8,6 +8,11 @@ One attempted [BS-03 run](03-first-run.md), its terminal output and build label.
 If no session exists, use the supplied exercises as offline analysis. The
 dashboard is account-dependent; this guide does not pretend to show your account.
 
+Keep two views open: your terminal's completed output and BrowserStack's website.
+The course reader itself does not display your cloud sessions. If you have no
+account/run yet, start with **BS-06-B** below; BS-06-A remains a plan until you
+have your own execution evidence.
+
 ## Step by step
 
 1. Open [App Automate](https://app-automate.browserstack.com/) in the correct team.
@@ -18,6 +23,9 @@ dashboard is account-dependent; this guide does not pretend to show your account
 2. Search/filter by the build label from your run, date and project. Check the
    time zone and attempt. A similarly named run from yesterday is not evidence
    for today's commit. Remove filters if the list is unexpectedly empty.
+   If it is still empty, check the terminal's last completed stage: an upload or
+   preflight failure may have prevented session creation. Verify the account/team
+   before starting another paid attempt merely to populate the list.
 3. Open the build, then **Sessions** (or the older session list). Match session
    ID, device/OS and timing to terminal output. A **Tests** view represents
    logical tests only if the integration supplies that data; it is not a synonym
@@ -27,6 +35,9 @@ dashboard is account-dependent; this guide does not pretend to show your account
 5. Open the session video if available. Find the Login screen, keyboard, button,
    alert and dismissal. Correlate one visible event with the matching command
    in text/Appium logs and the assertion in the spec.
+   Chai evaluates assertions in the test runner. You may see the preceding
+   element lookup/read in Appium logs, while the actual expected/actual failure
+   is in terminal or reporter output. Do not search the video for an assertion.
 6. Compare the session status to the terminal assertion result and final counts.
    The project calls `setSessionStatus` once after the worker's result. If this
    call fails, it warns; a finished session alone does not prove passing assertions.

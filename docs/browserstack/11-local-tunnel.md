@@ -10,6 +10,28 @@ WDIO demo login is simulated and cannot prove backend connectivity. You need
 the backend owner to identify the intended hostname, route and TLS policy.
 Without these, complete the synthetic exercise and label execution not run.
 
+A **private backend** is an app service unavailable directly from the public
+internet, such as company staging reachable through a VPN. A **tunnel** lets
+BrowserStack reach an authorized network through a connection you start on
+your computer. This is unrelated to opening the course on `127.0.0.1:4173`.
+The **binary** below means the downloaded executable program.
+
+For a first study pass, do BS-11-A and BS-11-B offline. Before starting a live
+tunnel, have all of these ready with the app/backend owner:
+
+- An authorized app build and one test that actually calls that private backend.
+- A reviewed upload/runner configuration for that app, including its artifact
+  verification. The supplied `npm run test:bs` always uploads the pinned demo;
+  adding tunnel options does not change the app it uploads.
+- The intended hostname, routing/VPN requirements and approved TLS settings,
+  plus access to backend evidence that can confirm the app's request.
+- Permission/account access to use BrowserStack Local and a way to stop your
+  own connection after success, failure or cancellation.
+
+If any item is missing, stop at the planning exercises. This course supplies
+the investigation procedure, not that private app/backend or a ready-made
+runner for it.
+
 ## Step by step
 
 1. Establish the failing app request: target hostname, time, build and error
@@ -29,6 +51,11 @@ Without these, complete the synthetic exercise and label execution not run.
 4. Start the binary with the config file in a separate terminal. Wait for its
    reported connection readiness; a started process alone is not readiness.
    Keep its logs private. Do not paste a sample access key into a shell command.
+
+   Keep this as **terminal A** while the tunnel runs. Use **terminal B** for
+   the reviewed private-app test command from the prerequisite checklist.
+   Both terminals can start in the project directory; neither needs a local
+   Android emulator for this remote-device scenario.
 
    From the project root, if you placed the downloaded binary/config in that
    ignored directory, the foreground commands are:
@@ -51,7 +78,8 @@ Without these, complete the synthetic exercise and label execution not run.
    `Local.stop(callback)` as an alternative integration exercise. A shell does
    not automatically load the project's `.env` for a standalone binary.
 5. In a branch for this optional app/environment experiment, add the matching
-   settings to the cloud capabilities' `bstack:options`, preserving other fields:
+   settings to your private-app runner's cloud capabilities' `bstack:options`,
+   preserving other fields:
 
    ```ts
    local: true,
@@ -62,7 +90,11 @@ Without these, complete the synthetic exercise and label execution not run.
    the pinned demo only; an authorized private-app experiment also needs its
    own verified artifact/runner configuration. Do not weaken the demo manifest
    or claim it will automatically upload another APK.
-6. Run one selected scenario against that app. Observe the request **from the
+   Save and typecheck your runner before execution; a failed check is a stop
+   gate, not a reason to bypass validation.
+6. In terminal B, run one selected scenario against that app using its reviewed
+   command. There is no generic course command for an arbitrary private app.
+   Observe the request **from the
    remote app** and a corresponding backend request/log. A tunnel connection
    banner and a laptop curl response are insufficient evidence.
 7. Diagnose DNS/routing, proxy and TLS separately. A tunnel does not repair an

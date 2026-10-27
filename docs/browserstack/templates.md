@@ -71,6 +71,37 @@ Proposed owner / next action:
 Deliberate training fault, real observation or synthetic scenario?
 ```
 
+## Incident attempt
+
+Use this for an [incident card](incidents.md) before opening its review. The
+supplied evidence is enough for an offline attempt. “Unknown” is a useful answer
+when the observation is missing; distinguish a proposed command from one you ran.
+
+```text
+Incident ID / date / time spent:
+Mode: supplied synthetic evidence / authorized live observation
+Prerequisites available / missing:
+Expected behavior:
+Facts from evidence (include times and identities when supplied):
+Last successful stage / first meaningful failure:
+Unknown information:
+Hypothesis 1 / hypothesis 2:
+One observation that would distinguish them:
+Smallest next action / expected signal / owner:
+Stopping rule (time, attempt limit or missing access):
+Execution counts and what has NOT been tested:
+Outcome: investigation proposed / blocked / observed (describe evidence)
+Changed condition: what I would revise and why:
+After opening review: one correction to my reasoning:
+Next practice step:
+```
+
+Stop after a justified next action and honest result. If a live check needs
+credentials, paid usage, another team's data or an unavailable app, name the
+owner and blocker instead of inventing output. Store any later real run in a
+separate [run record](#run-record); completing an incident answer is not a
+passing mobile test. Keep keys and private share tokens out of both records.
+
 ## Device and concurrency plan
 
 | Device/OS class | User/risk reason | Exact verified candidate | Specs/cases | Potential sessions | Data owner | Report path |

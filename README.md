@@ -104,12 +104,15 @@ lessons are separate from the learner's demonstrated progress.
 **BrowserStack from A to Z:** open the independent
 [BrowserStack academy](docs/browserstack/README.md), or **BrowserStack academy**
 in the reader navigation (`#browserstack`). Five stages contain 15 lessons,
-30 exercises and 12 workplace incident cards: account setup, a first real-device
+30 exercises and 18 workplace incident cards: account setup, a first real-device
 run, writing/selecting tests, dashboard/reporting, CI, parallelism, private
 backends, maintenance and interviews. Round 2 focuses on execution and reports,
 including optional JUnit, Allure and analytics integration. Cloud-only setup
 does not require a local emulator. Keep this path's evidence in personal files;
 it does not change the original lesson/challenge progress records.
+
+New to the academy? [Choose one first study session](docs/browserstack/first-session.md)
+for a short offline, setup, first-run or reporting route with a clear stopping point.
 
 **Completely new to coding or testing?** Use [Start from zero](docs/handbook/start-from-zero.md)
 for a slower eight-session route. It adds computer/terminal basics, eight tiny
@@ -480,7 +483,7 @@ verified APK and starts cloud tests. See [lesson 12](docs/lessons/12-browserstac
 for the full walkthrough.
 
 For the smallest first run, follow the new [step-by-step cloud guide](docs/browserstack/03-first-run.md)
-and use `npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep @smoke`.
+and use `npm run test:bs -- --spec test/specs/app.login.spec.ts --mochaOpts.grep "@smoke"`.
 The unfiltered command above runs all matching specs. The
 [reporting lesson](docs/browserstack/07-reporting.md) explains how to interpret
 counts and collect useful evidence.

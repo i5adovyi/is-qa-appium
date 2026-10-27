@@ -148,7 +148,8 @@ These are navigation/exercise identifiers, not progress IDs. Preserve the
 existing 16 lessons, 12 challenges and storage protocol. Personal evidence goes
 in `.local-data/browserstack/` and requires separate backup. The academy covers
 cloud-only setup without a local emulator and a second round on automation and
-reporting. Optional reporters, analytics ingestion, parallel runs and private
+reporting. Start new learners with [one study session](docs/browserstack/first-session.md);
+BI-01–BI-18 provide offline incident practice. Optional reporters, analytics ingestion, parallel runs and private
 backend/tunnel labs have extra prerequisites and are not validated baseline
 features. The actual cloud integration remains direct WDIO/upload/status, not
 a BrowserStack SDK. Preserve one build label per launcher invocation and the
