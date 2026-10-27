@@ -21,6 +21,45 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Dependency audit repair during finalization — 27 October 2026
+
+The first consolidation push, `56b1db5`, failed its
+[GitHub audit job](https://github.com/i5adovyi/is-qa-appium/actions/runs/40464501408).
+Installation passed; subsequent checks were skipped. The current audit reported
+five affected packages arising from two advisories published after the earlier
+zero-finding baseline: body-parser's compressed-body handling and
+serialize-javascript's function escaping. The historical audit remains dated.
+
+Added a body-parser **2.4.0** override to replace base-driver's exact 2.3.0 pin,
+and resolved serialize-javascript **7.1.4** within Mocha's existing range. Only
+those two resolved package versions changed. Appium 3.8.0, WebdriverIO 10.1.0,
+the unbundled UiAutomator2 8.7.0 artifact, other overrides and CI audit threshold
+remain unchanged. Advisory references and rationale are in
+[dependency maintenance](handbook/dependency-maintenance.md).
+
+Observed after the targeted repair on Node **24.22.0**:
+
+- `npm ci` succeeded and `npm run audit` reported **zero vulnerabilities**.
+- `npm run check` passed both type checks, documentation checks, **93 reference
+  lab cases** and **32 framework checks**; `npm run course:test` passed **83 checks**.
+- `npm run course:build` exported **223 readable files**; `npm run app:verify`
+  confirmed the existing pinned APK, and `npm run appium:setup` found UiAutomator2 8.7.0.
+- `npm run appium:doctor` reported **zero required fixes**, with three optional
+  tool warnings (bundletool, ffmpeg and GStreamer). `npm run preflight` passed
+  other checks but failed device selection because no Android device was online.
+- A temporary Appium server accepted ordinary JSON and gzip bodies, returning
+  the expected 404 for a nonexistent session. A malformed compressed body
+  returned Appium's handled 500 response, and subsequent `/status` calls still
+  succeeded. The initial probe expected 400/404 for that malformed body; after
+  inspecting Appium's error mapping, the probe verified its actual 500/error body
+  and continued server health. A focused serializer probe escaped a trailing
+  script delimiter. Both temporary server processes were stopped.
+
+These are installation, offline and HTTP checks, not an Android test pass or a
+complete security assessment. No device session, BrowserStack execution or Site
+publication was performed. Device compatibility after this dependency repair
+remains unexecuted; the earlier emulator evidence retains its original scope.
+
 ### Branch and worktree consolidation — 27 October 2026
 
 Reviewed all local branches and both worktrees, refreshed both configured Git

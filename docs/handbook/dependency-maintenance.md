@@ -34,8 +34,18 @@ The explicit npm overrides are temporary maintenance constraints:
 |---|---|
 | `@appium/base-driver` 10.8.1 | Replace older exact pins that retain vulnerable Axios/Morgan versions |
 | `@appium/support` 7.2.8 | Replace older support copies and their vulnerable dependencies |
+| `body-parser` 2.4.0 | Replace the base driver's exact 2.3.0 pin with the compressed-request handling fix |
 | `shell-quote` 1.12.0 | Apply the command-quoting security fix |
 | `sharp` 0.35.5 | Apply the patched image-library dependency |
+
+The 27 October 2026 finalization audit found two advisories published after the
+original baseline: [compressed-body handling in body-parser](https://github.com/expressjs/body-parser/security/advisories/GHSA-27r3-jxmh-p828)
+and [function serialization in serialize-javascript](https://github.com/advisories/GHSA-m5mm-p8h7-m29v).
+The body-parser override supplies 2.4.0 without replacing the tested Appium/base-driver
+code. The lockfile also selects serialize-javascript 7.1.4 within Mocha's existing
+dependency range. The unbundled UiAutomator2 package and the other overrides are
+unchanged. See the dated [validation record](../validation.md) for actual checks
+and the unexecuted Android compatibility scope.
 
 `npm run appium:setup` verifies that Appium discovers the installed project driver.
 `npm ci` installs it; a separate global driver install is unnecessary. Preflight

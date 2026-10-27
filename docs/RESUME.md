@@ -10,7 +10,7 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest maintenance — branch consolidation, 27 October 2026
+## Latest maintenance — branch consolidation and audit repair, 27 October 2026
 
 The original checkout is now the only active worktree, on `main`. Its history
 includes the five maintenance commits through `da1df1f`: teacher/study improvements,
@@ -29,7 +29,14 @@ Site identities and learner starters were preserved.
 
 Current offline checks passed: both TypeScript projects, documentation checks,
 93 reference lab cases, 32 framework checks, 83 reader/storage checks and the
-223-file static build. See [validation](validation.md) for scope. Resume study
+223-file static build. The first pushed consolidation commit's CI audit exposed
+two newly reported dependency advisories. A targeted follow-up overrides
+body-parser to 2.4.0 and updates serialize-javascript to 7.1.4; Appium, WebdriverIO,
+the unbundled driver and other package versions remain unchanged. A clean install,
+full audit (zero findings), offline checks, APK verification, driver discovery
+and a temporary Appium HTTP probe passed. Preflight found no online Android
+device, so mobile compatibility was not rerun after the dependency repair.
+See [validation](validation.md) for scope. Resume study
 from this folder on `main`, choosing one task with the learner; no lesson was
 marked complete. BrowserStack and separate-account Site follow-ups remain pending.
 
