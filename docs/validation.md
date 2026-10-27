@@ -21,6 +21,41 @@ See the [setup manual](handbook/setup.md).
 
 ## Finalization checkpoint
 
+### Branch and worktree consolidation — 27 October 2026
+
+Reviewed all local branches and both worktrees, refreshed both configured Git
+remotes, and checked GitHub for open pull requests: none were open in the course
+repository. `main` was fast-forwarded from `7d08181` through the five maintenance
+commits ending at `da1df1f`; both maintenance branches were then removed.
+
+The clean personal learning worktree at `b932318` had separate saved progress.
+Before retirement, its progress was exported with the supported CLI, a complete
+Git bundle was verified, and all **17,597 regular files** in a compressed archive
+were compared with the source using SHA-256; symbolic-link targets were checked
+too. Recovery files are in the ignored local directory
+`.local-data/archives/2026-10-27-worktree-cleanup/`. Git unregistered the worktree
+but left some files behind; those remaining files were also moved into the
+archive, with their stale Git pointer renamed. The complete compressed copy is
+the recovery source. The local learning branch and unused remote were removed;
+the separate private learning GitHub repository was preserved. The resulting
+local inventory contains one worktree and only the `main` branch.
+
+Observed on macOS with Node **24.22.0**:
+
+- `npm run check` passed both TypeScript projects, documentation/link checks,
+  **93 reference lab cases** and **32 offline framework checks**.
+- `npm run course:test` passed all **83 reader/storage/profile checks** using
+  disposable data, including local/static HTTP loading.
+- `npm run course:build` exported **223 readable files**.
+- Initial sandboxed check attempts could not open disposable localhost test
+  servers (`listen EPERM`). Reruns with listener access passed without changing
+  source. These permission failures were not project defects.
+
+These checks validate consolidation of the existing implementation. No Android,
+BrowserStack, learner exercise attempt or Site publication was run. Personal
+data was preserved; no progress was merged or completion marked. Hosted CI is
+separate evidence and must be matched to the final pushed commit.
+
 ### VS Code workflow guide — 25 October 2026
 
 Added [Work with this project in VS Code](handbook/vscode.md), linked from the

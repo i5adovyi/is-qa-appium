@@ -10,7 +10,30 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest addition — VS Code workflow, 25 October 2026
+## Latest maintenance — branch consolidation, 27 October 2026
+
+The original checkout is now the only active worktree, on `main`. Its history
+includes the five maintenance commits through `da1df1f`: teacher/study improvements,
+topic assignments, optional Android fixture checks, the usage guide and the
+VS Code guide. The two completed maintenance branches were removed.
+
+The separate personal learning worktree and its local branch were retired
+without merging its workspace-specific instructions into the course. A verified
+Git bundle and full file archive, including saved progress and a supported JSON
+export, are under `.local-data/archives/2026-10-27-worktree-cleanup/` on this Mac.
+Read that directory's `RESTORE.md` for recovery. This ignored archive is local
+and contains personal data; it is not part of GitHub or the static reader.
+The separate private learning GitHub repository remains intact; its unused
+remote was removed from this checkout. Existing main progress, credentials,
+Site identities and learner starters were preserved.
+
+Current offline checks passed: both TypeScript projects, documentation checks,
+93 reference lab cases, 32 framework checks, 83 reader/storage checks and the
+223-file static build. See [validation](validation.md) for scope. Resume study
+from this folder on `main`, choosing one task with the learner; no lesson was
+marked complete. BrowserStack and separate-account Site follow-ups remain pending.
+
+## Previous addition — VS Code workflow, 25 October 2026
 
 [Work with this project in VS Code](handbook/vscode.md) explains the editor-only
 route: open the repository, preview Markdown beside code, save an attempt and
