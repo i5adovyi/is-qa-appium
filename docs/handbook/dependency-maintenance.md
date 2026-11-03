@@ -35,6 +35,7 @@ The explicit npm overrides are temporary maintenance constraints:
 | `@appium/base-driver` 10.8.1 | Replace older exact pins that retain vulnerable Axios/Morgan versions |
 | `@appium/support` 7.2.8 | Replace older support copies and their vulnerable dependencies |
 | `body-parser` 2.4.0 | Replace the base driver's exact 2.3.0 pin with the compressed-request handling fix |
+| `glob` 14.0.3 and `minimatch` 11.0.4 | Use patched matching and cancellation in the runner, Mocha and Appium dependency trees |
 | `shell-quote` 1.12.0 | Apply the command-quoting security fix |
 | `sharp` 0.35.5 | Apply the patched image-library dependency |
 
@@ -46,6 +47,13 @@ code. The lockfile also selects serialize-javascript 7.1.4 within Mocha's existi
 dependency range. The unbundled UiAutomator2 package and the other overrides are
 unchanged. See the dated [validation record](../validation.md) for actual checks
 and the unexecuted Android compatibility scope.
+
+The November publication check also found advisories for
+[glob cancellation](https://github.com/advisories/GHSA-3g3m-2fjr-6pw4),
+[minimatch resource consumption](https://github.com/advisories/GHSA-g3hv-75wg-m249)
+and [credentials on redirects](https://github.com/advisories/GHSA-mrwp-f3q8-3g9p).
+The lockfile selects follow-redirects 1.16.2 within Axios's supported range;
+glob and minimatch need overrides because their parents pin older major versions.
 
 `npm run appium:setup` verifies that Appium discovers the installed project driver.
 `npm ci` installs it; a separate global driver install is unnecessary. Preflight
