@@ -145,8 +145,16 @@ test('failed builds preserve the previous export and reject symlinked source or 
     const output = path.join(source, 'dist')
     await buildCourse({ root: source, destination: output })
     const original = await readFile(path.join(output, 'data/catalog.json'), 'utf8')
-    await rm(path.join(source, 'README.md'))
-    await symlink(path.join(source, '.env'), path.join(source, 'README.md'))
+    if (process.platform === 'win32') {
+        // An ordinary Windows account can create junctions without Developer Mode.
+        const privateDirectory = await mkdtemp(path.join(temporary, 'private-'))
+        await writeFile(path.join(privateDirectory, 'catalog.json'), await readFile(path.join(source, 'course/catalog.json')))
+        await rm(path.join(source, 'course'), { recursive: true })
+        await symlink(privateDirectory, path.join(source, 'course'), 'junction')
+    } else {
+        await rm(path.join(source, 'README.md'))
+        await symlink(path.join(source, '.env'), path.join(source, 'README.md'))
+    }
     await assert.rejects(buildCourse({ root: source, destination: output }), /Symlinked/)
     assert.equal(await readFile(path.join(output, 'data/catalog.json'), 'utf8'), original)
     await mkdir(path.join(source, 'other'))

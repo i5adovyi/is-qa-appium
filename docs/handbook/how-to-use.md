@@ -12,9 +12,8 @@ terminal. Use the browser when you want its navigation, notes and progress contr
 ## Open the project and reader
 
 Open the existing `is-qa-appium` folder in your editor. Open a terminal in that
-folder: you should see `package.json` among its files. On the original Mac, the
-folder is `/Users/igor_sadovyi/Projects/is-qa-appium`; on another computer, use your
-clone's location. If you have not installed the project yet, follow
+folder: you should see `package.json` among its files. If you have not
+installed the project yet, follow
 [setup on a new machine](../../README.md#setup-on-a-new-machine) first.
 
 Check your Node version:

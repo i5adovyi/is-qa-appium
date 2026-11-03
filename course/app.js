@@ -271,7 +271,7 @@ function safeContent(html, page) {
         const resolved = new URL(href, `${location.origin}/${page}`)
         if (!['http:', 'https:'].includes(resolved.protocol)) {
             anchor.removeAttribute('href')
-        } else if (resolved.origin === location.origin) {
+        } else if (resolved.origin === location.origin && !/^(?:https?:|\/\/)/i.test(href)) {
             const target = decodeURIComponent(resolved.pathname.slice(1))
             anchor.href = `#${target}${resolved.hash}`
         } else {

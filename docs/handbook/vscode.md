@@ -18,8 +18,7 @@ reader is a reading/progress interface; it does not execute local test files.
 ## Open the project folder
 
 1. In desktop VS Code, choose **File → Open Folder** and select `is-qa-appium`.
-   On the original Mac this is `/Users/igor_sadovyi/Projects/is-qa-appium`.
-   On another computer, select your existing clone. Open the whole folder so
+   Select the root of your clone. Open the whole folder so
    the editor can find the dependencies and configuration.
 2. In the Explorer file tree, confirm you can see `package.json`, `docs`,
    `exercises` and `test`.

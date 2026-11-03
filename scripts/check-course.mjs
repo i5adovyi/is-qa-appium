@@ -69,7 +69,7 @@ for (const [index, item] of cloudLessons.entries()) {
     check(source.includes('**Acceptance:**') && source.includes('<details>'), `${item.id}: missing acceptance/review`)
 }
 const incidentSource = await readFile(path.join(root, 'docs/browserstack/incidents.md'), 'utf8')
-const cloudIncidents = [...incidentSource.matchAll(/^## (BI-\d{2}) · .+\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)]
+const cloudIncidents = [...incidentSource.matchAll(/^## (BI-\d{2}) · .+\r?\n([\s\S]*?)(?=^## |(?![\s\S]))/gm)]
 check(cloudIncidents.length === 18, 'Expected 18 BrowserStack workplace incidents')
 for (const [index, [, id, body]] of cloudIncidents.entries()) {
     check(id === `BI-${String(index + 1).padStart(2, '0')}`, 'BrowserStack incident IDs must be sequential')
@@ -109,7 +109,7 @@ for (const [index, item] of assignments.entries()) {
     }
     const source = await readFile(path.join(root, item.path), 'utf8')
     const heading = `## ${item.id} · ${item.title}`
-    check(source.split('\n').includes(heading), `${item.id}: catalog title must match the ticket heading`)
+    check(source.split(/\r?\n/).includes(heading), `${item.id}: catalog title must match the ticket heading`)
     check(item.anchor === headingSlug(`${item.id} · ${item.title}`), `${item.id}: invalid heading anchor`)
     const block = source.split(heading)[1]?.split(/^## /m)[0] ?? ''
     for (const section of ['Prerequisites', 'Assignment', 'Acceptance criteria', 'Changed condition', 'Evidence and review']) {

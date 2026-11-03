@@ -1,4 +1,4 @@
-# Run the course locally or on OpenAI Sites
+# Read the course locally, on GitHub Pages or on OpenAI Sites
 
 Use the local reader while editing exercises and running tests. Publish a static
 reader when you want to study in a browser without a development environment.
@@ -8,11 +8,17 @@ Both display the same course, but they save personal progress differently.
 |---|---|---|
 | Local desktop project | `npm run course`, then `http://127.0.0.1:4173` | Local SQLite database; persists after stopping the server |
 | Static preview | `npm run course:build`, then `npm run course:preview`, then `http://127.0.0.1:4174` | Browser storage for the preview address |
+| GitHub Pages | [Open the public course](https://i5adovyi.github.io/is-qa-appium/) in any browser; no sign-in required | Browser storage on this device |
 | OpenAI Site | Open the URL returned by successful publication | Browser storage for that Site address |
 
 The hosted reader cannot run TypeScript exercises or Appium commands. Those run
 from your cloned project with the appropriate terminal, emulator or BrowserStack
 account. Hosting does not turn the course into a cloud test runner.
+
+To update GitHub Pages, open **Actions → Publish Mobile Automation Lab to GitHub
+Pages → Run workflow** on `main`. It checks the reader, builds the static course
+and publishes the generated `dist/` directory. The OpenAI Site has its own
+publication and access settings.
 
 ## Localhost and durable progress
 
@@ -210,11 +216,9 @@ hosted reader's local progress unless you exported it.
 
 ## Verification limits
 
-**21 October 2026 observation:** the original `mobile-automation-lab` Site
-reported public access. The earlier private-publication instructions remain
-useful for a new owner-private Site; they do not describe the current audience
-of that existing Site. Always inspect the actual audience before publishing
-and preserve it unless an access change is requested.
+The original `mobile-automation-lab` Site reported public access on
+21 October 2026. It is now owner-only; the separate GitHub Pages reader is public.
+Check the Site's current audience in the owning account before publishing.
 
 Automated checks cover SQLite persistence/recovery, progress transfers, profile
 identity isolation, static output and excluded files. A passing check does not

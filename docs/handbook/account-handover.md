@@ -6,7 +6,7 @@ by the account that created it. These are separate things.
 
 | What you want to keep | Where it lives | How to move it |
 |---|---|---|
-| Lessons, exercises, framework and saved code edits | Project files and Git history | Commit/push edits, then clone using your GitHub account |
+| Lessons, exercises, framework and saved code edits | Project files and Git history | Clone the public project; copy personal edits separately or use a private repository you control |
 | Local completed lessons and lesson notes | `.local-data/progress.sqlite` by default | `npm run progress:backup`, copy the JSON backup, then `npm run progress:import -- <file>` |
 | Hosted-reader completed lessons and notes | Browser storage for that Site address | **Export progress**, then **Import progress** in the destination reader |
 | BrowserStack credentials | Local ignored `.env` | Recreate locally from `.env.example`; never put credentials in Git or chat |
@@ -15,9 +15,9 @@ by the account that created it. These are separate things.
 
 ## Before changing accounts
 
-1. Save editor files. Check `git status`; commit and push learner changes you
-   want in the private repository. Uncommitted changes do not arrive on another
-   computer automatically.
+1. Save editor files. Check `git status` and copy personal changes to a backup
+   or a private repository you control. A fresh clone contains the published
+   project, so bring your own changes separately.
 2. Start the local reader and check its save-status message after editing notes.
    If a save is pending or failed, use **Export progress** before closing the
    page so browser edits are also preserved.
@@ -37,8 +37,7 @@ they use the same running local reader.
 1. Sign in to Codex with the new OpenAI account. Its Codex and Sites availability
    depends on that account; repository access does not enable those services.
 2. On the same computer, open/add the existing `is-qa-appium` folder as a local
-   project. On a new computer, install Git and Node 24, authenticate with the
-   GitHub identity that can access the private repository, then run:
+   project. On a new computer, install Git and Node 24, then run:
 
    ```bash
    git clone https://github.com/i5adovyi/is-qa-appium.git

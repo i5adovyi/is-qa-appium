@@ -23,8 +23,8 @@ function fixture(t) {
     })
     return {
         directory,
-        open() {
-            const store = openProgressStore({ directory, lessonIds })
+        open(storeDirectory = directory) {
+            const store = openProgressStore({ directory: storeDirectory, lessonIds })
             stores.push(store)
             return store
         },
@@ -100,8 +100,7 @@ test('unique private JSON backups round-trip through the existing export format'
     const exported = JSON.parse(readFileSync(backupOne, 'utf8'))
     assert.equal(exported.schemaVersion, 1)
     assert.deepEqual(parseProgress(exported, lessonIds, true), progress)
-    const restored = openProgressStore({ directory: path.join(f.directory, 'restored'), lessonIds })
-    t.after(() => restored.close())
+    const restored = f.open(path.join(f.directory, 'restored'))
     assert.deepEqual(restored.merge(exported, 0).progress, progress)
 })
 

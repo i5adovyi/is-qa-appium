@@ -2,6 +2,8 @@
 
 **Learn mobile test automation by building, breaking, investigating, and explaining real tests.**
 
+**[Open the Mobile Automation Lab course](https://i5adovyi.github.io/is-qa-appium/)** — read the lessons, search the course, and save notes and progress in your browser. No sign-in or installation is required. To write and run tests, [clone the project](#setup-on-a-new-machine).
+
 An Android-first training project using **Appium 3 · TypeScript · Chai · WebdriverIO 10 · Mocha · BrowserStack App Automate**. It uses the [WebdriverIO native demo app](https://github.com/webdriverio/native-demo-app), so you can practise without a company app or real account credentials.
 
 **New to this project?** Read [How to use this project](docs/handbook/how-to-use.md)
@@ -55,8 +57,8 @@ The repository brings three parts together:
   evidence.
 - **A runnable training framework:** Android demo tests, offline TypeScript labs,
   diagnostic helpers, CI checks and a BrowserStack execution path.
-- **A personal learning workspace:** a local course reader with saved notes and
-  progress, plus an optional static reader published as a private OpenAI Site.
+- **A personal learning workspace:** the same course reader on GitHub Pages and
+  on your computer. The local version stores your notes and progress in SQLite.
 
 Lessons and offline labs work without an AI subscription. An assistant can tutor
 you or maintain the project; your files and progress must remain useful when you
@@ -120,7 +122,7 @@ programming exercises, a first-test workbook and a first-lab coach. These
 supplement the existing course; Android and BrowserStack can wait until the
 offline foundations make sense. The reader now links this route prominently.
 
-**On a new computer? Start with [Setup on a new machine](#setup-on-a-new-machine)** to install the prerequisites and download this private repository before running the course.
+**On a new computer? Start with [Setup on a new machine](#setup-on-a-new-machine)** to install the prerequisites and clone the project.
 
 ```bash
 npm run course
@@ -143,19 +145,15 @@ These reading preferences belong to this browser/address and are not included
 in progress exports. On a small screen, open **Browse course** for lessons
 and study routes. Long pages have an **On this page** menu.
 
-## Localhost and OpenAI Sites
+## Where to use the course
 
-**Hosting status checked 21 October 2026:** the original Site currently has
-public access. References below to its original private publication describe
-the earlier baseline, not its current audience. This content update preserves
-the existing access setting. GitHub repository access is separate and remains
-private. See [the beginner review](docs/beginner-review.md) for this update.
-
-Use the same reader locally while practising, or publish its static build to
-your private OpenAI Site for reading on another computer.
+Use GitHub Pages to study without an account. Clone the project when you want
+to run an exercise or drive an Android device. The original OpenAI Site is
+separate and restricted to its owner.
 
 | Mode | Command or link |
 |---|---|
+| Public course reader, with progress saved in this browser | [Mobile Automation Lab on GitHub Pages](https://i5adovyi.github.io/is-qa-appium/) |
 | Local reader, with project files and SQLite progress | `npm run course` → http://127.0.0.1:4173 |
 | Original account's private OpenAI Site | [Open Mobile Automation Lab](https://mobile-automation-lab.igor-sadovyi87.chatgpt.site) — sign in with its owner account |
 | Preview the static build | `npm run course:build`, then `npm run course:preview` → http://127.0.0.1:4174 |
@@ -177,8 +175,7 @@ The profile command does not sign in or create a Site. Each registered Site
 keeps its own identity; the original Site is not overwritten.
 
 **Open this project in Codex under another account:** sign in to Codex, then
-open the same local folder, or clone this private repository using the GitHub
-account that has access and open the clone. Follow the
+open your existing local folder, or clone this public repository and open the clone. Follow the
 [account and computer handover](docs/handbook/account-handover.md) and paste its
 fresh-chat prompt. Source files are portable; previous chats, connected accounts
 and access to the original private Site do not automatically transfer.
@@ -259,9 +256,8 @@ a one-hour requirement.
 
 ## Setup on a new machine
 
-The lessons, exercises and tests run independently of your OpenAI account. You
-need a GitHub account with access to
-[this private repository](https://github.com/i5adovyi/is-qa-appium) to clone it.
+The lessons, exercises and tests run independently of your OpenAI account.
+No GitHub account is required to clone [the source](https://github.com/i5adovyi/is-qa-appium).
 
 | What you want to do | What you need |
 |---|---|
@@ -293,7 +289,7 @@ npm --version
 The Node result must start with **`v24.`**. If you already use `nvm`,
 `nvm install 24` followed by `nvm use 24` selects the required version.
 
-### 2. Clone the private repository and install dependencies
+### 2. Clone the repository and install dependencies
 
 In a terminal, navigate to the folder where you keep projects, then run:
 
@@ -303,10 +299,7 @@ cd is-qa-appium
 npm ci
 ```
 
-Authenticate Git with the GitHub account that can access this repository.
-An authentication error or “Repository not found” can mean you are using an
-account without access. You can also clone through GitHub Desktop, then open
-a terminal in the cloned folder.
+You can also clone through GitHub Desktop and open a terminal in the cloned folder.
 
 `npm ci` installs the versions recorded in the lockfile, including Appium,
 TypeScript, Chai and the Android automation driver. No separate global Appium
@@ -577,7 +570,7 @@ test/screens/          Element selectors and screen actions
 test/helpers/          App lifecycle, waits, native alerts and failure evidence
 test/specs/            Runnable Android reference tests
 test/training/         Optional app templates and learner-owned device specs
-.github/workflows/     Static checks and a manual BrowserStack workflow
+.github/workflows/     Offline checks; manual Android, BrowserStack and Pages runs
 apps/                  Pinned artifact manifests and ignored downloaded APKs
 logs/                  Local test artifacts, ignored by Git
 ```

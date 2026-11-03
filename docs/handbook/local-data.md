@@ -68,7 +68,7 @@ losing the whole computer or folder.
 1. On the old computer, save files and wait for database saves to finish.
 2. Run `npm run progress:backup` and copy the printed JSON file somewhere you
    can access on the new computer.
-3. Commit and push exercise changes you want in the private repository.
+3. Copy your exercise changes separately or push them to your own private repository.
 4. On the new computer, install Node 24 and Git, clone the repository and run
    `npm ci`. Follow the [new-machine setup](../../README.md#setup-on-a-new-machine).
 5. From that project folder, import your copied JSON file:

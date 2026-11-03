@@ -35,8 +35,9 @@ course-server terminal. [VS Code walkthrough](../handbook/vscode.md).
    observed value returns to your runner, where the Chai assertion compares it.
 2. Identify the four credentials/identities people confuse:
    BrowserStack username/key authorizes cloud use; demo email/password is
-   fictional test input; GitHub login accesses the private repository; an
-   OpenAI account controls this hosted reader. They are different systems.
+   fictional test input; a GitHub login is needed to push to your repository;
+   an OpenAI account controls the separate private OpenAI Site. The public
+   GitHub Pages reader opens without signing in.
 3. Choose a route from the table. A local smoke pass is helpful, but it is not
    a technical prerequisite for the cloud-only route.
 4. Make a personal evidence folder `.local-data/browserstack/` using your editor.

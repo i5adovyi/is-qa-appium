@@ -20,10 +20,9 @@ deadlines for a person learning programming for the first time.
 | I can run commands but code feels unreadable | Work through [programming in small steps](programming-first-steps.md) | Classes, screen objects and asynchronous device commands |
 | I can code but have never tested software | Start with [your first test workbook](first-test-workbook.md) | Framework design and interview memorisation |
 
-A GitHub sign-in lets you obtain this private repository if you have access.
-An OpenAI sign-in may be needed to access a restricted hosted Site. Neither is
-an Appium credential. Local lessons and coding need no OpenAI API key or
-BrowserStack account. A published reader's current audience is a separate setting.
+You can open the GitHub Pages reader or clone the public repository without
+signing in. The separate private OpenAI Site requires its owner's account.
+Local lessons and coding need no OpenAI API key or BrowserStack account.
 
 ## A gentle preparation route
 

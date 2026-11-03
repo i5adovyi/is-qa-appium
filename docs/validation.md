@@ -3,6 +3,17 @@
 **Prepared and reviewed:** 20 October 2026. This records checks performed while building the course,
 not a permanent guarantee about future installations, devices, or app builds.
 
+## GitHub Pages preparation
+
+On a Windows checkout with CRLF line endings and Node 24, the updated lockfile
+installed with `npm ci`; `npm run audit` found no known advisories at the time
+of testing. `npm run check` passed both TypeScript checks, the course links,
+93 reference exercise cases and 33 framework checks. All 83 reader/storage
+checks passed, including SQLite cleanup and directory-link protections.
+GitHub Pages serves the static reader. The separate manual **Android reference
+suite** workflow runs the local Appium stack on an Android 15 emulator without
+BrowserStack credentials.
+
 ## Tested environment
 
 | Component | Observed baseline |

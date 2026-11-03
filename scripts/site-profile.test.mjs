@@ -117,11 +117,19 @@ test('profile parent symlinks cannot redirect initialization', async t => {
 test('manifest symlinks cannot redirect binding', async t => {
     const root = await fixture(t)
     const result = await initializeSiteProfile({ root, profile })
-    const other = path.join(root, 'important.json')
+    const outside = await fixture(t)
+    const other = path.join(outside, 'hosting.json')
     await writeFile(other, '{"static":{"directory":"dist"}}')
-    await rm(result.manifestPath)
-    await symlink(other, result.manifestPath)
-    await assert.rejects(bindSiteProfile({ root, profile, projectId }), /regular file/)
+    if (process.platform === 'win32') {
+        const directory = path.dirname(result.manifestPath)
+        await rm(directory, { recursive: true })
+        await symlink(outside, directory, 'junction')
+        await assert.rejects(bindSiteProfile({ root, profile, projectId }), /real directory/)
+    } else {
+        await rm(result.manifestPath)
+        await symlink(other, result.manifestPath)
+        await assert.rejects(bindSiteProfile({ root, profile, projectId }), /regular file/)
+    }
     assert.equal(await readFile(other, 'utf8'), '{"static":{"directory":"dist"}}')
 })
 
@@ -130,8 +138,13 @@ test('static build symlinks cannot copy local private files', async t => {
     await initializeSiteProfile({ root, profile })
     await bindSiteProfile({ root, profile, projectId })
     await build(root)
-    await writeFile(path.join(root, 'private.txt'), 'private local data')
-    await symlink(path.join(root, 'private.txt'), path.join(root, 'dist/private.txt'))
+    const privateDirectory = await fixture(t)
+    await writeFile(path.join(privateDirectory, 'private.txt'), 'private local data')
+    if (process.platform === 'win32') {
+        await symlink(privateDirectory, path.join(root, 'dist/private'), 'junction')
+    } else {
+        await symlink(path.join(privateDirectory, 'private.txt'), path.join(root, 'dist/private.txt'))
+    }
     await assert.rejects(prepareSite({ root, profile }), /regular files/)
 })
 

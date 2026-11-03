@@ -44,9 +44,14 @@ test('even an existing literal wildcard filename cannot become a runner glob', a
 
 test('a symlink cannot run another app or reference spec through the learner directory', async t => {
     const root = await workspace(t)
-    const link = path.join(root, 'test/training/saucelabs/escape.spec.ts')
-    await symlink(path.join(root, 'reference.spec.ts'), link)
-    assert.throws(() => trainingSpecPath('saucelabs', link, root), /existing regular/)
+    const link = path.join(root, 'test/training/saucelabs/escape')
+    if (process.platform === 'win32') {
+        await symlink(root, link, 'junction')
+        assert.throws(() => trainingSpecPath('saucelabs', path.join(link, 'reference.spec.ts'), root), /existing regular/)
+    } else {
+        await symlink(path.join(root, 'reference.spec.ts'), `${link}.spec.ts`)
+        assert.throws(() => trainingSpecPath('saucelabs', `${link}.spec.ts`, root), /existing regular/)
+    }
     await mkdir(path.join(root, 'test/training/saucelabs/directory.spec.ts'))
     assert.throws(() => trainingSpecPath('saucelabs', 'test/training/saucelabs/directory.spec.ts', root), /existing regular/)
 })

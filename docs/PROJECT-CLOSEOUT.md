@@ -7,7 +7,7 @@ The course remains an active learning workspace. Learner exercises, future
 maintenance and account-dependent execution are separate follow-up work.
 
 The historical checkpoint is the Git tag **`training-baseline-2026-10-20`** in
-the [private repository](https://github.com/i5adovyi/is-qa-appium). The tag
+the [project repository](https://github.com/i5adovyi/is-qa-appium). The tag
 identifies this closeout snapshot; later changes should use new commits or
 tags rather than moving this checkpoint.
 
@@ -151,7 +151,7 @@ the learner's training as complete.
 
 ## How to resume
 
-Open the existing project or clone the private repository, select Node 24 and
+Open the existing project or clone the repository, select Node 24 and
 follow [README](../README.md). Read [AGENTS](../AGENTS.md),
 [CLAUDE](../CLAUDE.md) as applicable, and [the resume guide](RESUME.md).
 Run `npm run course` for study, choose one lesson or exercise and continue.

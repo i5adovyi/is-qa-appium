@@ -10,7 +10,16 @@ or API key**. You can study in an editor and run commands from a terminal.
 account-dependent work. Continue with a specific learning or maintenance task;
 closure does not mean learner exercises or cloud sessions are complete.
 
-## Latest review — BrowserStack beginner walkthrough, 27 October 2026
+## GitHub Pages reader
+
+The [public reader](https://i5adovyi.github.io/is-qa-appium/) runs without an
+account and keeps progress in this browser. Use a clone for exercises, SQLite
+progress and Appium. The original OpenAI Site is owner-only. Maintainers can
+publish the reader from `main` using the manual Pages workflow; the separate
+**Android reference suite** workflow exercises the Android 15 emulator without
+a BrowserStack account.
+
+## BrowserStack beginner walkthrough, 27 October 2026
 
 The [first study session](browserstack/first-session.md) now gives four short
 routes: no account, local preparation, one cloud attempt and a baseline report.
@@ -242,16 +251,13 @@ report, if the learner chooses this track.
 
 ## Where the project lives
 
-- Private GitHub repository: [i5adovyi/is-qa-appium](https://github.com/i5adovyi/is-qa-appium).
-- Existing Mac folder: `/Users/igor_sadovyi/Projects/is-qa-appium`.
+- Public GitHub repository: [i5adovyi/is-qa-appium](https://github.com/i5adovyi/is-qa-appium).
 - Main entry points: [README](../README.md), [course map](README.md),
   [coverage review](coverage-review.md), [validation record](validation.md),
   [account and computer handover](handbook/account-handover.md).
 
-GitHub access belongs to your GitHub identity. Keep using the GitHub account with
-access to this repository even if you change your OpenAI account. On the same Mac,
-open the existing folder in a new Codex chat. If it is missing from the sidebar,
-add/open that folder again. On another computer, clone it using your GitHub login:
+On the same computer, open the existing project folder. On another computer,
+clone the repository without signing in:
 
 ```bash
 git clone https://github.com/i5adovyi/is-qa-appium.git
