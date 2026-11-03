@@ -55,6 +55,8 @@ function refreshResume() {
     $('#resume-link').textContent = `Resume reading: ${place.title} ↗`
 }
 function focusDestination(target, scrollToSection = false) {
+    // The catalog or lesson can finish loading after a visitor opens the menu.
+    if ($('#mobile-course-menu').open) return
     if (target) {
         if (!target.matches('input,textarea,select,button,a[href]')) target.tabIndex = -1
         // A deep link may target review guidance inside an expandable hint.
@@ -324,7 +326,6 @@ async function route(force = false) {
     currentChallenge = (catalog.challenges ?? []).find(item => item.path === page)
     refresh()
     refreshChallenges()
-    $('#mobile-course-menu').open = false
     const assignmentPage = page.startsWith('docs/assignments/')
     const browserstackPage = page.startsWith('docs/browserstack/')
     const cloudLesson = (catalog.browserstackLessons ?? []).find(item => item.path === page)
@@ -561,7 +562,11 @@ async function init() {
             } finally { event.target.value = '' }
         })
     })
-    window.addEventListener('hashchange', () => route())
+    const navigate = () => {
+        $('#mobile-course-menu').open = false
+        void route()
+    }
+    window.addEventListener('hashchange', navigate)
     document.addEventListener('click', event => {
         if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return
         const anchor = event.target.closest?.('a[href]')
@@ -569,7 +574,7 @@ async function init() {
             // Clicking the selected section again must still move focus/scroll
             // after the reader has scrolled elsewhere; hashchange will not fire.
             event.preventDefault()
-            void route()
+            navigate()
         }
     })
     await route()
